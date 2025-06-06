@@ -15,6 +15,7 @@ CREATE TABLE users (
 	role varchar(50) NOT NULL,
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
+
 CREATE TABLE user_payment (
 	payment_id SERIAL,
 	user_id INT NOT NULL,
@@ -33,6 +34,7 @@ CREATE TABLE campaign (
 	end_date date NOT NULL,
 	CONSTRAINT PK_campaign PRIMARY KEY (campaign_id)
 );
+
 CREATE TABLE user_campaign (
 	user_id INT NOT NULL,
 	campaign_id INT NOT NULL,
