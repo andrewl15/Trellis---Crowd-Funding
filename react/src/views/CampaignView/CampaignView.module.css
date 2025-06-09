@@ -1,0 +1,91 @@
+.field {
+    width: 300px;
+    font-size: medium;
+    border: 0;
+    margin-right: 10px;
+    font-weight: 100;
+}
+
+.field:focus {
+    outline: none;
+}
+
+.campaigntext {
+    text-align: center;
+    color: rgb(64, 116, 64);
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.form {
+
+    border-radius: 30px;
+    padding: 80px;
+    background-color: white;
+}
+
+.maindiv {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    align-items: center;
+    height: 85vh;
+}
+
+.formcontrol {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid grey;
+    width: fit-content;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+    align-items: center;
+
+}
+
+.fieldtext {
+    text-align: left;
+    margin-left: -150px;
+    color: rgb(73, 72, 72);
+}
+
+.bottomsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formButton {
+    width: 100px;
+    margin: 10px;
+    background-color: rgb(64, 116, 64);
+    color: white;
+    border: 0;
+}
+
+.loginimage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    margin-bottom: 50px;
+}
+
+.formButton:hover {
+    background-color: rgb(35, 78, 35);
+}
+
+input[type="date"] {
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #222;
+    background-color: #fefefe;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  input[type="date"]:focus {
+    border-color: rgb(64, 116, 64);
+    outline: none;
+  }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CampaignService from '../../services/CampaignService';
 import { useNavigate } from 'react-router-dom';
+import styles from '../CampaignView/CampaignView.module.css';
 
 export default function CampaignView() {
     const navigate = useNavigate();
@@ -38,28 +39,29 @@ export default function CampaignView() {
     }
 
     return (
-        <div>
-            <div>
-                <div>
+        <div className={styles.maindiv}>
+            <div className={styles.formcontainer}>
+                <div id="view-login" className={styles.form}>
+                    <h2 className={styles.campaigntext}>Create Campgain</h2>
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <label>Campaign Name</label>
-                            <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} required />
+                        <div className={styles.formcontrol}>
+                            <label className={styles.fieldtext}>Campaign Name</label>
+                            <input type="text" className={styles.field} name="name" value={name} onChange={e => setName(e.target.value)} required />
                         </div>
-                        <div>
-                            <label>Description</label>
-                            <textarea name="description" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                        <div className={styles.formcontrol}>
+                            <label className={styles.fieldtext}>Description</label>
+                            <textarea name="description" className={styles.field} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </div>
-                        <div>
-                            <label>Start Date</label>
-                            <input type="date" name="startDate" value={startDate} onChange={e => setStartDate(e.target.value)} required />
+                        <div className={styles.formcontrol}>
+                            <label className={styles.fieldtext}>Start Date</label>
+                            <input type="date" className={styles.field} name="startDate" value={startDate} onChange={e => setStartDate(e.target.value)} required />
                         </div>
-                        <div>
-                            <label>End Date</label>
-                            <input type="date" name="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} required />
+                        <div className={styles.formcontrol}>
+                            <label className={styles.fieldtext}>End Date</label>
+                            <input type="date" className={styles.field} name="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} required />
                         </div>
-                        <div>
-                            <button type="submit">Create Campaign</button>
+                        <div className={styles.bottomsection}>
+                            <button type="submit" className={`btn-primary ${styles.formButton}`}>Propagate</button>
                         </div>
                     </form>
                 </div>
