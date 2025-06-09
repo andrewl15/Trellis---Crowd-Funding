@@ -1,8 +1,4 @@
-body{
-    background-image: url("../../images/background.jpg");
-    background-size:cover;
-    background-repeat: no-repeat;
-}
+
 
 .field{
     width: 300px;
@@ -36,7 +32,7 @@ body{
     justify-content: center;
     margin: auto;
     align-items: center;
-    height: 85vh;
+    height: 96.69vh;
     
 }
 .formcontainer{
