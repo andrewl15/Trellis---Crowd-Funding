@@ -44,18 +44,21 @@ export default function RegisterView() {
   }
 
   return (
-    <div id="view-register">
-      <h2>Register</h2>
+    <div className={styles.maindiv}>
+    <div id="view-register" className={styles.form}>
+       <div className={styles.formcontainer}>
+      <h2 className={styles.logintext}>Register</h2>
 
       <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
       <form onSubmit={handleSubmit}>
-        <div className="form-control">
-          <label htmlFor="username">Username:</label>
+        <div className={styles.formcontrol}>
+          <label htmlFor="username" className={styles.fieldtext}>Username:</label>
           <input
             type="text"
             id="username"
             value={username}
+            className={styles.field}
             size="50"
             required
             autoFocus
@@ -64,35 +67,40 @@ export default function RegisterView() {
           />
         </div>
 
-        <div className="form-control">
-          <label htmlFor="password">Password:</label>
+        <div className={styles.formcontrol}>
+          <label htmlFor="password" className={styles.fieldtext}>Password:</label>
           <input
             type="password"
             id="password"
             value={password}
+            className={styles.field}
             size="50"
             required
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
 
-        <div className="form-control">
-          <label htmlFor="confirmPassword">Confirm Password:</label>
+        <div className={styles.formcontrol}>
+          <label htmlFor="confirmPassword" className={styles.fieldtext}>Confirm Password:</label>
           <input
             type="password"
             id="confirmPassword"
             value={confirmPassword}
+            className={styles.field}
             size="50"
             required
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
-
+        <div className={styles.bottomsection}>
         <button type="submit" className={`btn-primary ${styles.formButton}`}>
           Register
         </button>
-        <Link to="/login">Have an account? Log-in</Link>
+        <Link to="/login">Have an account? Log in</Link>
+        </div>
       </form>
+    </div>
+    </div>
     </div>
   );
 }

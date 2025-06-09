@@ -58,7 +58,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div id="app">
+      <div>
         <UserContext.Provider value={user}>
           <MainNav />
           <main id="main-content">

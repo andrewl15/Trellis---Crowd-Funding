@@ -79,30 +79,6 @@ main {
     grid-area: nav;
 }
 
-/* Main Nav styles */
-.nav-list {
-    border-right: 1px solid #000;
-}
-
-.nav-link a {
-    display: block;
-    background-color: rgba(245, 245, 245, 0.3);
-    border-bottom: 1px solid rgba(216, 216, 216, 0.7);
-    color: #000;
-    margin: 0;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-}
-
-.nav-link a:hover {
-    color: #000;
-}
-
-a.active {
-    background-color: rgb(205, 205, 205);
-    color: black;
-    font-weight: bold;
-}
 
 /* Icon Button styles */
 .icon-button {
