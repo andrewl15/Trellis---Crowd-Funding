@@ -58,7 +58,7 @@ public class JdbcCampaignDao implements CampaignDao{
         return campaign;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Override
     public Campaign addCampaign(Campaign campaign) {
         Campaign newCampaign = null;

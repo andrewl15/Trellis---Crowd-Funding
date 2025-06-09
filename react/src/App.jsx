@@ -10,6 +10,7 @@ import UserProfileView from './views/UserProfileView/UserProfileView';
 import MainNav from './components/MainNav/MainNav';
 import ProtectedRoute from './components/ProtectedRoute';
 import axios from 'axios';
+import CampaignView from './views/CampaignView/CampaignView';
 
 export default function App() {
   const [user, setUser] = useState(() => getTokenFromStorage());
@@ -64,6 +65,7 @@ export default function App() {
           <main id="main-content">
             <Routes>
               <Route path="/" element={<HomeView />} />
+              <Route path="/createCampaign" element={<CampaignView/>} />
               <Route path="/login" element={<LoginView onLogin={handleLogin} />} />
               <Route path="/logout" element={<LogoutView onLogout={handleLogout} />} />
               <Route path="/register" element={<RegisterView />} />
