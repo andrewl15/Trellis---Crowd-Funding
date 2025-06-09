@@ -20,6 +20,11 @@ export default function MainNav() {
             </NavLink>
           </div>
           <div className={styles.navlink}>
+            <NavLink to="/createCampaign" className={styles.navtext}>
+              Create Campaign
+            </NavLink>
+          </div>
+          <div className={styles.navlink}>
             <Link to="/logout" className={styles.navtext}>
               Logout
             </Link>
