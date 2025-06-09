@@ -16,6 +16,17 @@ public class Campaign {
     @NotNull
     private LocalDate endDate;
 
+    public Campaign() {
+    }
+
+    public Campaign(int id, String name, String description, LocalDate startDate, LocalDate endDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public int getId() {
         return id;
     }
