@@ -1,10 +1,11 @@
 body{
-    background-image: url("../../images/backround.jpg");
-    background-size:cover;
+    background: linear-gradient(225deg, hsla(107, 68%, 18%, 1) 18%, hsla(63, 70%, 46%, 1) 100%);
+    background-size: cover;
     background-repeat: no-repeat;
 }
 
-.field{
+
+.field {
     width: 300px;
     font-size: medium;
     border: 0;
@@ -13,35 +14,34 @@ body{
     font-weight: 100;
 }
 
-.field:focus{
-   outline: none;
+.field:focus {
+    outline: none;
 }
 
-.logintext{
+.logintext {
     text-align: center;
     color: rgb(64, 116, 64);
     font-weight: bold;
     margin-top: 20px;
 }
 
-.form{
-    
+.form {
+
     border-radius: 30px;
     padding: 80px;
     background-color: white;
 }
 
-.maindiv{
+.maindiv {
     display: flex;
     justify-content: center;
     margin: auto;
     align-items: center;
-    height: 85vh;
-    
+    height: 96.69vh;
 }
 
-.formcontrol{
-    display:flex;
+.formcontrol {
+    display: flex;
     flex-direction: column;
     border: 1px solid grey;
     width: fit-content;
@@ -49,30 +49,30 @@ body{
     padding: 5px;
     margin: 10px;
     align-items: center;
-    
+
 }
 
-.fieldtext{
+.fieldtext {
     text-align: left;
-    margin-left:-150px;
+    margin-left: -150px;
     color: rgb(73, 72, 72);
 }
 
-.bottomsection{
+.bottomsection {
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
 }
 
-.formButton{
+.formButton {
     width: 100px;
-    margin:10px;
+    margin: 10px;
     background-color: rgb(64, 116, 64);
     color: white;
     border: 0;
 }
 
-.loginimage{
+.loginimage {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -80,7 +80,6 @@ body{
     margin-bottom: 50px;
 }
 
-.formButton:hover{
+.formButton:hover {
     background-color: rgb(35, 78, 35);
 }
-

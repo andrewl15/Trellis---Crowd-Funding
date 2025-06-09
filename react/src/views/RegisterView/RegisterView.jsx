@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
 import Notification from '../../components/Notification/Notification';
+import image from '../../images/FinaleLogo.png'
 
 import styles from './RegisterView.module.css';
 
@@ -47,6 +48,7 @@ export default function RegisterView() {
     <div className={styles.maindiv}>
     <div id="view-register" className={styles.form}>
        <div className={styles.formcontainer}>
+      <img  className={styles.loginimage} src={image} alt="" />
       <h2 className={styles.logintext}>Register</h2>
 
       <Notification notification={notification} clearNotification={() => setNotification(null)} />
