@@ -17,9 +17,5 @@
 }
 
 .navtext:hover{
-    text-decoration: underline;
-}
-
-.navtext:active{
     color: rgb(64, 116, 64);
 }
