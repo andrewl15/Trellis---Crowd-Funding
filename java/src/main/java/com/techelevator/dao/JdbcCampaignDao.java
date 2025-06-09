@@ -2,6 +2,8 @@ package com.techelevator.dao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -11,8 +13,9 @@ import org.springframework.stereotype.Component;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Campaign;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-
+@PreAuthorize("isAuthenticated()")
 @Component
 public class JdbcCampaignDao implements CampaignDao{
     private final JdbcTemplate jdbcTemplate;
@@ -21,6 +24,24 @@ public class JdbcCampaignDao implements CampaignDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Override
+    public List<Campaign> getAllCampaigns() {
+        List<Campaign> campaigns = new ArrayList<>();
+        String sql = "select * from campaign;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                Campaign campaign = mapRowToCampaign(results);
+                campaigns.add(campaign);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return campaigns;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Override
     public Campaign getCampaignById(int id) {
         Campaign campaign = null;
@@ -37,6 +58,7 @@ public class JdbcCampaignDao implements CampaignDao{
         return campaign;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     public Campaign addCampaign(Campaign campaign) {
         Campaign newCampaign = null;
@@ -52,6 +74,43 @@ public class JdbcCampaignDao implements CampaignDao{
             throw new DaoException("Data integrity violation", e);
         }     
         return newCampaign;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Override
+    public Campaign updateCampaign(Campaign campaign) {
+        Campaign updatedCampaign = null;
+        String sql = "update campaign set name = ?, description = ?, start_date = ?, end_date = ? where campaign_id = ?;";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, 
+                            campaign.getName(), campaign.getDescription(), 
+                            campaign.getStartDate(), campaign.getEndDate(), 
+                            campaign.getId());
+            if (rowsAffected == 0) {
+                throw new DaoException("Zero rows affected, expected at least one");
+            }
+            updatedCampaign = getCampaignById(rowsAffected);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return updatedCampaign;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Override
+    public int deleteCampaignById(int id) {
+        int numberOfRowsAffected = 0;
+        String sql = "delete from campaign where campaign_id = ?;";
+        try {
+            numberOfRowsAffected = jdbcTemplate.update(sql, id);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRowsAffected;
     }
 
     private Campaign mapRowToCampaign(SqlRowSet results) {
