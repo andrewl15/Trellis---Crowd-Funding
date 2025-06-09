@@ -12,7 +12,6 @@ import com.techelevator.model.Campaign;
 
 @RestController
 @CrossOrigin
-//@PreAuthorize("isAuthenticated()")
 @RequestMapping("/campaign")
 public class CampaignController {
     private CampaignDao campaignDao;
