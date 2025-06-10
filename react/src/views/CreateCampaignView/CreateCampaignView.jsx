@@ -108,27 +108,3 @@ export default function CampaignView() {
         </div>
     );
 }
-{/* <form onSubmit={handleSubmit} className={styles.campaignForm}>
-                    <div className={styles.controlFields}>
-
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>Campaign Name</label>
-                            <input type="text" className={styles.fieldRight} name="name" value={name} onChange={e => setName(e.target.value)} required />
-                        </div>
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>Description</label>
-                            <textarea name="description" className={styles.fieldRight} value={description} onChange={e => setDescription(e.target.value)}></textarea>
-                        </div>
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>Start Date</label>
-                            <input type="date" className={styles.fieldRight} name="startDate" value={startDate} onChange={e => setStartDate(e.target.value)} required />
-                        </div>
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>End Date</label>
-                            <input type="date" className={styles.fieldRight} name="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} required />
-                        </div>
-                        <div className={styles.bottomsection}>
-                            <button type="submit" className={`btn-primary ${styles.formButtonRight}`}>Propagate</button>
-                        </div>
-                    </div>
-                </form> */}
