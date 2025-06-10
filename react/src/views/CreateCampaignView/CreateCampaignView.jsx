@@ -7,7 +7,7 @@ import { TypeAnimation } from 'react-type-animation';
 import { Input } from '@base-ui-components/react/input';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 
 
@@ -85,6 +85,11 @@ export default function CampaignView() {
                         colors="primary:#5c230a,secondary:#407440"
                         style={{ width: "40%", height: "40%", margin: "0", padding: "0" }}
                     ></lord-icon>
+                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+
+                        />
+                    </LocalizationProvider> */}
                 </div>
                 <div className={styles.rightPanel}>
                     <p className={styles.header}>The right campaign can change your life.<br></br> Make yours stand out.</p>
@@ -95,7 +100,7 @@ export default function CampaignView() {
                         </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Description</div>
-                            <Input className={styles.Input}  value={description} onChange={e => setDescription(e.target.value)} required />
+                            <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required />
                         </div>
                         <div className={styles.datefields}>
                             <div className={styles.datefield}>
