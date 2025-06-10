@@ -1,3 +1,9 @@
+body {
+    background: linear-gradient(to bottom left, rgb(129, 154, 145), rgb(167, 193, 168));
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .field {
     width: 300px;
     font-size: medium;
@@ -29,7 +35,7 @@
     justify-content: center;
     margin: auto;
     align-items: center;
-    height: 85vh;
+    height: 96.69vh;
 }
 
 .formcontrol {

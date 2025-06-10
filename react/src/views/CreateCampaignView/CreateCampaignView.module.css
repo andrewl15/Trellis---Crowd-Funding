@@ -1,108 +1,38 @@
-.field {
-    width: 300px;
-    font-size: medium;
-    border: 0;
-    margin-right: 10px;
-    font-weight: 100;
-}
-
-.field:focus {
-    outline: none;
-}
-
-.campaigntext {
+.mainDiv {
+    background: linear-gradient(rgb(129, 154, 145), rgb(167, 193, 168));
+    margin: 0;
     text-align: center;
-    color: rgb(64, 116, 64);
-    font-weight: bold;
-    margin-top: 20px;
 }
-
-#left-panel {
-    width: 300px;
-    height: 100vh;
-    background-color: rgb(64, 116, 64);
-    color: rgb(0, 0, 0);
-    background-color: black;
-    padding: 20px;
-}
-
-.form {
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    padding: 80px;
-    background-color: white;
-    border: 1px solid rgb(64, 116, 64);
-}
-
-.maindiv {
+.innerDiv{
     display: flex;
-    justify-content: center;
-    margin: auto;
-    align-items: center;
-    height: 85vh;
+    justify-content: space-evenly;
+    margin: 0;
 }
 
-.formcontainer {
-    display: flex;
-    flex-direction: row;
+.leftPanel{
     flex: 1;
-    width: 100%;
+    background: linear-gradient(rgb(129, 154, 145), rgb(167, 193, 168));
+    height: 100vh;
+    align-content: center;
+    color: rgb(255, 255, 255);
 }
 
-.formcontrol {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid grey;
-    width: fit-content;
-    border-radius: 10px;
-    padding: 5px;
-    margin: 10px;
-    align-items: center;
-
+.campaigntext{
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
-.fieldtext {
-    text-align: left;
-    margin-left: -150px;
-    color: rgb(73, 72, 72);
+.rightPanel{
+    flex: 2;
+    height: 100vh;
+    border-top-left-radius: 60px;
+    border-bottom-left-radius: 60px;
+    background-color: aliceblue;
+    height: 100vh;
+    align-content: center;
 }
 
-.bottomsection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.growingPlant {
+    width: 200px;
 }
-
-.formButton {
-    width: 100px;
-    margin: 10px;
-    background-color: rgb(64, 116, 64);
-    color: white;
-    border: 0;
-}
-
-.loginimage {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 150px;
-    margin-bottom: 50px;
-}
-
-.formButton:hover {
-    background-color: rgb(35, 78, 35);
-}
-
-input[type="date"] {
-    padding: 8px 12px;
-    font-size: 16px;
-    color: #222;
-    background-color: #fefefe;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  input[type="date"]:focus {
-    border-color: rgb(64, 116, 64);
-    outline: none;
-  }

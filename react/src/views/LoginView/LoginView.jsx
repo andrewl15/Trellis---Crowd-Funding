@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import image from '../../images/FinaleLogo.png'
-
+import NavView from '../../components/MainNav/MainNav';
 import AuthService from '../../services/AuthService';
 import Notification from '../../components/Notification/Notification';
 import axios from 'axios';
@@ -45,6 +45,8 @@ export default function LoginView({ onLogin }) {
   }
 
   return (
+    <>
+    <NavView />
     <div className={styles.maindiv}>
       <div className={styles.formcontainer}>
         <div id="view-login" className={styles.form}>
@@ -75,5 +77,6 @@ export default function LoginView({ onLogin }) {
         </div>
       </div>
     </div>
+    </>
   );
 }

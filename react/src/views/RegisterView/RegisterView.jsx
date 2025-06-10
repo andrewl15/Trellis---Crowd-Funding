@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
 import Notification from '../../components/Notification/Notification';
+import image from '../../images/FinaleLogo.png'
+import NavView from '../../components/MainNav/MainNav';
 
 import styles from './RegisterView.module.css';
 
@@ -44,63 +46,68 @@ export default function RegisterView() {
   }
 
   return (
-    <div className={styles.maindiv}>
-    <div id="view-register" className={styles.form}>
-       <div className={styles.formcontainer}>
-      <h2 className={styles.logintext}>Register</h2>
+    <>
+      <NavView />
+      <div className={styles.maindiv}>
+        <div id="view-register" className={styles.form}>
+          <div className={styles.formcontainer}>
+            <img className={styles.loginimage} src={image} alt="" />
+            <h2 className={styles.logintext}>Register</h2>
 
-      <Notification notification={notification} clearNotification={() => setNotification(null)} />
+            <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formcontrol}>
-          <label htmlFor="username" className={styles.fieldtext}>Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            className={styles.field}
-            size="50"
-            required
-            autoFocus
-            autoComplete="username"
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </div>
+            <form onSubmit={handleSubmit}>
+              <div className={styles.formcontrol}>
+                <label htmlFor="username" className={styles.fieldtext}>Username:</label>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  className={styles.field}
+                  size="50"
+                  required
+                  autoFocus
+                  autoComplete="username"
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+              </div>
 
-        <div className={styles.formcontrol}>
-          <label htmlFor="password" className={styles.fieldtext}>Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            className={styles.field}
-            size="50"
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+              <div className={styles.formcontrol}>
+                <label htmlFor="password" className={styles.fieldtext}>Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  className={styles.field}
+                  size="50"
+                  required
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </div>
 
-        <div className={styles.formcontrol}>
-          <label htmlFor="confirmPassword" className={styles.fieldtext}>Confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            className={styles.field}
-            size="50"
-            required
-            onChange={(event) => setConfirmPassword(event.target.value)}
-          />
+              <div className={styles.formcontrol}>
+                <label htmlFor="confirmPassword" className={styles.fieldtext}>Confirm Password:</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  className={styles.field}
+                  size="50"
+                  required
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                />
+              </div>
+              <div className={styles.bottomsection}>
+                <button type="submit" className={`btn-primary ${styles.formButton}`}>
+                  Register
+                </button>
+                <Link to="/login">Have an account? Log in</Link>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className={styles.bottomsection}>
-        <button type="submit" className={`btn-primary ${styles.formButton}`}>
-          Register
-        </button>
-        <Link to="/login">Have an account? Log in</Link>
-        </div>
-      </form>
-    </div>
-    </div>
-    </div>
+      </div>
+    </>
+
   );
 }
