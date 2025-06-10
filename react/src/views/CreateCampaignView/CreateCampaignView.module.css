@@ -1,0 +1,38 @@
+.mainDiv {
+    background: linear-gradient(rgb(129, 154, 145), rgb(167, 193, 168));
+    margin: 0;
+    text-align: center;
+}
+.innerDiv{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+}
+
+.leftPanel{
+    flex: 1;
+    background: linear-gradient(rgb(129, 154, 145), rgb(167, 193, 168));
+    height: 100vh;
+    align-content: center;
+    color: rgb(255, 255, 255);
+}
+
+.campaigntext{
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.rightPanel{
+    flex: 2;
+    height: 100vh;
+    border-top-left-radius: 60px;
+    border-bottom-left-radius: 60px;
+    background-color: aliceblue;
+    height: 100vh;
+    align-content: center;
+}
+
+.growingPlant {
+    width: 200px;
+}

@@ -1,15 +1,13 @@
-body{
-    background: linear-gradient(225deg, hsla(107, 68%, 18%, 1) 18%, hsla(63, 70%, 46%, 1) 100%);
+body {
+    background: linear-gradient(to bottom left, rgb(129, 154, 145), rgb(167, 193, 168));
     background-size: cover;
     background-repeat: no-repeat;
 }
-
 
 .field {
     width: 300px;
     font-size: medium;
     border: 0;
-    background-color: transparent;
     margin-right: 10px;
     font-weight: 100;
 }

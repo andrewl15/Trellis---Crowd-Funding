@@ -1,14 +1,16 @@
 package com.techelevator.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import jakarta.validation.Valid;
 
-
 import com.techelevator.dao.CampaignDao;
+import com.techelevator.dao.UserDao;
 import com.techelevator.model.Campaign;
 
 @RestController
@@ -16,39 +18,46 @@ import com.techelevator.model.Campaign;
 @RequestMapping("/campaign")
 public class CampaignController {
     private CampaignDao campaignDao;
+    private UserDao userDao;
 
-    private CampaignController(CampaignDao campaignDao) {
+    private CampaignController(CampaignDao campaignDao, UserDao userDao) {
         this.campaignDao = campaignDao;
+        this.userDao = userDao; 
     }
 
     @GetMapping(path = "/")
     public List<Campaign> getAllCampaigns() {
-        try{
+        try {
             return campaignDao.getAllCampaigns();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping(path = "/{id}")
     public Campaign getCampaignById(@PathVariable int id) {
         Campaign output = null;
-        try{
+        try {
             output = campaignDao.getCampaignById(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
-        if(output == null) {
+        if (output == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found");
         }
         return output;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/")
-    public Campaign addNewCampaign(@Valid @RequestBody Campaign incoming){
+    @PostMapping("/")
+    public Campaign addNewCampaign(@Valid @RequestBody Campaign incoming, Principal principal) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User must be authenticated");
+        }
+
         try {
-            return campaignDao.addCampaign(incoming);
+            int userId = userDao.getUserByUsername(principal.getName()).getId();
+            return campaignDao.addCampaign(userId, incoming);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
@@ -60,7 +69,7 @@ public class CampaignController {
         if (existing == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found");
         }
-        try{
+        try {
             return campaignDao.updateCampaign(incoming);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
@@ -71,12 +80,12 @@ public class CampaignController {
     @DeleteMapping(path = "/{id}")
     public void deleteCampaignById(@PathVariable int id) {
         int rowsAffected = 0;
-        try{
+        try {
             rowsAffected = campaignDao.deleteCampaignById(id);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
-        if(rowsAffected == 0){
+        if (rowsAffected == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }

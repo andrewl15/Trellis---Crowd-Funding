@@ -20,6 +20,9 @@ export default function MainNav() {
       </div>
       {user ? (
         <>
+          <div className={styles.navlink}>
+            <NavLink to="/createCampaign" className={styles.navtext}>Create Campaign</NavLink>
+          </div>
         </>
       ) : (
         <div className={styles.navlink}>
@@ -32,7 +35,7 @@ export default function MainNav() {
         {user ? <div className={styles.section}> <NavLink to="/userProfile" className={styles.navtext}>
           <FontAwesomeIcon className={styles.usericon} icon={faCircleUser} /></NavLink>
           <Link to="/logout" className={styles.navtext}>
-           <FontAwesomeIcon className={styles.usericon} icon={faRightFromBracket} />
+            <FontAwesomeIcon className={styles.usericon} icon={faRightFromBracket} />
           </Link></div>
           : <></>}
       </div>
