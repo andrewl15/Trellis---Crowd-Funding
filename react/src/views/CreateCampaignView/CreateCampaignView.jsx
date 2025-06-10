@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import CampaignService from '../../services/CampaignService';
 import { useNavigate } from 'react-router-dom';
-import styles from '../CampaignView/CampaignView.module.css';
+import styles from './CreateCampaignView.module.css';
+import { UserContext } from '../../context/UserContext';
 
 export default function CampaignView() {
     const navigate = useNavigate();
@@ -9,10 +10,15 @@ export default function CampaignView() {
     const [description, setDescription] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const user = useContext(UserContext);
 
     function handleSubmit(event) {
         event.preventDefault();
-
+        if (!user || !user.id) {
+            alert('User is not authenticated or ID is missing.');
+            return;
+        }
+    
         const start = new Date(startDate);
         const end = new Date(endDate);
         if (start >= end) {
@@ -26,9 +32,10 @@ export default function CampaignView() {
             startDate,
             endDate
         };
-        CampaignService.createCampaign(campaignData)
+        CampaignService.createCampaign(user.id, campaignData)
             .then(response => {
                 if(response.status === 201) {
+                    console.log("here");
                     alert('Campaign Created!');
                     navigate('/');
                 }
@@ -41,7 +48,8 @@ export default function CampaignView() {
     return (
         <div className={styles.maindiv}>
             <div className={styles.formcontainer}>
-                <div id="view-login" className={styles.form}>
+                <div id='left-panel'>left panel</div>
+                <div id="right-panel" className={styles.form}>
                     <h2 className={styles.campaigntext}>Create Campgain</h2>
                     <form onSubmit={handleSubmit}>
                         <div className={styles.formcontrol}>

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export default {
-    createCampaign(campaignData) {
-        return axios.post('/campaign/', campaignData);
+    createCampaign(userId, campaignData) {
+        return axios.post(`/campaign/?userId=${userId}`, campaignData);
     },
     
     getCampaigns() {

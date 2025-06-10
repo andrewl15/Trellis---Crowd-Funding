@@ -17,7 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @PreAuthorize("isAuthenticated()")
 @Component
-public class JdbcCampaignDao implements CampaignDao{
+public class JdbcCampaignDao implements CampaignDao {
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCampaignDao(JdbcTemplate jdbcTemplate) {
@@ -41,6 +41,8 @@ public class JdbcCampaignDao implements CampaignDao{
         return campaigns;
     }
 
+    // TODO add get campaigns by user id
+
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Override
     public Campaign getCampaignById(int id) {
@@ -58,21 +60,28 @@ public class JdbcCampaignDao implements CampaignDao{
         return campaign;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize ("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Override
-    public Campaign addCampaign(Campaign campaign) {
+    public Campaign addCampaign(int userId, Campaign campaign) {
         Campaign newCampaign = null;
-        String sql = "insert into campaign (name, description, start_date, end_date) values (?, ?, ?, ?) returning campaign_id;";
-        try{
-            int campaignId = jdbcTemplate.queryForObject(sql, int.class, 
-                            campaign.getName(), campaign.getDescription(), 
-                            campaign.getStartDate(), campaign.getEndDate());
+        String campaignSql = "INSERT INTO campaign (name, description, start_date, end_date) VALUES (?, ?, ?, ?) RETURNING campaign_id;";
+        String userCampaignSql = "INSERT INTO user_campaign (user_id, campaign_id) VALUES (?, ?);";
+
+        try {
+            int campaignId = jdbcTemplate.queryForObject(campaignSql, int.class,
+                    campaign.getName(), campaign.getDescription(),
+                    campaign.getStartDate(), campaign.getEndDate());
+
+            // Insert into user_campaign to link the user with the campaign
+            jdbcTemplate.update(userCampaignSql, userId, campaignId);
+
             newCampaign = getCampaignById(campaignId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
-        }     
+        }
+
         return newCampaign;
     }
 
@@ -82,10 +91,10 @@ public class JdbcCampaignDao implements CampaignDao{
         Campaign updatedCampaign = null;
         String sql = "update campaign set name = ?, description = ?, start_date = ?, end_date = ? where campaign_id = ?;";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, 
-                            campaign.getName(), campaign.getDescription(), 
-                            campaign.getStartDate(), campaign.getEndDate(), 
-                            campaign.getId());
+            int rowsAffected = jdbcTemplate.update(sql,
+                    campaign.getName(), campaign.getDescription(),
+                    campaign.getStartDate(), campaign.getEndDate(),
+                    campaign.getId());
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             }
@@ -122,5 +131,5 @@ public class JdbcCampaignDao implements CampaignDao{
         campaign.setEndDate(LocalDate.parse(results.getString("end_date"), DateTimeFormatter.ISO_DATE));
         return campaign;
     }
-    
+
 }

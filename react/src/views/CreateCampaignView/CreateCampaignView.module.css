@@ -17,11 +17,21 @@
     margin-top: 20px;
 }
 
-.form {
+#left-panel {
+    width: 300px;
+    height: 100vh;
+    background-color: rgb(64, 116, 64);
+    color: rgb(0, 0, 0);
+    background-color: black;
+    padding: 20px;
+}
 
-    border-radius: 30px;
+.form {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
     padding: 80px;
     background-color: white;
+    border: 1px solid rgb(64, 116, 64);
 }
 
 .maindiv {
@@ -30,6 +40,12 @@
     margin: auto;
     align-items: center;
     height: 85vh;
+}
+
+.formcontainer {
+    display: flex;
+    flex-direction: row;
+    
 }
 
 .formcontrol {
