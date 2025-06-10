@@ -36,3 +36,69 @@
 .growingPlant {
     width: 200px;
 }
+
+.campaignform{
+    align-content: center
+}
+
+.field{
+    width: 300px;
+}
+
+.formtitle{
+    font-size: large;
+    color: grey;
+    margin-bottom: 5px;
+}
+.form{
+    margin: 30px;
+}
+
+.datefields{
+    display: flex;
+    justify-content: center;
+}
+
+.datefield{
+    margin-right: 15px;
+}
+
+
+
+.header{
+    margin-top: -150px;
+    font-size: xx-large;
+    margin-bottom: 200px;
+}
+
+.Input {
+    box-sizing: border-box;
+    padding-left: 0.875rem;
+    margin: 0;
+    border: 2px solid grey;
+    width: 100%;
+    max-width: 16rem;
+    height: 2.5rem;
+    border-radius: 0.375rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: normal;
+    background-color: transparent;
+    color: var(--color-gray-900);
+  
+    &:focus {
+      outline: 2px solid var(--color-blue);
+      outline-offset: -1px;
+    }
+  }
+
+  .bottomsection{
+    margin: 20px
+  }
+
+  .formButtonRight{
+    width: 150px;
+    height: 30px;
+  }
+
+  
