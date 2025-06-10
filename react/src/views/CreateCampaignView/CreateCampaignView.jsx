@@ -4,7 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import styles from './CreateCampaignView.module.css';
 import { UserContext } from '../../context/UserContext';
 import { TypeAnimation } from 'react-type-animation';
-import gorwingPlant from '../../animations/growing-plant.gif';
+import { Input } from '@base-ui-components/react/input';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
+
+
 
 export default function CampaignView() {
     const navigate = useNavigate();
@@ -13,6 +19,8 @@ export default function CampaignView() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const user = useContext(UserContext);
+
+
 
 
     function handleSubmit(event) {
@@ -52,7 +60,7 @@ export default function CampaignView() {
         <div className={styles.mainDiv}>
             <div className={styles.innerDiv}>
                 <div className={styles.leftPanel}>
-                    <p className={styles.campaigntext}>Create Campgain</p>
+                    <p className={styles.campaigntext}>Create Campaign</p>
                     <TypeAnimation
                         sequence={[
                             'Ready to grow your campagin?',
@@ -67,7 +75,7 @@ export default function CampaignView() {
                         ]}
                         wrapper="h3"
                         cursor={true}
-                        repeat={true}
+                        repeat={Infinity}
                         style={{ fontSize: '2em', marginBottom: '-50px' }}
                     />
                     <lord-icon
@@ -77,30 +85,35 @@ export default function CampaignView() {
                         colors="primary:#5c230a,secondary:#407440"
                         style={{ width: "40%", height: "40%", margin: "0", padding: "0" }}
                     ></lord-icon>
+                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+
+                        />
+                    </LocalizationProvider> */}
                 </div>
                 <div className={styles.rightPanel}>
-                    <form onSubmit={handleSubmit} className={styles.campaignForm}>
-                        <div className={styles.controlFields}>
-
-                            <div className={styles.formControlRight}>
-                                <label className={styles.fieldTextRight}>Campaign Name</label>
-                                <input type="text" className={styles.fieldRight} name="name" value={name} onChange={e => setName(e.target.value)} required />
+                    <p className={styles.header}>The right campaign can change your life.<br></br> Make yours stand out.</p>
+                    <form onSubmit={handleSubmit}>
+                        <div className={styles.form}>
+                            <div className={styles.formtitle}>Campaign Name</div>
+                            <Input className={styles.Input} value={name} onChange={e => setName(e.target.value)} required />
+                        </div>
+                        <div className={styles.form}>
+                            <div className={styles.formtitle}>Description</div>
+                            <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required />
+                        </div>
+                        <div className={styles.datefields}>
+                            <div className={styles.datefield}>
+                                <div className={styles.formtitle}>Start Date</div>
+                                <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} required />
                             </div>
-                            <div className={styles.formControlRight}>
-                                <label className={styles.fieldTextRight}>Description</label>
-                                <textarea name="description" className={styles.fieldRight} value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                            <div className={styles.datefield}>
+                                <div className={styles.formtitle}>End Date</div>
+                                <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} required />
                             </div>
-                            <div className={styles.formControlRight}>
-                                <label className={styles.fieldTextRight}>Start Date</label>
-                                <input type="date" className={styles.fieldRight} name="startDate" value={startDate} onChange={e => setStartDate(e.target.value)} required />
-                            </div>
-                            <div className={styles.formControlRight}>
-                                <label className={styles.fieldTextRight}>End Date</label>
-                                <input type="date" className={styles.fieldRight} name="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} required />
-                            </div>
-                            <div className={styles.bottomsection}>
-                                <button type="submit" className={`btn-primary ${styles.formButtonRight}`}>Propagate</button>
-                            </div>
+                        </div>
+                        <div className={styles.bottomsection}>
+                            <button type="submit" className={styles.formButtonRight}>Propagate</button>
                         </div>
                     </form>
                 </div>
@@ -108,3 +121,27 @@ export default function CampaignView() {
         </div>
     );
 }
+{/* <form onSubmit={handleSubmit} className={styles.campaignForm}>
+                    <div className={styles.controlFields}>
+
+                        <div className={styles.formControlRight}>
+                            <label className={styles.fieldTextRight}>Campaign Name</label>
+                            <input type="text" className={styles.fieldRight} name="name" value={name} onChange={e => setName(e.target.value)} required />
+                        </div>
+                        <div className={styles.formControlRight}>
+                            <label className={styles.fieldTextRight}>Description</label>
+                            <textarea name="description" className={styles.fieldRight} value={description} onChange={e => setName(e.target.value)} required}></textarea>
+                        </div>
+                        <div className={styles.formControlRight}>
+                            <label className={styles.fieldTextRight}>Start Date</label>
+                            <input type="date" className={styles.fieldRight} name="startDate" value={startDate} onChange={e => setStartDate(e.target.value)} required />
+                        </div>
+                        <div className={styles.formControlRight}>
+                            <label className={styles.fieldTextRight}>End Date</label>
+                            <input type="date" className={styles.fieldRight} name="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} required />
+                        </div>
+                        <div className={styles.bottomsection}>
+                            <button type="submit" className={`btn-primary ${styles.formButtonRight}`}>Propagate</button>
+                        </div>
+                    </div>
+                </form> */}
