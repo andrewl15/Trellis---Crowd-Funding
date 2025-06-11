@@ -155,3 +155,23 @@
 .bottomsection {
     margin: 20px
 }
+
+.backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    border-radius: 50%;
+    background-color: #5c0e0a;
+    width: 60px;
+    height: 60px;
+    display: flex;              /* Enable flexbox */
+    align-items: center;        /* Center vertically */
+    justify-content: center; 
+}
+
+.backArrow{
+    color: #fff;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+}
