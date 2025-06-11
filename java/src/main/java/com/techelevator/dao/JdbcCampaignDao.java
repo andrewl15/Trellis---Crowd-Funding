@@ -47,7 +47,7 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign getCampaignById(int id) {
         Campaign campaign = null;
-        String sql = "select campaign_id, name, description, start_date, end_date from campaign where campaign_id = ?;";
+        String sql = "select campaign_id, name, description, category, goal_amount, start_date, end_date from campaign where campaign_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
             if (results.next()) {
@@ -64,12 +64,12 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign addCampaign(int userId, Campaign campaign) {
         Campaign newCampaign = null;
-        String campaignSql = "INSERT INTO campaign (name, description, start_date, end_date) VALUES (?, ?, ?, ?) RETURNING campaign_id;";
+        String campaignSql = "INSERT INTO campaign (name, description, category, goal_amount, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING campaign_id;";
         String userCampaignSql = "INSERT INTO user_campaign (user_id, campaign_id) VALUES (?, ?);";
 
         try {
             int campaignId = jdbcTemplate.queryForObject(campaignSql, int.class,
-                    campaign.getName(), campaign.getDescription(),
+                    campaign.getName(), campaign.getDescription(), campaign.getCategory(), campaign.getGoalAmount(),
                     campaign.getStartDate(), campaign.getEndDate());
 
             // Insert into user_campaign to link the user with the campaign
@@ -89,11 +89,11 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign updateCampaign(Campaign campaign) {
         Campaign updatedCampaign = null;
-        String sql = "update campaign set name = ?, description = ?, start_date = ?, end_date = ? where campaign_id = ?;";
+        String sql = "update campaign set name = ?, description = ?, category = ?, goal_amouunt = ?, start_date = ?, end_date = ? where campaign_id = ?;";
         try {
             int rowsAffected = jdbcTemplate.update(sql,
-                    campaign.getName(), campaign.getDescription(),
-                    campaign.getStartDate(), campaign.getEndDate(),
+                    campaign.getName(), campaign.getDescription(), campaign.getCategory(),
+                    campaign.getGoalAmount(), campaign.getStartDate(), campaign.getEndDate(),
                     campaign.getId());
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
@@ -127,8 +127,10 @@ public class JdbcCampaignDao implements CampaignDao {
         campaign.setId(results.getInt("campaign_id"));
         campaign.setName(results.getString("name"));
         campaign.setDescription(results.getString("description"));
+        campaign.setCategory(results.getString("category"));
+        campaign.setGoalAmount(results.getBigDecimal("goal_amount"));
         campaign.setStartDate(LocalDate.parse(results.getString("start_date"), DateTimeFormatter.ISO_DATE));
-        campaign.setEndDate(LocalDate.parse(results.getString("end_date"), DateTimeFormatter.ISO_DATE));
+        campaign.setEndDate(LocalDate.parse(results.getString("end_date"), DateTimeFormatter.ISO_DATE));    
         return campaign;
     }
 

@@ -30,6 +30,8 @@ CREATE TABLE campaign (
 	campaign_id SERIAL,
 	name varchar(100) NOT NULL,
 	description text,
+	category varchar(50) NOT NULL,
+	goal_amount decimal(10, 2) NOT NULL,
 	start_date date NOT NULL,
 	end_date date NOT NULL,
 	CONSTRAINT PK_campaign PRIMARY KEY (campaign_id)

@@ -96,6 +96,7 @@ export default function CampaignView() {
                 <div className={styles.rightPanel}>
                     <p className={styles.header}>The right campaign can change your life.<br></br> Make yours stand out.</p>
                     <form onSubmit={handleSubmit}>
+                        
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Campaign Name</div>
                             <Input className={styles.Input} value={name} onChange={e => setName(e.target.value)} required />
