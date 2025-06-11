@@ -89,11 +89,11 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign updateCampaign(Campaign campaign) {
         Campaign updatedCampaign = null;
-        String sql = "update campaign set name = ?, description = ?, start_date = ?, end_date = ? where campaign_id = ?;";
+        String sql = "update campaign set name = ?, description = ?, category = ?, goal_amouunt = ?, start_date = ?, end_date = ? where campaign_id = ?;";
         try {
             int rowsAffected = jdbcTemplate.update(sql,
-                    campaign.getName(), campaign.getDescription(),
-                    campaign.getStartDate(), campaign.getEndDate(),
+                    campaign.getName(), campaign.getDescription(), campaign.getCategory(),
+                    campaign.getGoalAmount(), campaign.getStartDate(), campaign.getEndDate(),
                     campaign.getId());
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
