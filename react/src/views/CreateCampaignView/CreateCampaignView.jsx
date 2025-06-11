@@ -102,7 +102,8 @@ export default function CampaignView() {
                         </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Description</div>
-                            <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required />
+                            {/* <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required /> */}
+                            <textarea className={styles.description} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </div>
                         <div className={styles.datefields}>
                             <div className={styles.datefield}>
