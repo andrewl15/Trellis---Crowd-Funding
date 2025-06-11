@@ -74,7 +74,7 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path = 'Campaign/:campaignId' element={<CampaignDetailsView/>} />
+              <Route path = 'Campaign/:id' element={<CampaignDetailsView/>} />
             </Routes>
         </UserContext.Provider>
     </BrowserRouter>

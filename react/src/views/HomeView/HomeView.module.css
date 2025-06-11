@@ -1,5 +1,4 @@
 .mainDiv {
-    height: 100vh;
     margin-top: 70px;
 }
 
@@ -18,4 +17,11 @@
 .headerButtons {
     display: flex;
     justify-content: flex-end;
+}
+
+.campaigngrid{
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+    margin: 10px;
 }
