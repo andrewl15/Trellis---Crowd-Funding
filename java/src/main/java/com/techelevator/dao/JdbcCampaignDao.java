@@ -24,7 +24,7 @@ public class JdbcCampaignDao implements CampaignDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("permitAll()")
     @Override
     public List<Campaign> getAllCampaigns() {
         List<Campaign> campaigns = new ArrayList<>();
