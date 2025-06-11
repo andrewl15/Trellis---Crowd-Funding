@@ -10,6 +10,7 @@ import UserProfileView from './views/UserProfileView/UserProfileView';
 import ProtectedRoute from './components/ProtectedRoute';
 import axios from 'axios';
 import CreateCampaignView from './views/CreateCampaignView/CreateCampaignView';
+import CampaignDetailsView from './views/CampaignDetailsView/CampaignDetailsView';
 
 export default function App() {
   const [user, setUser] = useState(() => getTokenFromStorage());
@@ -73,6 +74,7 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path = 'Campaign/:campaignId' element={<CampaignDetailsView/>} />
             </Routes>
         </UserContext.Provider>
     </BrowserRouter>
