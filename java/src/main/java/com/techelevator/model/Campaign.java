@@ -1,5 +1,6 @@
 package com.techelevator.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -9,8 +10,12 @@ public class Campaign {
     @NotNull
     private int id;
     @NotEmpty
+    private String category;
+    @NotEmpty
     private String name;
     private String description;
+    @NotNull
+    private BigDecimal goalAmount;
     @NotNull
     private LocalDate startDate;
     @NotNull
@@ -19,10 +24,12 @@ public class Campaign {
     public Campaign() {
     }
 
-    public Campaign(int id, String name, String description, LocalDate startDate, LocalDate endDate) {
+    public Campaign(int id, String category, String name, String description, BigDecimal goalAmount, LocalDate startDate, LocalDate endDate) {
         this.id = id;
+        this.category = category;
         this.name = name;
         this.description = description;
+        this.goalAmount = goalAmount;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -33,6 +40,14 @@ public class Campaign {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getName() {
@@ -49,6 +64,14 @@ public class Campaign {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getGoalAmount() {
+        return goalAmount;
+    }
+
+    public void setGoalAmount(BigDecimal goalAmount) {
+        this.goalAmount = goalAmount;
     }
 
     public LocalDate getStartDate() {
