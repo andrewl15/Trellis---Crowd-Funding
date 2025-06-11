@@ -16,7 +16,7 @@ export default function CampaignCard({campaign}){
         <Link to={`Campaign/${campaign.id}`} className={styles.link}>
         <p className={styles.title}>{campaign.name}</p>
         <p className={styles.title}>End Date: {string}</p>
-        <img src="https://placehold.co/400x400" alt="" />
+        <img className={styles.image} src="https://placehold.co/400x400" alt="" />
         <p className={styles.category}>{campaign.category}</p>
         <hr className={styles.line}></hr>
         <p className={styles.desc}>{shortdesc}...</p>
