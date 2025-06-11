@@ -13,7 +13,10 @@ export default function MainNav() {
   return (
     <nav id="main-nav" className={styles.MainNav}>
       <div className={styles.leftsection}>
-        <img className={styles.loginimage} src={image} alt="" />
+        <Link to="/" className={styles.logo}>
+          <img className={styles.loginimage} src={image} alt="" />
+        </Link>
+
       </div>
       <div className={styles.navlink}>
         <NavLink to="/" className={styles.navtext}>Home</NavLink>

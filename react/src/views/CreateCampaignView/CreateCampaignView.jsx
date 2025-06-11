@@ -1,13 +1,13 @@
 import { useState, useContext } from 'react';
 import CampaignService from '../../services/CampaignService';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './CreateCampaignView.module.css';
 import { UserContext } from '../../context/UserContext';
 import { TypeAnimation } from 'react-type-animation';
 import { Input } from '@base-ui-components/react/input';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -58,18 +58,24 @@ export default function CampaignView() {
 
     return (
         <div className={styles.mainDiv}>
+
             <div className={styles.innerDiv}>
+                <Link to="/" >
+                    <div className={styles.backButton}>
+                        <FontAwesomeIcon icon={faArrowLeft} className={styles.backArrow} />
+                    </div>
+                </Link>
                 <div className={styles.leftPanel}>
                     <p className={styles.campaigntext}>Create Campaign</p>
                     <TypeAnimation
                         sequence={[
                             'Ready to grow your campagin?',
                             1000, // Waits 1 second
-                            'Germinate your dreams',
+                            'Germinate your dreams!',
                             1000, // Waits 1 second
-                            'Propagate your ideas',
+                            'Propagate your ideas!',
                             1000, // Waits 1 second
-                            'Fertilize your vision',
+                            'Fertilize your vision!',
                             1000, // Waits 1 second
 
                         ]}
@@ -85,11 +91,7 @@ export default function CampaignView() {
                         colors="primary:#5c230a,secondary:#407440"
                         style={{ width: "40%", height: "40%", margin: "0", padding: "0" }}
                     ></lord-icon>
-                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
 
-                        />
-                    </LocalizationProvider> */}
                 </div>
                 <div className={styles.rightPanel}>
                     <p className={styles.header}>The right campaign can change your life.<br></br> Make yours stand out.</p>
@@ -100,7 +102,8 @@ export default function CampaignView() {
                         </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Description</div>
-                            <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required />
+                            {/* <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required /> */}
+                            <textarea className={styles.description} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </div>
                         <div className={styles.datefields}>
                             <div className={styles.datefield}>
@@ -118,7 +121,7 @@ export default function CampaignView() {
                     </form>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 {/* <form onSubmit={handleSubmit} className={styles.campaignForm}>

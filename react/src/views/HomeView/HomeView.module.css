@@ -1,0 +1,10 @@
+.mainDiv {
+    height: 100vh;
+}
+.mainDiv > h1 {
+    margin-top: 80px;
+    margin-left: 80px;
+}
+.mainDiv > p {
+    margin: 80px;
+}
