@@ -1,11 +1,13 @@
 .mainDiv {
-    margin-top: 70px;
+    background: linear-gradient(to bottom left, rgb(129, 154, 145), rgb(167, 193, 168));
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .ccButton {
     background-color: #5c0e0a;
     margin-right: 10px;
-    margin-top: -10px;
+    margin-top: 10px;
     color: white;
     border-radius: 20px;
 }
