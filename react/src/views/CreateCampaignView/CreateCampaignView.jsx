@@ -7,21 +7,22 @@ import { TypeAnimation } from 'react-type-animation';
 import { Input } from '@base-ui-components/react/input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-
-
-
+import Dropdown from 'react-dropdown';
+import { categories } from '../../assets/catagories';
+import 'react-dropdown/style.css';
+import CurrencyInput from 'react-currency-input-field';
+import { set } from 'date-fns';
 
 
 export default function CampaignView() {
     const navigate = useNavigate();
+    const [category, setCategory] = useState(categories[0]);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [donation, setDonation] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const user = useContext(UserContext);
-
-
-
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -40,6 +41,8 @@ export default function CampaignView() {
         const campaignData = {
             name,
             description,
+            category,
+            goalAmount: donation ? parseFloat(donation) : null,
             startDate,
             endDate
         };
@@ -96,7 +99,19 @@ export default function CampaignView() {
                 <div className={styles.rightPanel}>
                     <p className={styles.header}>The right campaign can change your life.<br></br> Make yours stand out.</p>
                     <form onSubmit={handleSubmit}>
-                        
+
+                        <div className={styles.form}>
+                            <div className={styles.formtitle}>Purpose</div>
+                            <Dropdown
+                                options={categories}
+                                onChange={(selected) => setCategory(selected.value)}
+                                value={categories[0]}
+                                placeholder="Select a category"
+                                controlClassName={styles.dropdownControl}
+                                menuClassName={styles.dropdownMenu}
+                            />
+
+                        </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Campaign Name</div>
                             <Input className={styles.Input} value={name} onChange={e => setName(e.target.value)} required />
@@ -105,6 +120,19 @@ export default function CampaignView() {
                             <div className={styles.formtitle}>Description</div>
                             {/* <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required /> */}
                             <textarea className={styles.description} value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                        </div>
+                        <div className={styles.form}>
+                            <div className={styles.formtitle}>Donation Goal</div>
+                            <CurrencyInput
+                                id="input-example"
+                                name="input-name"
+                                prefix='$'
+                                placeholder="Please enter an amount"
+                                decimalsLimit={2}
+                                onValueChange={(value) => setDonation(value)}
+                                className={styles.currencyInput}
+
+                            />
                         </div>
                         <div className={styles.datefields}>
                             <div className={styles.datefield}>

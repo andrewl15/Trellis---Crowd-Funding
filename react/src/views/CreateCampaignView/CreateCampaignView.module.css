@@ -77,6 +77,54 @@
     color: #555;
 }
 
+.dropdownControl {
+    display: flex;           /* flex aligns items nicely */
+    align-items: center;     /* vertical center */
+    padding: 0 12px;         /* horizontal padding */
+    height: 40px;   
+    width: 250px;         /* fixed height to control box size */
+    font-size: 16px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    color: #333;
+    box-sizing: border-box;
+    cursor: pointer;
+    line-height: normal;     /* reset line-height */
+  }
+  
+  .dropdownMenu {
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 250px; /* same width as control */
+    margin-top: 4px;
+    box-sizing: border-box;
+    z-index: 1000;
+    text-align: left;
+  }
+
+.currencyInput {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+  }
+  
+  .currencyInput:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  }
+  
+
 .form {
     display: flex;
     flex-direction: column; 
@@ -105,10 +153,14 @@
     height: 30px;
     background-color: rgb(129, 154, 145);
     font-weight: bold;
-    color: aliceblue;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: color 0.2s ease;
+}
+.formButton:hover {
+    color: rgb(33, 33, 33);
 }
 
 .datefields {
