@@ -71,11 +71,11 @@ export default function CampaignView() {
                         sequence={[
                             'Ready to grow your campagin?',
                             1000, // Waits 1 second
-                            'Germinate your dreams',
+                            'Germinate your dreams!',
                             1000, // Waits 1 second
-                            'Propagate your ideas',
+                            'Propagate your ideas!',
                             1000, // Waits 1 second
-                            'Fertilize your vision',
+                            'Fertilize your vision!',
                             1000, // Waits 1 second
 
                         ]}
