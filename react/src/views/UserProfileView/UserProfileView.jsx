@@ -8,7 +8,7 @@ export default function UserProfileView() {
     <div>
       <h1>User Profile</h1>
       <br />
-      <p>Hello, {user.username}!</p>
+      <p>Hello, {user.firstName}!</p>
     </div>
   );
 }
