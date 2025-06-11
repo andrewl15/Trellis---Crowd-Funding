@@ -113,7 +113,7 @@ export default function CampaignView() {
                             </div>
                         </div>
                         <div className={styles.bottomsection}>
-                            <button type="submit" className={styles.formButtonRight}>Propagate</button>
+                            <button type="submit" className={styles.formButton}>Propagate</button>
                         </div>
                     </form>
                 </div>

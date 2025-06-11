@@ -9,20 +9,27 @@ import java.util.Set;
 public class User {
 
    private int id;
+   private Integer payment_id;
    private String username;
    @JsonIgnore
    private String password;
    @JsonIgnore
+   private String firstName;
+   private String lastName;
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
 
-   public User() { }
+   public User() {
+   }
 
-   public User(int id, String username, String password, String authorities) {
+   public User(int id, String username, String password, String firstName, String lastName, String authorities) {
       this.id = id;
       this.username = username;
       this.password = password;
-      if (authorities != null) this.setAuthorities(authorities);
+      this.firstName = firstName;
+      this.lastName = lastName;
+      if (authorities != null)
+         this.setAuthorities(authorities);
       this.activated = true;
    }
 
@@ -32,6 +39,14 @@ public class User {
 
    public void setId(int id) {
       this.id = id;
+   }
+
+   public Integer getPaymentId() {
+      return payment_id;
+   }
+
+   public void setPaymentId(Integer payment_id) {
+      this.payment_id = payment_id;
    }
 
    public String getUsername() {
@@ -48,6 +63,22 @@ public class User {
 
    public void setPassword(String password) {
       this.password = password;
+   }
+
+   public String getFirstName() {
+      return firstName;
+   }
+
+   public void setFirstName(String firstName) {
+      this.firstName = firstName;
+   }
+
+   public String getLastName() {
+      return lastName;
+   }
+
+   public void setLastName(String lastName) {
+      this.lastName = lastName;
    }
 
    public boolean isActivated() {
@@ -76,14 +107,16 @@ public class User {
 
    @Override
    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
+      if (this == o)
+         return true;
+      if (o == null || getClass() != o.getClass())
+         return false;
       User user = (User) o;
       return id == user.id &&
-              activated == user.activated &&
-              Objects.equals(username, user.username) &&
-              Objects.equals(password, user.password) &&
-              Objects.equals(authorities, user.authorities);
+            activated == user.activated &&
+            Objects.equals(username, user.username) &&
+            Objects.equals(password, user.password) &&
+            Objects.equals(authorities, user.authorities);
    }
 
    @Override
@@ -94,10 +127,10 @@ public class User {
    @Override
    public String toString() {
       return "User{" +
-              "id=" + id +
-              ", username='" + username + '\'' +
-              ", activated=" + activated +
-              ", authorities=" + authorities +
-              '}';
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", activated=" + activated +
+            ", authorities=" + authorities +
+            '}';
    }
 }

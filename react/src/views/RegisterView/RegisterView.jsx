@@ -13,6 +13,8 @@ export default function RegisterView() {
   const [notification, setNotification] = useState(null);
 
   // Setup state for the registration data
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -31,6 +33,8 @@ export default function RegisterView() {
         username,
         password,
         confirmPassword,
+        firstName,
+        lastName,
         role: 'user',
       })
         .then(() => {
@@ -57,6 +61,33 @@ export default function RegisterView() {
             <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
             <form onSubmit={handleSubmit}>
+            <div className={styles.formcontrol}>
+                <label htmlFor="firstName" className={styles.fieldtext}>First Name:</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  value={firstName}
+                  className={styles.field}
+                  size="50"
+                  required
+                  autoFocus
+                  autoComplete="firstName"
+                  onChange={(event) => setFirstName(event.target.value)}
+                />
+              </div><div className={styles.formcontrol}>
+                <label htmlFor="lastName" className={styles.fieldtext}>LastName:</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  className={styles.field}
+                  size="50"
+                  required
+                  autoFocus
+                  autoComplete="lastName"
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+              </div>
               <div className={styles.formcontrol}>
                 <label htmlFor="username" className={styles.fieldtext}>Username:</label>
                 <input
