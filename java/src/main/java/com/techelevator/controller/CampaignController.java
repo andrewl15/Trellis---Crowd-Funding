@@ -19,7 +19,7 @@ public class CampaignController {
     private CampaignDao campaignDao;
     private UserDao userDao;
 
-    private CampaignController(CampaignDao campaignDao, UserDao userDao) {
+    public CampaignController(CampaignDao campaignDao, UserDao userDao) {
         this.campaignDao = campaignDao;
         this.userDao = userDao; 
     }
