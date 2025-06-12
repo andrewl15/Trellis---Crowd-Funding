@@ -8,6 +8,10 @@ export default {
     getCampaigns() {
         return axios.get('/campaign/');
     },
+
+    getCampaignCreatorById(campaignId) {
+        return axios.get(`/users/campaign/${campaignId}`);
+    },
     
     getCampaignById(campaignId) {
         return axios.get(`/campaign/${campaignId}`);

@@ -15,6 +15,7 @@ export default function CampaignDetailsView() {
     const amountGiven = 150;
     const donations = 120; // This should be dynamic based on user input or state
     const percentage = Math.round(amountGiven / campaign.goalAmount * 100);
+    const [creator, Setcreator] = useState("");
     useEffect(() => {
         CampaignService.getCampaignById(id).then(
             (response) => {
@@ -23,6 +24,12 @@ export default function CampaignDetailsView() {
         ).catch((error) =>
             alert('could not retrieve campaign')
         )
+        CampaignService.getCampaignCreatorById(id).then(
+            (response) => {
+                Setcreator(response.data)
+            }
+        ).catch((error) =>
+        alert('could not retrieve creator'))
     }, [])
 
     return (
@@ -34,8 +41,8 @@ export default function CampaignDetailsView() {
                     <div className={styles.infoBox}>
                         <h1 className={styles.title}>{campaign.name}</h1>
                         <img className={styles.image} src="https://placehold.co/500x300" alt="" />
-                        <p>Campaign Owner</p>
                         <p className={styles.desc}>{campaign.description}</p>
+                        <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
                     </div>
                 </div>
                 <div className={styles.campaignDonate}>

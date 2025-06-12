@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -69,6 +70,22 @@ public class JdbcUserDao implements UserDao {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return user;
+    }
+
+    @Override
+    public User getCampaignCreatorById (int id) {
+        User creatorName = null;
+        String sql = "select * from campaign join user_campaign as uc on campaign.campaign_id = uc.campaign_id join users as us on us.user_id = uc.user_id where campaign.campaign_id = ?";
+        try { 
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+            if (results.next()) {
+                creatorName = mapRowToUser(results);
+            } 
+    } catch (CannotGetJdbcConnectionException e) {
+        throw new DaoException("Unable to connect to server or database", e);
+    }
+    return creatorName;
+
     }
 
     @Override

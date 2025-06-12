@@ -64,4 +64,19 @@ public class UserController {
         return user;
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping(path = "/campaign/{id}")
+    public User getCampaignCreatorById(@PathVariable int id) {
+        User creatorName = null;
+        try {
+            creatorName = userDao.getCampaignCreatorById(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        if (creatorName == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign Creator not found");
+        }
+        return creatorName;
+    }
+
 }
