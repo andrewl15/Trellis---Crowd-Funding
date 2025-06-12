@@ -1,4 +1,62 @@
-.mainDiv{
-    margin: 60px;
+.mainDetails{
     height: 100vh;
+    margin: 100px;
+    margin-left: 400px;
+    margin-right: 400px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-areas: 
+        "title title ."
+        "img img donateBox"
+        "description description donateBox";
+}
+.infoBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.title {
+    grid-area: title;
+    text-align: center;
+}
+.image {
+    grid-area: img;
+    object-fit: cover;
+}
+.donateBox {
+    grid-area: donateBox;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: cornflowerblue;
+    border-radius: 10px;
+    height: 500px;
+    width: 350px;
+    margin-top: 20px;
+}
+.description {
+    grid-area: description;
+    padding: 20px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.campaignInfo {
+    height: 100vh;
+    background-color: rgb(129, 129, 129);
+
+}
+
+.campaignDonate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+
+
+.progressBar {
 }
