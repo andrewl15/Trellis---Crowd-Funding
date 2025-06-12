@@ -5,11 +5,16 @@ import CampaignService from "../../services/CampaignService";
 import NavView from '../../components/MainNav/MainNav';
 import styles from './CampaignDetailsView.module.css'
 import MainNav from "../../components/MainNav/MainNav";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
 
 export default function CampaignDetailsView() {
     const { id } = useParams();
     const [campaign, setCampaign] = useState([]);
-
+    const amountGiven = 150;
+    const donations = 120; // This should be dynamic based on user input or state
+    const percentage = Math.round(amountGiven / campaign.goalAmount * 100);
     useEffect(() => {
         CampaignService.getCampaignById(id).then(
             (response) => {
@@ -24,19 +29,54 @@ export default function CampaignDetailsView() {
         <>
             <MainNav />
             <div className={styles.mainDetails}>
+
                 <div className={styles.campaignInfo}>
                     <div className={styles.infoBox}>
                         <h1 className={styles.title}>{campaign.name}</h1>
                         <img className={styles.image} src="https://placehold.co/500x300" alt="" />
+                        <p>Campaign Owner</p>
                         <p className={styles.desc}>{campaign.description}</p>
                     </div>
                 </div>
                 <div className={styles.campaignDonate}>
                     <div className={styles.donateBox}>
-                        <p className={styles.raisedAmount}></p>
-                        <p className={styles.donationGoal}></p>
-                        <progress className={styles.progressBar} value={250} max={campaign.goalAmount} />
-                        <button className={styles.donateButton}></button>
+
+                        <div className={styles.boxHeader}>
+                            <div className={styles.progressText}>
+                                <p className={styles.raisedAmount}>${amountGiven} Raised</p>
+                                <p className={styles.donationGoal}>{`$${campaign.goalAmount} | ${donations} donations`}</p>
+                            </div>
+                            <div className={styles.emptySection}></div>
+                            <CircularProgressbar
+                                className={styles.progressCircle}
+                                value={amountGiven}
+                                maxValue={campaign.goalAmount}
+                                text={`${percentage}%`}
+                                styles={buildStyles({
+                                    // Rotation of path and trail, in number of turns (0-1)
+
+                                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                    strokeLinecap: 'butt',
+
+                                    // Text size
+                                    textSize: '16px',
+
+                                    // How long animation takes to go from one percentage to another, in seconds
+                                    pathTransitionDuration: 0.5,
+
+                                    // Can specify path transition in more detail, or remove it entirely
+                                    // pathTransition: 'none',
+
+                                    // Colors
+                                    pathColor: `green`,
+                                    textColor: 'black',
+                                    trailColor: '#C9C8C7'
+                                })}
+                            />
+                        </div>
+
+
+                        <button className={styles.donateButton}>Donate</button>
                     </div>
                 </div>
                 {/* {JSON.stringify(campaign)} */}
