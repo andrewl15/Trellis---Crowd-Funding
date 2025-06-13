@@ -35,7 +35,22 @@ public class CampaignController {
     }
 
     @GetMapping(path = "/{id}")
-    public Campaign getCampaignById(@PathVariable int id, Principal principal) {
+    public Campaign getCampaignById(@PathVariable int id) {
+        Campaign output = null;
+
+        try {
+            output = campaignDao.getCampaignById(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        if (output == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found");
+        }
+        return output;
+    }
+
+    @GetMapping(path = "/{id}/campaign")
+    public Campaign getCampaignByIdUpdate(@PathVariable int id, Principal principal) {
         Campaign output = null;
 
         try {

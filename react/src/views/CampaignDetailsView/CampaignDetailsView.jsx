@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router";
 import { useState } from "react";
 import CampaignService from "../../services/CampaignService";
@@ -7,10 +7,13 @@ import styles from './CampaignDetailsView.module.css'
 import MainNav from "../../components/MainNav/MainNav";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { UserContext } from "../../context/UserContext";
+import { Link } from "react-router-dom";
 
 
 export default function CampaignDetailsView() {
     const { id } = useParams();
+    const user = useContext(UserContext);
     const [campaign, setCampaign] = useState([]);
     const amountGiven = 150;
     const donations = 120; // This should be dynamic based on user input or state
@@ -29,7 +32,7 @@ export default function CampaignDetailsView() {
                 Setcreator(response.data)
             }
         ).catch((error) =>
-        alert('could not retrieve creator'))
+            alert('could not retrieve creator'))
     }, [])
 
     return (
@@ -39,7 +42,7 @@ export default function CampaignDetailsView() {
 
                 <div className={styles.campaignInfo}>
                     <div className={styles.infoBox}>
-                        <div className ={styles.infoHeader}>
+                        <div className={styles.infoHeader}>
                             <h1 className={styles.title}>{campaign.name}</h1>
                         </div>
                         <img className={styles.image} src="https://placehold.co/500x300" alt="" />
@@ -87,6 +90,10 @@ export default function CampaignDetailsView() {
 
 
                         <button className={styles.donateButton}>Donate</button>
+                        {user && user.id === creator.id ?
+                            <Link to={`/campaign/${id}/update`}><button type="submit" className={styles.editButton}>Edit Campaign</button> </Link>
+                            : <></>
+                        }
                         <div className={styles.donors}>
                             <p> Top Donor</p>
                         </div>

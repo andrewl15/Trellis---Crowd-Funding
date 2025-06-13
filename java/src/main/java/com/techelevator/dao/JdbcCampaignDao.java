@@ -41,7 +41,7 @@ public class JdbcCampaignDao implements CampaignDao {
         return campaigns;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize("permitAll()")
     @Override
     public Campaign getCampaignById(int id) {
         Campaign campaign = null;
@@ -103,7 +103,7 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign updateCampaign(Campaign campaign) {
         Campaign updatedCampaign = null;
-        String sql = "update campaign set name = ?, description = ?, category = ?, goal_amouunt = ?, start_date = ?, end_date = ? where campaign_id = ?;";
+        String sql = "update campaign set name = ?, description = ?, category = ?, goal_amount = ?, start_date = ?, end_date = ? where campaign_id = ?;";
         try {
             int rowsAffected = jdbcTemplate.update(sql,
                     campaign.getName(), campaign.getDescription(), campaign.getCategory(),
@@ -125,13 +125,15 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public int deleteCampaignById(int id) {
         int numberOfRowsAffected = 0;
-        String sql = "delete from campaign where campaign_id = ?;";
+        String campaignSql = "delete from campaign where campaign_id = ?;";
+        String userCampaignSql = "delete from user_campaign where campaign_id = ?;";
         try {
-            numberOfRowsAffected = jdbcTemplate.update(sql, id);
+            numberOfRowsAffected = jdbcTemplate.update(userCampaignSql, id);
+            numberOfRowsAffected += jdbcTemplate.update(campaignSql, id);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+            throw new DaoException("Dgata integrity violation", e);
         }
         return numberOfRowsAffected;
     }

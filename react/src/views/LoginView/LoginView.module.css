@@ -63,6 +63,7 @@
 
 .formButton {
     width: 100px;
+    height: 40px;
     margin: 10px;
     background-color: rgb(64, 116, 64);
     color: white;
