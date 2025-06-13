@@ -168,6 +168,7 @@ export default function UpdateCampaignView() {
 
                         </form>
                         <div className={styles.bottomsection}>
+                            TODO POPUP FOR DELETE
                             <button className={styles.deleteButton} onClick={deleteCampaign}>Uproot Campaign</button>
                         </div>
                     </div>

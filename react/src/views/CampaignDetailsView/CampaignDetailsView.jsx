@@ -124,7 +124,7 @@ export default function CampaignDetailsView() {
                             />
                         </div>
 
-
+                        TODO DONATE POPUP
                         <button className={styles.donateButton} onClick={handleDonate}>Donate</button>
                         {user && user.id === creator.id ?
                             <Link to={`/campaign/${id}/update`}><button type="submit" className={styles.editButton}>Edit Campaign</button> </Link>
