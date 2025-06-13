@@ -22,6 +22,7 @@
     font-size: xx-large;
     font-weight: bold;
     margin-bottom: 20px;
+
 }
 
 .rightPanel {
@@ -175,7 +176,7 @@
 
 
 .header {
-    margin-top: -150px;
+    margin-top: 0;
     font-size: xx-large;
     margin-bottom: 200px;
 }
