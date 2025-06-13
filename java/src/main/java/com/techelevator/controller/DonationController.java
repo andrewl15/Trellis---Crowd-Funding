@@ -40,7 +40,7 @@ public class DonationController{
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
         if (output == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Donation not found");
         }
         return output;
     }

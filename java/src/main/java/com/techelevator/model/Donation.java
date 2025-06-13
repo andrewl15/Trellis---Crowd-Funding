@@ -13,7 +13,7 @@ public class Donation {
     private int donationId;
     @NotNull
     private int campaignId;
-    private int userId;
+    private Integer userId;
     @NotNull
     private BigDecimal amount;
     @NotNull
@@ -28,7 +28,7 @@ public class Donation {
     public Donation() {
     }
 
-    public Donation(int donationId, int campaignId, int userId, BigDecimal amount, LocalDate donationDate, String firstName, String lastName, String email) {
+    public Donation(int donationId, int campaignId, Integer userId, BigDecimal amount, LocalDate donationDate, String firstName, String lastName, String email) {
         this.donationId = donationId;
         this.campaignId = campaignId;
         this.userId = userId;
@@ -55,11 +55,11 @@ public class Donation {
         this.campaignId = campaignId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

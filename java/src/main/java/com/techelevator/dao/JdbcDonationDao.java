@@ -42,12 +42,14 @@ public class JdbcDonationDao implements DonationDao {
     @Override
     public Donation createDonation(Donation donation) {
         Donation newDonation = null;
-        String sql = "insert into donation (campaign_id, amount, donation_date, first_name, last_name, donor_email) " +
-                "values (?, ?, ?, ?, ?, ?) returning donation_id;";
+        String sql = "insert into donation (campaign_id, user_id, amount, donation_date, first_name, last_name, donor_email) "
+                +
+                "values (?, ?, ?, ?, ?, ?, ?) returning donation_id;";
         try {
 
             int donationId = jdbcTemplate.queryForObject(sql, int.class,
                     donation.getCampaignId(),
+                    donation.getUserId(),
                     donation.getAmount(),
                     donation.getDonationDate(),
                     donation.getFirstName(),
@@ -70,7 +72,7 @@ public class JdbcDonationDao implements DonationDao {
     }
 
     @Override
-    public List<Donation> getDonationsByUserId(int userId) {
+    public List<Donation> getDonationsByUserId(Integer userId) {
         return null;
     }
 
@@ -83,7 +85,12 @@ public class JdbcDonationDao implements DonationDao {
         Donation donation = new Donation();
         donation.setDonationId(results.getInt("donation_id"));
         donation.setCampaignId(results.getInt("campaign_id"));
-        donation.setUserId(results.getInt("user_id"));
+        int userId = results.getInt("user_id");
+        if (results.wasNull()) {
+            donation.setUserId(null); 
+        } else {
+            donation.setUserId(userId);
+        }
         donation.setAmount(results.getBigDecimal("amount"));
         donation.setDonationDate(LocalDate.parse(results.getString("donation_date"), DateTimeFormatter.ISO_DATE));
         donation.setFirstName(results.getString("first_name"));

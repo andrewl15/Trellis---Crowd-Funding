@@ -9,7 +9,7 @@ public interface DonationDao {
     Donation getDonationById(int donationId);
     Donation createDonation(Donation donation);
     List<Donation> getDonationsByCampaignId(int campaignId);
-    List<Donation> getDonationsByUserId(int userId);
+    List<Donation> getDonationsByUserId(Integer userId);
     int deleteDonationById(int donationId);
 
 } 
