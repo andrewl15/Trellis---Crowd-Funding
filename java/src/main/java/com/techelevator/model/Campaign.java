@@ -16,6 +16,7 @@ public class Campaign {
     private String description;
     @NotNull
     private BigDecimal goalAmount;
+    private BigDecimal amountRaised;
     @NotNull
     private LocalDate startDate;
     @NotNull
@@ -72,6 +73,14 @@ public class Campaign {
 
     public void setGoalAmount(BigDecimal goalAmount) {
         this.goalAmount = goalAmount;
+    }
+
+    public BigDecimal getAmountRaised() {
+        return amountRaised;
+    }
+
+    public void setAmountRaised(BigDecimal amountRaised) {
+        this.amountRaised = amountRaised;
     }
 
     public LocalDate getStartDate() {

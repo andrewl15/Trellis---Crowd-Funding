@@ -19,6 +19,7 @@ export default function UpdateCampaignView() {
         name: '',
         description: '',
         goalAmount: '',
+        amountRaised: '',
         startDate: '',
         endDate: '',
     });
@@ -33,8 +34,8 @@ export default function UpdateCampaignView() {
         )
     }, [])
 
-    function deleteCampaign(){
-        if (confirm('Are you sure you want to delete this campaign? This action cannot be undone.')){
+    function deleteCampaign() {
+        if (confirm('Are you sure you want to delete this campaign? This action cannot be undone.')) {
             CampaignService.deleteCampaign(id).then(
                 (response) => {
                     if (response.status === 204) {
@@ -47,12 +48,12 @@ export default function UpdateCampaignView() {
                     console.error('Error deleting campaign:', error);
                 });
         }
-        
+
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-        
+
         const start = new Date(campaign.startDate);
         const end = new Date(campaign.endDate);
         if (start >= end) {
@@ -97,7 +98,7 @@ export default function UpdateCampaignView() {
                             cursor={true}
                             repeat={Infinity}
                             style={{ fontSize: '2em', marginBottom: '-50px' }}
-                        />                        
+                        />
                         <lord-icon
                             src="https://cdn.lordicon.com/fikcyfpp.json"
                             trigger="loop"
@@ -138,8 +139,8 @@ export default function UpdateCampaignView() {
                             </div>
                             <div className={styles.form}>
                                 <div className={styles.formtitle}>Donation Goal</div>
-                                {122333 >= campaign.goalAmount ?
-                                    <CurrencyInput
+
+                                <CurrencyInput
                                     id="input-example"
                                     name="input-name"
                                     prefix='$'
@@ -147,9 +148,9 @@ export default function UpdateCampaignView() {
                                     decimalsLimit={2}
                                     value={campaign.goalAmount}
                                     onValueChange={(value) => setCampaign(campaign => ({ ...campaign, goalAmount: value }))}
-                                    className={styles.currencyInput}/> :
-                                    <p>You can only edit this field</p>
-                                }
+                                    className={styles.currencyInput}
+                                />
+
                             </div>
                             <div className={styles.datefields}>
                                 <div className={styles.datefield}>
@@ -164,10 +165,10 @@ export default function UpdateCampaignView() {
                             <div className={styles.bottomsection}>
                                 <button type="submit" className={styles.formButton}>Reseed</button>
                             </div>
-                            
+
                         </form>
                         <div className={styles.bottomsection}>
-                                <button className={styles.deleteButton} onClick={deleteCampaign}>Uproot Campaign</button>
+                            <button className={styles.deleteButton} onClick={deleteCampaign}>Uproot Campaign</button>
                         </div>
                     </div>
                 </div>

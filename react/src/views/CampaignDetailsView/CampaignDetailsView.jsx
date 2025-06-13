@@ -9,16 +9,52 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
+import DonateService from "../../services/DonateService";
 
 
 export default function CampaignDetailsView() {
     const { id } = useParams();
     const user = useContext(UserContext);
     const [campaign, setCampaign] = useState([]);
-    const amountGiven = 150;
     const donations = 120; // This should be dynamic based on user input or state
-    const percentage = Math.round(amountGiven / campaign.goalAmount * 100);
+    const percentage = Math.round(campaign.amountRaised / campaign.goalAmount * 100);
     const [creator, Setcreator] = useState("");
+    const donationData = {
+        "campaignId": id,
+        "userId": user.id,
+        "amount": 5000.50,
+        "donationDate": "2025-06-13",
+        "firstName": "Peter",
+        "lastName": "Parker",
+        "email": "peterParker@example.com"
+    }; 
+
+    function handleDonate() {
+        const campaignData = {
+            ...campaign, amountRaised: campaign.amountRaised + donationData.amount
+        };
+           
+        DonateService.createDonation(donationData).then(
+            (response) => {
+                if (response.status === 201) {
+                    alert('Donation successful!');
+                }
+            }).catch(error => {
+                console.error('Error creating campaign:', error);
+            });
+
+        CampaignService.updateCampaign(id, campaignData)
+            .then(response => {
+                if (response.status === 200) {
+                  console.log('Campaign updated successfully!');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating campaign:', error);
+            });
+        
+    }
+
     useEffect(() => {
         CampaignService.getCampaignById(id).then(
             (response) => {
@@ -33,7 +69,7 @@ export default function CampaignDetailsView() {
             }
         ).catch((error) =>
             alert('could not retrieve creator'))
-    }, [])
+    }, [donationData])
 
     return (
         <>
@@ -56,13 +92,13 @@ export default function CampaignDetailsView() {
 
                         <div className={styles.boxHeader}>
                             <div className={styles.progressText}>
-                                <p className={styles.raisedAmount}>${amountGiven} Raised</p>
+                                <p className={styles.raisedAmount}>${campaign.amountRaised} Raised</p>
                                 <p className={styles.donationGoal}>{`$${campaign.goalAmount} | ${donations} donations`}</p>
                             </div>
                             <div className={styles.emptySection}></div>
                             <CircularProgressbar
                                 className={styles.progressCircle}
-                                value={amountGiven}
+                                value={campaign.amountRaised}
                                 maxValue={campaign.goalAmount}
                                 text={`${percentage}%`}
                                 styles={buildStyles({
@@ -89,7 +125,7 @@ export default function CampaignDetailsView() {
                         </div>
 
 
-                        <button className={styles.donateButton}>Donate</button>
+                        <button className={styles.donateButton} onClick={handleDonate}>Donate</button>
                         {user && user.id === creator.id ?
                             <Link to={`/campaign/${id}/update`}><button type="submit" className={styles.editButton}>Edit Campaign</button> </Link>
                             : <></>
