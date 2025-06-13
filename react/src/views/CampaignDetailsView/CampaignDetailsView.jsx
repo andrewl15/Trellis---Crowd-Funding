@@ -39,10 +39,13 @@ export default function CampaignDetailsView() {
 
                 <div className={styles.campaignInfo}>
                     <div className={styles.infoBox}>
-                        <h1 className={styles.title}>{campaign.name}</h1>
+                        <div className ={styles.infoHeader}>
+                            <h1 className={styles.title}>{campaign.name}</h1>
+                        </div>
                         <img className={styles.image} src="https://placehold.co/500x300" alt="" />
-                        <p className={styles.desc}>{campaign.description}</p>
                         <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
+                        <hr className={styles.line}></hr>
+                        <p className={styles.desc}>{campaign.description}</p>
                     </div>
                 </div>
                 <div className={styles.campaignDonate}>
@@ -84,6 +87,9 @@ export default function CampaignDetailsView() {
 
 
                         <button className={styles.donateButton}>Donate</button>
+                        <div className={styles.donors}>
+                            <p> Top Donor</p>
+                        </div>
                     </div>
                 </div>
                 {/* {JSON.stringify(campaign)} */}
