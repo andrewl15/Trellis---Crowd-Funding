@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import com.techelevator.dao.CampaignDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Campaign;
+import com.techelevator.model.User;
 
 @RestController
 @CrossOrigin
@@ -21,7 +22,7 @@ public class CampaignController {
 
     public CampaignController(CampaignDao campaignDao, UserDao userDao) {
         this.campaignDao = campaignDao;
-        this.userDao = userDao; 
+        this.userDao = userDao;
     }
 
     @GetMapping(path = "/")
@@ -33,12 +34,24 @@ public class CampaignController {
         }
     }
 
-
     @GetMapping(path = "/{id}")
-    public Campaign getCampaignById(@PathVariable int id) {
+    public Campaign getCampaignById(@PathVariable int id, Principal principal) {
         Campaign output = null;
+
         try {
             output = campaignDao.getCampaignById(id);
+            Integer ownerId = campaignDao.getUserIdByCampaignId(id);
+
+            if (ownerId == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found");
+            }
+
+            int loggedInUserId = userDao.getUserByUsername(principal.getName()).getId();
+
+            if (!ownerId.equals(loggedInUserId)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to view this campaign");
+            }
+
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }

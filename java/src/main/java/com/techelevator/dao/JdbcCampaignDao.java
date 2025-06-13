@@ -58,6 +58,22 @@ public class JdbcCampaignDao implements CampaignDao {
         return campaign;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Override
+    public Integer getUserIdByCampaignId(int campaignId) {
+        Integer userId = null;
+        String sql = "select user_id from user_campaign where campaign_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, campaignId);
+            if (results.next()) {
+                userId = results.getInt("user_id");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return userId;
+    }
+
     @PreAuthorize ("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @Override
     public Campaign addCampaign(int userId, Campaign campaign) {
