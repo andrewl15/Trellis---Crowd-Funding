@@ -14,7 +14,7 @@ import CurrencyInput from 'react-currency-input-field';
 import { set } from 'date-fns';
 
 
-export default function CampaignView() {
+export default function CreateCampaignView() {
     const navigate = useNavigate();
     const [category, setCategory] = useState(categories[0]);
     const [name, setName] = useState('');
