@@ -49,7 +49,6 @@ export default function CreateCampaignView() {
         CampaignService.createCampaign(user.id, campaignData)
             .then(response => {
                 if (response.status === 201) {
-                    console.log("here");
                     alert('Campaign Created!');
                     navigate('/');
                 }
@@ -118,7 +117,6 @@ export default function CreateCampaignView() {
                         </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Description</div>
-                            {/* <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required /> */}
                             <textarea className={styles.description} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </div>
                         <div className={styles.form}>

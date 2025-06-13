@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import CampaignService from "../../services/CampaignService";
-import { set } from "date-fns";
 import styles from './UpdateCampaignView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -14,12 +13,18 @@ import CurrencyInput from 'react-currency-input-field';
 import { Input } from '@base-ui-components/react/input';
 
 export default function UpdateCampaignView() {
+    const navigate = useNavigate();
     const { id } = useParams();
-    const { user } = useContext(UserContext)
-    const [campaign, setCampaign] = useState({});
+    const [campaign, setCampaign] = useState({
+        name: '',
+        description: '',
+        goalAmount: '',
+        startDate: '',
+        endDate: '',
+    });
 
     useEffect(() => {
-        CampaignService.getCampaignById(id).then(
+        CampaignService.getCampaignByIdUpdate(id).then(
             (response) => {
                 setCampaign(response.data)
             }
@@ -28,7 +33,43 @@ export default function UpdateCampaignView() {
         )
     }, [])
 
+    function deleteCampaign(){
+        if (confirm('Are you sure you want to delete this campaign? This action cannot be undone.')){
+            CampaignService.deleteCampaign(id).then(
+                (response) => {
+                    if (response.status === 204) {
+                        alert('Campaign Deleted!');
+                        navigate('/');
+                    }
+                }
+            )
+                .catch(error => {
+                    console.error('Error deleting campaign:', error);
+                });
+        }
+        
+    }
+
     function handleSubmit(event) {
+        event.preventDefault();
+        
+        const start = new Date(campaign.startDate);
+        const end = new Date(campaign.endDate);
+        if (start >= end) {
+            alert('End date must be after start date.');
+            return;
+        }
+
+        CampaignService.updateCampaign(id, campaign)
+            .then(response => {
+                if (response.status === 200) {
+                    alert('Campaign Updated!');
+                    navigate(`/campaign/${id}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating campaign:', error);
+            });
     }
     return (
         <>
@@ -41,16 +82,14 @@ export default function UpdateCampaignView() {
                         </div>
                     </Link>
                     <div className={styles.leftPanel}>
-                        <p className={styles.campaigntext}>Create Campaign</p>
+                        <p className={styles.campaigntext}>Update Your Campaign</p>
                         <TypeAnimation
                             sequence={[
-                                'Ready to grow your campagin?',
+                                'Water your ideas!',
                                 1000, // Waits 1 second
-                                'Germinate your dreams!',
+                                'Trimming your thoughts!',
                                 1000, // Waits 1 second
-                                'Propagate your ideas!',
-                                1000, // Waits 1 second
-                                'Fertilize your vision!',
+                                'Pruning your creativity!',
                                 1000, // Waits 1 second
 
                             ]}
@@ -58,18 +97,23 @@ export default function UpdateCampaignView() {
                             cursor={true}
                             repeat={Infinity}
                             style={{ fontSize: '2em', marginBottom: '-50px' }}
-                        />
+                        />                        
                         <lord-icon
-                            src="https://cdn.lordicon.com/hlfocnwl.json"
+                            src="https://cdn.lordicon.com/fikcyfpp.json"
                             trigger="loop"
-                            delay="100"
+                            colors="secondary:#5c230a,primary:#407440"
+                            style={{ width: "40%", height: "40%", margin: "0", padding: "0" }}>
+                        </lord-icon>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/evyyfapb.json"
+                            trigger="loop"
                             colors="primary:#5c230a,secondary:#407440"
-                            style={{ width: "40%", height: "40%", margin: "0", padding: "0" }}
-                        ></lord-icon>
+                            style={{ width: "40%", height: "40%", margin: "0", padding: "0" }}>
+                        </lord-icon>
 
                     </div>
                     <div className={styles.rightPanel}>
-                        <p className={styles.header}>The right campaign can change your life.<br></br> Make yours stand out.</p>
+                        <p className={styles.header}>Change of heart?<br></br> Edit your campaign.</p>
                         <form onSubmit={handleSubmit}>
 
                             <div className={styles.form}>
@@ -90,12 +134,12 @@ export default function UpdateCampaignView() {
                             </div>
                             <div className={styles.form}>
                                 <div className={styles.formtitle}>Description</div>
-                                {/* <Input className={styles.Input} value={description} onChange={e => setDescription(e.target.value)} required /> */}
                                 <textarea className={styles.description} value={campaign.description} onChange={e => setCampaign(campaign => ({ ...campaign, description: e.target.value }))}></textarea>
                             </div>
                             <div className={styles.form}>
                                 <div className={styles.formtitle}>Donation Goal</div>
-                                <CurrencyInput
+                                {122333 >= campaign.goalAmount ?
+                                    <CurrencyInput
                                     id="input-example"
                                     name="input-name"
                                     prefix='$'
@@ -103,9 +147,9 @@ export default function UpdateCampaignView() {
                                     decimalsLimit={2}
                                     value={campaign.goalAmount}
                                     onValueChange={(value) => setCampaign(campaign => ({ ...campaign, goalAmount: value }))}
-                                    className={styles.currencyInput}
-
-                                />
+                                    className={styles.currencyInput}/> :
+                                    <p>You can only edit this field</p>
+                                }
                             </div>
                             <div className={styles.datefields}>
                                 <div className={styles.datefield}>
@@ -118,9 +162,13 @@ export default function UpdateCampaignView() {
                                 </div>
                             </div>
                             <div className={styles.bottomsection}>
-                                <button type="submit" className={styles.formButton}>Propagate</button>
+                                <button type="submit" className={styles.formButton}>Reseed</button>
                             </div>
+                            
                         </form>
+                        <div className={styles.bottomsection}>
+                                <button className={styles.deleteButton} onClick={deleteCampaign}>Uproot Campaign</button>
+                        </div>
                     </div>
                 </div>
             </div >

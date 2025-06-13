@@ -16,6 +16,10 @@ export default {
     getCampaignById(campaignId) {
         return axios.get(`/campaign/${campaignId}`);
     },
+
+    getCampaignByIdUpdate(campaignId) {
+        return axios.get(`/campaign/${campaignId}`);
+    },
     
     updateCampaign(campaignId, campaignData) {
         return axios.put(`/campaign/${campaignId}`, campaignData);
