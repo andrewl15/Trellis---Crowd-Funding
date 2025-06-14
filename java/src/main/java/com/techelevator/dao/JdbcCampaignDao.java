@@ -1,0 +1,154 @@
+package com.techelevator.dao;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.techelevator.exception.DaoException;
+import com.techelevator.model.Campaign;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.access.prepost.PreAuthorize;
+
+@PreAuthorize("isAuthenticated()")
+@Component
+public class JdbcCampaignDao implements CampaignDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcCampaignDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @PreAuthorize("permitAll()")
+    @Override
+    public List<Campaign> getAllCampaigns() {
+        List<Campaign> campaigns = new ArrayList<>();
+        String sql = "select * from campaign;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                Campaign campaign = mapRowToCampaign(results);
+                campaigns.add(campaign);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return campaigns;
+    }
+
+    @PreAuthorize("permitAll()")
+    @Override
+    public Campaign getCampaignById(int id) {
+        Campaign campaign = null;
+        String sql = "select campaign_id, name, description, category, goal_amount, raised_amount, start_date, end_date from campaign where campaign_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+            if (results.next()) {
+                campaign = mapRowToCampaign(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return campaign;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Override
+    public Integer getUserIdByCampaignId(int campaignId) {
+        Integer userId = null;
+        String sql = "select user_id from user_campaign where campaign_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, campaignId);
+            if (results.next()) {
+                userId = results.getInt("user_id");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return userId;
+    }
+
+    @PreAuthorize ("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Override
+    public Campaign addCampaign(int userId, Campaign campaign) {
+        Campaign newCampaign = null;
+        String campaignSql = "INSERT INTO campaign (name, description, category, goal_amount, raised_amount, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING campaign_id;";
+        String userCampaignSql = "INSERT INTO user_campaign (user_id, campaign_id) VALUES (?, ?);";
+
+        try {
+            int campaignId = jdbcTemplate.queryForObject(campaignSql, int.class,
+                    campaign.getName(), campaign.getDescription(), campaign.getCategory(), campaign.getGoalAmount(),
+                    campaign.getAmountRaised() ,campaign.getStartDate(), campaign.getEndDate());
+
+            // Insert into user_campaign to link the user with the campaign
+            jdbcTemplate.update(userCampaignSql, userId, campaignId);
+
+            newCampaign = getCampaignById(campaignId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return newCampaign;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Override
+    public Campaign updateCampaign(Campaign campaign) {
+        Campaign updatedCampaign = null;
+        String sql = "update campaign set name = ?, description = ?, category = ?, goal_amount = ?, raised_amount = ?, start_date = ?, end_date = ? where campaign_id = ?;";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql,
+                    campaign.getName(), campaign.getDescription(), campaign.getCategory(),
+                    campaign.getGoalAmount(), campaign.getAmountRaised(), campaign.getStartDate(), campaign.getEndDate(),
+                    campaign.getId());
+            if (rowsAffected == 0) {
+                throw new DaoException("Zero rows affected, expected at least one");
+            }
+            updatedCampaign = getCampaignById(rowsAffected);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return updatedCampaign;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Override
+    public int deleteCampaignById(int id) {
+        int numberOfRowsAffected = 0;
+        String campaignSql = "delete from campaign where campaign_id = ?;";
+        String userCampaignSql = "delete from user_campaign where campaign_id = ?;";
+        try {
+            numberOfRowsAffected = jdbcTemplate.update(userCampaignSql, id);
+            numberOfRowsAffected += jdbcTemplate.update(campaignSql, id);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Dgata integrity violation", e);
+        }
+        return numberOfRowsAffected;
+    }
+
+    private Campaign mapRowToCampaign(SqlRowSet results) {
+        Campaign campaign = new Campaign();
+        campaign.setId(results.getInt("campaign_id"));
+        campaign.setName(results.getString("name"));
+        campaign.setDescription(results.getString("description"));
+        campaign.setCategory(results.getString("category"));
+        campaign.setGoalAmount(results.getBigDecimal("goal_amount"));
+        campaign.setAmountRaised(results.getBigDecimal("raised_amount"));
+        campaign.setStartDate(LocalDate.parse(results.getString("start_date"), DateTimeFormatter.ISO_DATE));
+        campaign.setEndDate(LocalDate.parse(results.getString("end_date"), DateTimeFormatter.ISO_DATE));    
+        return campaign;
+    }
+
+}

@@ -7,9 +7,11 @@ import LoginView from './views/LoginView/LoginView';
 import LogoutView from './views/LogoutView';
 import RegisterView from './views/RegisterView/RegisterView';
 import UserProfileView from './views/UserProfileView/UserProfileView';
-import MainNav from './components/MainNav/MainNav';
 import ProtectedRoute from './components/ProtectedRoute';
 import axios from 'axios';
+import CreateCampaignView from './views/CreateCampaignView/CreateCampaignView';
+import CampaignDetailsView from './views/CampaignDetailsView/CampaignDetailsView';
+import UpdateCampaignView from './views/UpdateCampaign/UpdateCampaignView';
 
 export default function App() {
   const [user, setUser] = useState(() => getTokenFromStorage());
@@ -58,12 +60,10 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div id="app">
         <UserContext.Provider value={user}>
-          <MainNav />
-          <main id="main-content">
             <Routes>
               <Route path="/" element={<HomeView />} />
+              <Route path="/createCampaign" element={<CreateCampaignView/>} />
               <Route path="/login" element={<LoginView onLogin={handleLogin} />} />
               <Route path="/logout" element={<LogoutView onLogout={handleLogout} />} />
               <Route path="/register" element={<RegisterView />} />
@@ -75,10 +75,17 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path = 'campaign/:id' element={<CampaignDetailsView/>} />
+              <Route
+                path='/campaign/:id/update'
+                element={
+                  <ProtectedRoute>
+                    <UpdateCampaignView />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
-          </main>
         </UserContext.Provider>
-      </div>
     </BrowserRouter>
   );
 }

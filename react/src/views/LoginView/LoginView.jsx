@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import image from '../../images/FinaleLogo.png'
+import NavView from '../../components/MainNav/MainNav';
 import AuthService from '../../services/AuthService';
 import Notification from '../../components/Notification/Notification';
 import axios from 'axios';
@@ -44,28 +45,38 @@ export default function LoginView({ onLogin }) {
   }
 
   return (
-    <div id="view-login">
-      <h2>Login</h2>
+    <>
+    <NavView />
+    <div className={styles.maindiv}>
+      <div className={styles.formcontainer}>
+        <div id="view-login" className={styles.form}>
+          <img className={styles.loginimage} src={image} alt="" />
+          <h2 className={styles.logintext}>Welcome</h2>
 
-      <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
-      <form onSubmit={handleSubmit}>
+          <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
-        <div className="form-control">
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" value={username} size="50" required autoFocus autoComplete="username"
-              onChange={ event => setUsername(event.target.value)} />
+          <form onSubmit={handleSubmit}>
+            UPDATE TO MATCH CREATE CAMPAIGN
+            <div className={styles.formcontrol}>
+              <label htmlFor="username" className={styles.fieldtext}>Username</label>
+              <input type="text" className={styles.field} id="username" value={username} size="50" required autoFocus autoComplete="username"
+                onChange={event => setUsername(event.target.value)} />
+            </div>
+
+            <div className={styles.formcontrol}>
+              <label htmlFor="password" className={styles.fieldtext}>Password</label>
+              <input type="password" className={styles.field} id="password" value={password} size="50" required
+                onChange={event => setPassword(event.target.value)} />
+            </div>
+            <div className={styles.bottomsection}>
+              <button type="submit" className={`btn-primary ${styles.formButton}`}>Sign in</button>
+              <Link to="/register">New User? Register here!</Link>
+            </div>
+          </form>
         </div>
-
-        <div className="form-control">
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" value={password} size="50" required
-              onChange={ event => setPassword(event.target.value)} />
-        </div>
-
-        <button type="submit" className={`btn-primary ${styles.formButton}`}>Sign in</button>
-        <Link to="/register">New? Register here!</Link>
-      </form>
+      </div>
     </div>
+    </>
   );
 }

@@ -1,0 +1,255 @@
+.mainDiv {
+    background: linear-gradient(rgb(129, 154, 145), rgb(167, 193, 168));
+    margin: 0;
+    text-align: center;
+}
+
+.innerDiv {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+}
+
+.leftPanel {
+    flex: 1;
+    background: linear-gradient(rgb(129, 154, 145), rgb(167, 193, 168));
+    height: 100vh;
+    align-content: center;
+    color: rgb(255, 255, 255);
+}
+
+.campaigntext {
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 20px;
+
+}
+
+.rightPanel {
+    flex: 2;
+    height: 100vh;
+    border-top-left-radius: 60px;
+    border-bottom-left-radius: 60px;
+    background-color: aliceblue;
+    color: rgb(33, 33, 33);
+    height: 100vh;
+    align-content: center;
+}
+
+.growingPlant {
+    width: 200px;
+}
+
+.campaignform {
+    align-content: center
+}
+
+.field {
+    width: 500px;
+}
+
+.datefield {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* aligns children to the left */
+    margin-bottom: 1.2rem;
+    max-width: 250px;
+}
+
+.datefield input[type="date"] {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.datefield input[type="date"]:focus {
+    outline: none;
+    border-color: #4a90e2;
+    /* nice blue highlight */
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.datefield input[type="date"]::-webkit-datetime-edit {
+    color: #555;
+}
+
+.dropdownControl {
+    display: flex;           /* flex aligns items nicely */
+    align-items: center;     /* vertical center */
+    padding: 0 12px;         /* horizontal padding */
+    height: 40px;   
+    width: 250px;         /* fixed height to control box size */
+    font-size: 16px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    color: #333;
+    box-sizing: border-box;
+    cursor: pointer;
+    line-height: normal;     /* reset line-height */
+  }
+  
+  .dropdownMenu {
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 250px; /* same width as control */
+    margin-top: 4px;
+    box-sizing: border-box;
+    z-index: 1000;
+    text-align: left;
+  }
+
+.currencyInput {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box;
+  }
+  
+  .currencyInput:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  }
+  
+
+.form {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    margin: 0 auto 1.5rem auto;
+    max-width: 250px; 
+    width: 100%; 
+  }
+  
+  .formtitle {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem; 
+    text-align: left;
+    align-self: flex-start;
+  }
+
+  .formtitle {
+    font-size: large;
+    color: rgb(33, 33, 33);
+    margin-bottom: 5px;
+}
+.formButton {
+    width: 200px;
+    height: 40px;
+    background-color: rgb(129, 154, 145);
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.formButton:hover {
+    color: rgb(33, 33, 33);
+}
+
+.datefields {
+    display: flex;
+    justify-content: center;
+}
+
+.datefield {
+    margin-right: 15px;
+}
+
+
+
+.header {
+    margin-top: 0;
+    font-size: xx-large;
+    margin-bottom: 200px;
+}
+
+.Input {
+    box-sizing: border-box;
+    padding-left: 0.875rem;
+    margin: 0;
+    border: 1.5px solid #ccc;
+    width: 250px;
+    height: 2.5rem;
+    border-radius: 0.375rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: normal;
+    background-color: #fff;
+    color: var(--color-gray-900);
+    transition: border-color 0.2s ease, box-shadow 0.3s ease;
+
+
+    &:focus {
+        outline: none;
+        border-color: #4a90e2;
+        /* nice blue highlight */
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
+}
+
+.description {
+    box-sizing: border-box;
+    padding-left: 0.875rem;
+    margin: 0;
+    border: 1.5px solid #ccc;
+    width: 250px;
+    height: 2.5rem;
+    min-height: 150px;
+    border-radius: 0.375rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: normal;
+    background-color: #fff;
+    color: var(--color-gray-900);
+    transition: border-color 0.2s ease, box-shadow 0.3s ease;
+
+
+    &:focus {
+        outline: none;
+        border-color: #4a90e2;
+        /* nice blue highlight */
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
+}
+
+.bottomsection {
+    margin: 20px
+}
+
+.backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    border-radius: 50%;
+    background-color: #5c0e0a;
+    width: 60px;
+    height: 60px;
+    display: flex;              /* Enable flexbox */
+    align-items: center;        /* Center vertically */
+    justify-content: center; 
+}
+
+.backArrow{
+    color: #fff;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+}
