@@ -78,7 +78,7 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign addCampaign(int userId, Campaign campaign) {
         Campaign newCampaign = null;
-        String campaignSql = "INSERT INTO campaign (name, description, category, goal_amount, raised_amount, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING campaign_id;";
+        String campaignSql = "INSERT INTO campaign (name, description, category, goal_amount, raised_amount, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING campaign_id;";
         String userCampaignSql = "INSERT INTO user_campaign (user_id, campaign_id) VALUES (?, ?);";
 
         try {
