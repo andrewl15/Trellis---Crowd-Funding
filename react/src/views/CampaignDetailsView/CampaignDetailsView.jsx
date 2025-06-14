@@ -19,9 +19,10 @@ export default function CampaignDetailsView() {
     const donations = 120; // This should be dynamic based on user input or state
     const percentage = Math.round(campaign.amountRaised / campaign.goalAmount * 100);
     const [creator, Setcreator] = useState("");
+    
     const donationData = {
         "campaignId": id,
-        "userId": user.id,
+        "userId": 1,
         "amount": 5000.50,
         "donationDate": "2025-06-13",
         "firstName": "Peter",
@@ -56,6 +57,7 @@ export default function CampaignDetailsView() {
     }
 
     useEffect(() => {
+        
         CampaignService.getCampaignById(id).then(
             (response) => {
                 setCampaign(response.data)
@@ -69,7 +71,7 @@ export default function CampaignDetailsView() {
             }
         ).catch((error) =>
             alert('could not retrieve creator'))
-    }, [donationData])
+    }, [])
 
     return (
         <>

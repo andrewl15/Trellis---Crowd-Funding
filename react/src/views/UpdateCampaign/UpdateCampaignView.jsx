@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import CampaignService from "../../services/CampaignService";
@@ -14,6 +14,7 @@ import { Input } from '@base-ui-components/react/input';
 
 export default function UpdateCampaignView() {
     const navigate = useNavigate();
+    const user = useContext(UserContext);
     const { id } = useParams();
     const [campaign, setCampaign] = useState({
         name: '',
@@ -53,7 +54,10 @@ export default function UpdateCampaignView() {
 
     function handleSubmit(event) {
         event.preventDefault();
-
+        if (!user || !user.id) {
+            alert('User is not authenticated or ID is missing.');
+            return;
+        }
         const start = new Date(campaign.startDate);
         const end = new Date(campaign.endDate);
         if (start >= end) {
