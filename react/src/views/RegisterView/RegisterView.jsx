@@ -61,6 +61,8 @@ export default function RegisterView() {
             <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
             <form onSubmit={handleSubmit}>
+            UPDATE TO MATCH CREATE CAMPAIGN
+
             <div className={styles.formcontrol}>
                 <label htmlFor="firstName" className={styles.fieldtext}>First Name:</label>
                 <input

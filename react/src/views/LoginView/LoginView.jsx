@@ -57,7 +57,7 @@ export default function LoginView({ onLogin }) {
           <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
           <form onSubmit={handleSubmit}>
-
+            UPDATE TO MATCH CREATE CAMPAIGN
             <div className={styles.formcontrol}>
               <label htmlFor="username" className={styles.fieldtext}>Username</label>
               <input type="text" className={styles.field} id="username" value={username} size="50" required autoFocus autoComplete="username"
