@@ -1,3 +1,4 @@
+import { set } from '@lordicon/helpers'
 import styles from './PollCard.module.css'
 import { useState } from 'react'
 
@@ -7,21 +8,41 @@ export default function PollCard({ poll }) {
     const [pollAmount, setPollAmount] = useState(0)
     const [yesdisabled, setYesDisabled] = useState(false)
     const [nodisabled, setNoDisabled] = useState(false)
+    const [hasVoted, setHasVoted] = useState(null)
 
     function handleYes(){
+        if (hasVoted === 'yes') {
+            return;
+        }
+        if( hasVoted === 'no') {    
+            setYesValue(yesvalue + 1)
+            setNoValue(novalue - 1)
+            setHasVoted('yes')
+            return;
+        }
         setYesValue(yesvalue + 1)
         setPollAmount(pollAmount + 1)
-        setYesDisabled(true)
-        setNoDisabled(false)
+        setHasVoted('yes')
+
+        
     }
 
     function handleNo(){
+        if (hasVoted === 'no') {
+            return;
+        }
+        if( hasVoted === 'yes') {   
+            setNoValue(novalue + 1)
+
+            setYesValue(yesvalue - 1)
+            setHasVoted('no')
+            return;
+        }
         setNoValue(novalue + 1)
         setPollAmount(pollAmount + 1)
-        setNoDisabled(true)
-        setYesDisabled(false)
-    }
-    
+        setHasVoted('no')
+
+    }    
 
     return (
         <>
@@ -36,20 +57,20 @@ export default function PollCard({ poll }) {
                         <div className={styles.pollitem}>
                             <div>
                             <input type="radio" onClick={handleYes} className={styles.pollbutton} disabled={yesdisabled} id="Choice1" name="contact" value="email" />
-                            <label for="Choice1" className={styles.pollLabel}>Yes</label>
+                            <label htmlFor="Choice1" className={styles.pollLabel}>Yes</label>
                             </div>
                             <div className={styles.loading}>
-                            <progress value={yesvalue/pollAmount * 100} className={styles.loadingbar} max={100} />
+                            <progress value={pollAmount === 0 ? 0 : (yesvalue / pollAmount * 100)} className={styles.loadingbar} max={100} />
                             <p>{yesvalue < 1? "0" : Math.round(yesvalue/pollAmount * 100)}%</p>
                             </div>
                         </div>
                         <div className={styles.pollitem}>
                             <div>
                             <input type="radio" onClick={handleNo} className={styles.pollbutton} disabled={nodisabled} id="Choice2" name="contact" value="email" />
-                            <label for="Choice2" className={styles.pollLabel}>No</label>
+                            <label htmlFor="Choice2" className={styles.pollLabel}>No</label>
                             </div>
                             <div className={styles.loading}>
-                            <progress value={novalue/pollAmount * 100} className={styles.loadingbar} max={100} />
+                            <progress value={pollAmount === 0 ? 0 : (novalue / pollAmount * 100)} className={styles.loadingbar} max={100} />
                             <p>{novalue < 1? "0" : Math.round(novalue/pollAmount * 100)}%</p>
                             </div>
                         </div>
