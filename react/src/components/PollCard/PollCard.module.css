@@ -1,0 +1,40 @@
+.answer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.title{
+    text-align: center;
+    font-size: x-large;
+    margin: 20px;
+    margin-bottom: 5px;
+}
+
+.pollitem{
+    margin: 10px;
+}
+
+.pollLabel{
+    text-align: left;
+}
+.loadingbar{
+    width: 100%;
+}
+
+.subheading{
+    text-align: center;
+}
+
+.line{
+    margin-left: 150px;
+    margin-right: 150px;
+    border: 0.5px solid grey;
+
+}
+
+.subline{
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 0.5px solid grey;
+}
