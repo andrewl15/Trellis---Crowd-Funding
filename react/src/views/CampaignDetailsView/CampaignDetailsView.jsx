@@ -10,6 +10,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import DonateService from "../../services/DonateService";
+import PollCard from "../../components/PollCard/PollCard";
 
 
 export default function CampaignDetailsView() {
@@ -19,6 +20,7 @@ export default function CampaignDetailsView() {
     const donations = 120; // This should be dynamic based on user input or state
     const percentage = Math.round(campaign.amountRaised / campaign.goalAmount * 100);
     const [creator, Setcreator] = useState("");
+    const [poll, setPoll] = useState([]);
     
     const donationData = {
         "campaignId": id,
@@ -61,6 +63,7 @@ export default function CampaignDetailsView() {
         CampaignService.getCampaignById(id).then(
             (response) => {
                 setCampaign(response.data)
+                setPoll({...poll, title: "poll 1"})
             }
         ).catch((error) =>
             alert('could not retrieve campaign')
@@ -133,9 +136,11 @@ export default function CampaignDetailsView() {
                             : <></>
                         }
                         <div className={styles.donors}>
-                            <p> Top Donor</p>
+                            <p>Top Donors</p>
                         </div>
                     </div>
+                    {poll.title ? <div className={styles.pollbox}>
+                        <PollCard poll={poll}/></div> : <></>}
                 </div>
                 {/* {JSON.stringify(campaign)} */}
             </div>
