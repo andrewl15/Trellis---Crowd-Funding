@@ -139,8 +139,9 @@ export default function CampaignDetailsView() {
                             <p>Top Donors</p>
                         </div>
                     </div>
-                    {poll.title ? <div className={styles.pollbox}>
-                        <PollCard poll={poll}/></div> : <></>}
+                    { user ?
+                    poll.title ? <div className={styles.pollbox}>
+                        <PollCard poll={poll}/></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
                 </div>
                 {/* {JSON.stringify(campaign)} */}
             </div>
