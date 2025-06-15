@@ -10,16 +10,16 @@ export default function PollCard({ poll }) {
     const [nodisabled, setNoDisabled] = useState(false)
     const [hasVoted, setHasVoted] = useState(null)
 
-    function handleYes(){
-        if (hasVoted === 'yes') {
+    function handleYes(){ 
+        if (hasVoted === 'yes') { //1
             return;
         }
-        if( hasVoted === 'no') {    
+        if( hasVoted === 'no') {    //2
             setYesValue(yesvalue + 1)
             setNoValue(novalue - 1)
             setHasVoted('yes')
             return;
-        }
+        } //0
         setYesValue(yesvalue + 1)
         setPollAmount(pollAmount + 1)
         setHasVoted('yes')
