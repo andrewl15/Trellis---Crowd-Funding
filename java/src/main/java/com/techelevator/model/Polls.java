@@ -26,7 +26,7 @@ public class Polls {
         return name;
     }
 
-    public void setName(string name) {
+    public void setName(String name) {
         this.name = name;
     }
 
