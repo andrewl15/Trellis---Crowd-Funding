@@ -1,0 +1,64 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .topSection{
+    margin-top: 50px;
+    text-align: left;
+  }
+  .bottomSection{
+    margin-top: 20px;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .deleteButton {
+    background-color: rgb(173, 44, 35);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.3s ease;
+  }
+  .deleteButton:hover {
+    color: rgb(33, 33, 33);
+    }
+  
+  .modalContent {
+    background: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    position: relative;
+    max-width: 500px;
+    height: 300px;
+    width: 90%;
+    animation: popIn 0.3s ease-out;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    color: black;
+    border-radius: 50px;
+    border: none;
+    font-size: 35px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  
