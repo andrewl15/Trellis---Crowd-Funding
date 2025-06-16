@@ -41,9 +41,9 @@ public class PollOption {
     @Override
     public String toString() {
         return "PollOption{" +
-               "id=" + id +
-               ", name='" + name + "/" +
-               ", pollId=" + pollId +
-               '}';
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pollId=" + pollId +
+                '}';
     }
 }
