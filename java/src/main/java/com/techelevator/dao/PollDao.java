@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PollDao {
 
+    Polls getPollById(int pollId);
     Polls getPollByCampaignId(int campaignId);
     Polls createPoll(Polls poll);
 
@@ -17,4 +18,5 @@ public interface PollDao {
     Integer getPollOptionCountById(int optionId);
 
     PollUsers getPollUsersByPollIdandUserId(int pollId, int userId);
+    Polls deletePollByCampaignId(int id);
 }
