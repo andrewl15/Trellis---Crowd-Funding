@@ -42,7 +42,7 @@ public class PollOption {
     public String toString() {
         return "PollOption{" +
                "id=" + id +
-               ", name='" + name + "'" +
+               ", name='" + name + "/" +
                ", pollId=" + pollId +
                '}';
     }
