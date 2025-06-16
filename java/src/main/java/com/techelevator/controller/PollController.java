@@ -44,4 +44,24 @@ public class PollController {
         }
         return poll;
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/")
+    public Polls createPolls(@RequestBody Polls poll){
+        try{
+            return pollDao.createPoll(poll);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/option")
+    public PollOption createPollOption(@RequestBody PollOption pollOption){
+        try{
+            return pollDao.createPollOption(pollOption);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
 }
