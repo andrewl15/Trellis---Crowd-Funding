@@ -1,19 +1,24 @@
 package com.techelevator.model;
 
 public class PollUsers {
+    private int poll_users_id;
     private Integer poll_id;
     private Integer poll_option_id;
     private Integer user_id;
-    private String poll_option_title;
+    
 
     public PollUsers(){
 
     }
 
-    public PollUsers(Integer poll_id, Integer poll_option_id, String poll_option_title){
+    public PollUsers(int poll_users_id, Integer poll_id, Integer poll_option_id){
+        this.poll_users_id = poll_users_id;
         this.poll_id = poll_id;
         this.poll_option_id = poll_option_id;
-        this.poll_option_title = poll_option_title;
+    }
+
+    public int getPoll_users_id(){
+        return poll_users_id;
     }
 
     public Integer getPoll_id(){
@@ -40,21 +45,14 @@ public class PollUsers {
         this.user_id = user_id;
     }
 
-    public String getPoll_Option_Title(){
-        return poll_option_title;
-    }
-
-    public void setPoll_Option_Title(String poll_option_title){
-        this.poll_option_title = poll_option_title;
-    }
-
     @Override
     public String toString(){
         return "poll_users{" +
-                "poll_id=" + poll_id +
+                "poll_users_id=" + poll_users_id +
+                ", poll_id=" + poll_id +
                 ", poll_option_id=" + poll_option_id +
                 ", user_id=" + user_id +
-                ", poll_option_title=" + poll_option_title +
+                ", poll_option_title=" +
                 '}';
     }
 
