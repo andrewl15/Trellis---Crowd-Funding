@@ -1,9 +1,12 @@
 import React from 'react';
-import styles from './Modal.module.css';
+import styles from './DeleteModal.module.css';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-export default function Modal({ prompt, isOpen, onClose, onDelete }) {
+export default function DeleteModal({ isOpen, onClose, onDelete }) {
     if (!isOpen) return null;
+    const modalPrompt = 
+        'Are you sure you want to delete this campaign? This action cannot be undone,\n' + "\n" +
+        "and any associated donations will be refunded to sender";
 
     return (
         <div className={styles.modalOverlay}>
@@ -12,7 +15,7 @@ export default function Modal({ prompt, isOpen, onClose, onDelete }) {
                     <FontAwesomeIcon icon={faCircleXmark} className={styles.closeIcon} />
                 </button></div>
                 <div className={styles.topSection}>
-                    <h2 className={styles.modalTitle}>{prompt}</h2>
+                    <h2 className={styles.modalTitle}>{modalPrompt}</h2>
                 </div>
 
                 <div className={styles.bottomSection}>

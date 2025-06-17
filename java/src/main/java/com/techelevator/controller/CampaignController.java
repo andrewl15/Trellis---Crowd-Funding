@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import jakarta.validation.Valid;
 import com.techelevator.dao.CampaignDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Campaign;
-import com.techelevator.model.User;
+import com.techelevator.model.CampaignUpdateDto;
 
 @RestController
 @CrossOrigin
@@ -29,6 +30,15 @@ public class CampaignController {
     public List<Campaign> getAllCampaigns() {
         try {
             return campaignDao.getAllCampaigns();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+
+    @GetMapping(path = "/user/{id}")
+    public List<Campaign> getCampaignsByUserId(@PathVariable int id) {
+        try {
+            return campaignDao.getCampaignsByUserId(id);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
@@ -99,6 +109,20 @@ public class CampaignController {
         }
         try {
             return campaignDao.updateCampaign(incoming);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+
+    @PutMapping(path = "/{id}/raisedAmount")
+    public Campaign updateCampaginRaisedAmountById(@RequestBody CampaignUpdateDto dto, @PathVariable int id) {
+        BigDecimal amount = dto.getRaisedAmount();
+        Campaign existing = campaignDao.getCampaignById(id);
+        if (existing == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found");
+        }
+        try {
+            return campaignDao.updateCampaignRaisedAmountById(amount, id);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }

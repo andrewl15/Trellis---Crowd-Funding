@@ -24,7 +24,7 @@ export default function MainNav() {
       {user ? (
         <>
           <div className={styles.navlink}>
-            <NavLink to="/createCampaign" className={styles.navtext}>Manage Campaigns</NavLink>
+            <NavLink to="/campaign/user/:id" className={styles.navtext}>Manage Campaigns</NavLink>
           </div>
         </>
       ) : (

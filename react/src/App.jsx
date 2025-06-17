@@ -12,6 +12,7 @@ import axios from 'axios';
 import CreateCampaignView from './views/CreateCampaignView/CreateCampaignView';
 import CampaignDetailsView from './views/CampaignDetailsView/CampaignDetailsView';
 import UpdateCampaignView from './views/UpdateCampaign/UpdateCampaignView';
+import ManageCampaignsView from './views/ManageCampaignsView/ManageCampaignsView';
 
 export default function App() {
   const [user, setUser] = useState(() => getTokenFromStorage());
@@ -60,32 +61,36 @@ export default function App() {
 
   return (
     <BrowserRouter>
-        <UserContext.Provider value={user}>
-            <Routes>
-              <Route path="/" element={<HomeView />} />
-              <Route path="/createCampaign" element={<CreateCampaignView/>} />
-              <Route path="/login" element={<LoginView onLogin={handleLogin} />} />
-              <Route path="/logout" element={<LogoutView onLogout={handleLogout} />} />
-              <Route path="/register" element={<RegisterView />} />
-              <Route
-                path="/userProfile"
-                element={
-                  <ProtectedRoute>
-                    <UserProfileView />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path = 'campaign/:id' element={<CampaignDetailsView/>} />
-              <Route
-                path='/campaign/:id/update'
-                element={
-                  <ProtectedRoute>
-                    <UpdateCampaignView />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-        </UserContext.Provider>
+      <UserContext.Provider value={user}>
+        <Routes>
+          <Route path="/" element={<HomeView />} />
+          <Route path="/createCampaign" element={<CreateCampaignView />} />
+          <Route path="/login" element={<LoginView onLogin={handleLogin} />} />
+          <Route path="/logout" element={<LogoutView onLogout={handleLogout} />} />
+          <Route path="/register" element={<RegisterView />} />
+          <Route
+            path="/userProfile"
+            element={
+              <ProtectedRoute>
+                <UserProfileView />
+              </ProtectedRoute>
+            }
+          />
+          <Route path='campaign/:id' element={<CampaignDetailsView />} />
+          <Route
+            path='/campaign/:id/update'
+            element={
+              <ProtectedRoute>
+                <UpdateCampaignView />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/campaign/user/:id" element={
+            <ProtectedRoute>
+              <ManageCampaignsView />
+            </ProtectedRoute>} />
+        </Routes>
+      </UserContext.Provider>
     </BrowserRouter>
   );
 }

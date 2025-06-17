@@ -78,6 +78,7 @@
     color: #555;
 }
 
+
 .dropdownControl {
     display: flex;           /* flex aligns items nicely */
     align-items: center;     /* vertical center */

@@ -4,9 +4,13 @@ export default {
     createCampaign(userId, campaignData) {
         return axios.post(`/campaign/?userId=${userId}`, campaignData);
     },
-    
+
     getCampaigns() {
         return axios.get('/campaign/');
+    },
+
+    getCampaignsByUserId(userId) {
+        return axios.get(`/campaign/user/${userId}`);
     },
 
     getCampaignCreatorById(campaignId) {
@@ -23,6 +27,10 @@ export default {
     
     updateCampaign(campaignId, campaignData) {
         return axios.put(`/campaign/${campaignId}`, campaignData);
+    },
+
+    updateCampaignRaisedAmountById(raisedAmount, campaignId){
+        return axios.put(`/campaign/${campaignId}/raisedAmount`, {raisedAmount});
     },
     
     deleteCampaign(campaignId) {

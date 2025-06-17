@@ -1,16 +1,28 @@
 
 
-.field{
-    width: 300px;
-    font-size: medium;
-    border: 0;
-    background-color: transparent;
-    margin-right: 10px;
-    font-weight: 100;
-}
 
-.field:focus{
-   outline: none;
+.field {
+    box-sizing: border-box;
+    padding-left: 0.875rem;
+    margin: 0;
+    border: 1.5px solid #ccc;
+    width: 300px;
+    height: 2.5rem;
+    border-radius: 0.375rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: normal;
+    background-color: #fff;
+    color: var(--color-gray-900);
+    transition: border-color 0.2s ease, box-shadow 0.3s ease;
+
+
+    &:focus {
+        outline: none;
+        border-color: #4a90e2;
+        /* nice blue highlight */
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
 }
 
 .logintext{
@@ -20,11 +32,37 @@
     margin-top: 20px;
 }
 
-.form{
-    
+.form {
+
     border-radius: 30px;
     padding: 80px;
     background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.formcontrol{
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column; 
+        align-items: flex-start; 
+        width: 100%; 
+      
+}
+.formtitle {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem; 
+    text-align: left;
+    align-self: flex-start;
+  }
+
+  .formtitle {
+    font-size: large;
+    color: rgb(33, 33, 33);
+    margin-bottom: 5px;
 }
 
 .maindiv{
@@ -40,17 +78,6 @@
 .formcontainer{
     margin: 10px;
 }
-.formcontrol{
-    display:flex;
-    flex-direction: column;
-    border: 1px solid grey;
-    width: fit-content;
-    border-radius: 10px;
-    padding: 5px;
-    margin: 10px;
-    align-items: center;
-    
-}
 
 .fieldtext{
     text-align: left;
@@ -64,21 +91,26 @@
     align-items:center;
 }
 
-.formButton{
-    width: 100px;
-    margin:10px;
+
+.formButton {
+    width: 150px;
+    height: 40px;
+    margin: 10px;
     background-color: rgb(64, 116, 64);
     color: white;
     border: 0;
+    font-weight: bold;
+    font-size: medium;
 }
 
-.loginimage{
+.loginimage {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 150px;
+    width: 300px;
     margin-bottom: 50px;
 }
+
 
 .formButton:hover{
     background-color: rgb(35, 78, 35);

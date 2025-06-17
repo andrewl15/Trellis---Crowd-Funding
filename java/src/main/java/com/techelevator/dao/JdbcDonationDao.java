@@ -25,7 +25,7 @@ public class JdbcDonationDao implements DonationDao {
     public Donation getDonationById(int donationId) {
         Donation donation = null;
         String sql = "select donation_id, campaign_id, user_id, amount, \r\n" + //
-                "donation_date, first_name, last_name, donor_email \r\n" + //
+                "donation_date, first_name, last_name\r\n" + //
                 "from donation where donation_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, donationId);
@@ -44,9 +44,9 @@ public class JdbcDonationDao implements DonationDao {
     @Override
     public Donation createDonation(Donation donation) {
         Donation newDonation = null;
-        String sql = "insert into donation (campaign_id, user_id, amount, donation_date, first_name, last_name, donor_email) "
+        String sql = "insert into donation (campaign_id, user_id, amount, donation_date, first_name, last_name) "
                 +
-                "values (?, ?, ?, ?, ?, ?, ?) returning donation_id;";
+                "values (?, ?, ?, ?, ?, ?) returning donation_id;";
         try {
 
             int donationId = jdbcTemplate.queryForObject(sql, int.class,
@@ -55,10 +55,10 @@ public class JdbcDonationDao implements DonationDao {
                     donation.getAmount(),
                     donation.getDonationDate(),
                     donation.getFirstName(),
-                    donation.getLastName(),
-                    donation.getEmail());
-
+                    donation.getLastName());
+           
             newDonation = getDonationById(donationId);
+           
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -69,8 +69,20 @@ public class JdbcDonationDao implements DonationDao {
     }
 
     @Override
-    public List<Donation> getDonationsByCampaignId(int campaignId) {
-        return null;
+    public int getDonationCountByCampaignId(int campaignId) {
+        int totalDonations = 0;
+        String sql = "select count(donation_id) as total_donations from donation where campaign_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, campaignId);
+            if (results.next()) {
+                totalDonations = results.getInt("total_donations");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return totalDonations;
     }
 
     @Override
@@ -79,8 +91,17 @@ public class JdbcDonationDao implements DonationDao {
     }
 
     @Override
-    public int deleteDonationById(int donationId) {
-        return 0;
+    public int deleteDonationsByCampaignId(int campaignId) {
+        int rowsDeleted = 0;
+        String sql = "delete from donation where campaign_id = ?;";
+        try {
+            rowsDeleted = jdbcTemplate.update(sql, campaignId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return rowsDeleted;
     }
 
     private Donation mapRowToDonation(SqlRowSet results) {
@@ -89,7 +110,7 @@ public class JdbcDonationDao implements DonationDao {
         donation.setCampaignId(results.getInt("campaign_id"));
         int userId = results.getInt("user_id");
         if (results.wasNull()) {
-            donation.setUserId(null); 
+            donation.setUserId(null);
         } else {
             donation.setUserId(userId);
         }
@@ -97,7 +118,6 @@ public class JdbcDonationDao implements DonationDao {
         donation.setDonationDate(LocalDate.parse(results.getString("donation_date"), DateTimeFormatter.ISO_DATE));
         donation.setFirstName(results.getString("first_name"));
         donation.setLastName(results.getString("last_name"));
-        donation.setEmail(results.getString("donor_email"));
         return donation;
     }
 }

@@ -20,6 +20,7 @@ CREATE TABLE users (
 
 CREATE TABLE campaign (
 	campaign_id SERIAL,
+	image_url varchar(255) NOT NULL,
 	name varchar(100) NOT NULL,
 	description text,
 	category varchar(50) NOT NULL,
@@ -66,7 +67,6 @@ CREATE TABLE donation (
     donation_date date NOT NULL,
     first_name VARCHAR(100),
 	last_name VARCHAR(100),
-    donor_email VARCHAR(100), 
 	CONSTRAINT PK_donation PRIMARY KEY (donation_id),
     CONSTRAINT FK_donation_campaign FOREIGN KEY (campaign_id) REFERENCES campaign(campaign_id),
     CONSTRAINT FK_donation_user FOREIGN KEY (user_id) REFERENCES users(user_id)

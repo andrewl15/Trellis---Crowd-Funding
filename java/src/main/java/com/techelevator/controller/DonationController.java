@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.techelevator.dao.DonationDao;
-import com.techelevator.dao.UserDao;
 import com.techelevator.model.Donation;
 
 import jakarta.validation.Valid;
@@ -24,12 +23,20 @@ import jakarta.validation.Valid;
 @RequestMapping("/donation")
 public class DonationController{
     private DonationDao donationDao;
-    private UserDao userDao;
 
-    private DonationController(DonationDao donationDao, UserDao userDao) {
+    private DonationController(DonationDao donationDao) {
         this.donationDao = donationDao;
-        this.userDao = userDao;
     }
+
+    @GetMapping(path = "/campaign/{campaignId}")
+    public int getDonationsByCampaignId(@PathVariable int campaignId) {
+        try {
+            return donationDao.getDonationCountByCampaignId(campaignId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+
 
     @GetMapping(path = "/{id}")
     public Donation getDonationById(@PathVariable int id){
@@ -54,12 +61,10 @@ public class DonationController{
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
-    public List<Donation> getDonationsByCampaignId(int campaignId) {
-        return null;
-    }
     public List<Donation> getDonationsByUserId(int userId) {
         return null;
     }
     public void deleteDonationById(@PathVariable int donationId) {
     }
+
 }

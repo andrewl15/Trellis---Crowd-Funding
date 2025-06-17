@@ -11,62 +11,80 @@ import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import DonateService from "../../services/DonateService";
 import PollCard from "../../components/PollCard/PollCard";
+import DonateModal from "../../components/Modals/DonateModal";
+import AlertModal from "../../components/Modals/AlertModal";
 
 
 export default function CampaignDetailsView() {
+    const [isOpen, setIsOpen] = useState(false);
     const { id } = useParams();
     const user = useContext(UserContext);
     const [campaign, setCampaign] = useState([]);
-    const donations = 120; // This should be dynamic based on user input or state
+    const [donation, setDonation] = useState({
+        campaignId: '',
+        userId: null,
+        amount: '',
+        donationDate: new Date().toISOString().split('T')[0],
+        firstName: "",
+        lastName: "",
+    });
+    const [donationCount, setDonationCount] = useState(0);
     const percentage = Math.round(campaign.amountRaised / campaign.goalAmount * 100);
     const [creator, Setcreator] = useState("");
     const [poll, setPoll] = useState([]);
-    
-    const donationData = {
-        "campaignId": id,
-        "userId": 1,
-        "amount": 5000.50,
-        "donationDate": "2025-06-13",
-        "firstName": "Peter",
-        "lastName": "Parker",
-        "email": "peterParker@example.com"
-    }; 
 
     function handleDonate() {
-        const campaignData = {
-            ...campaign, amountRaised: campaign.amountRaised + donationData.amount
-        };
-           
-        DonateService.createDonation(donationData).then(
+        if(!donation.amount){
+            alert('Please enter a donation amount greater than $0');
+            return;
+        }
+        console.log(donation.amount)
+        DonateService.createDonation(donation).then(
             (response) => {
                 if (response.status === 201) {
                     alert('Donation successful!');
                 }
             }).catch(error => {
-                console.error('Error creating campaign:', error);
+                console.error('Error creating donation:', error);
             });
-
-        CampaignService.updateCampaign(id, campaignData)
+        CampaignService.updateCampaignRaisedAmountById(donation.amount, id)
             .then(response => {
                 if (response.status === 200) {
-                  console.log('Campaign updated successfully!');
+                    console.log('Campaign updated successfully!');
+                    window.location.reload();
                 }
+                
             })
             .catch(error => {
                 console.error('Error updating campaign:', error);
             });
-        
+        setIsOpen(false);
     }
 
+    
+
     useEffect(() => {
-        
+
         CampaignService.getCampaignById(id).then(
             (response) => {
                 setCampaign(response.data)
-                setPoll({...poll, title: "poll 1"})
+                setPoll({ ...poll, title: "poll 1" })
+                if (user) {
+                    setDonation({ ...donation, campaignId: response.data.id, userId: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email })
+                } else {
+                    setDonation({ ...donation, campaignId: response.data.id })
+                }
             }
         ).catch((error) =>
             alert('could not retrieve campaign')
+        )
+        DonateService.getDonationsByCampaignId(id).then(
+            (response) => {
+                setDonationCount(response.data)
+            }
+
+        ).catch((error) =>
+            alert('could not retrieve donations')
         )
         CampaignService.getCampaignCreatorById(id).then(
             (response) => {
@@ -74,6 +92,8 @@ export default function CampaignDetailsView() {
             }
         ).catch((error) =>
             alert('could not retrieve creator'))
+
+            
     }, [])
 
     return (
@@ -86,7 +106,7 @@ export default function CampaignDetailsView() {
                         <div className={styles.infoHeader}>
                             <h1 className={styles.title}>{campaign.name}</h1>
                         </div>
-                        <img className={styles.image} src="https://placehold.co/500x300" alt="" />
+                        <img className={styles.image} src={campaign.imageUrl} alt="" />
                         <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
                         <hr className={styles.line}></hr>
                         <p className={styles.desc}>{campaign.description}</p>
@@ -98,7 +118,7 @@ export default function CampaignDetailsView() {
                         <div className={styles.boxHeader}>
                             <div className={styles.progressText}>
                                 <p className={styles.raisedAmount}>${campaign.amountRaised} Raised</p>
-                                <p className={styles.donationGoal}>{`$${campaign.goalAmount} | ${donations} donations`}</p>
+                                <p className={styles.donationGoal}>{`$${campaign.goalAmount} | ${donationCount} donation(s)`}</p>
                             </div>
                             <div className={styles.emptySection}></div>
                             <CircularProgressbar
@@ -107,21 +127,9 @@ export default function CampaignDetailsView() {
                                 maxValue={campaign.goalAmount}
                                 text={`${percentage}%`}
                                 styles={buildStyles({
-                                    // Rotation of path and trail, in number of turns (0-1)
-
-                                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
                                     strokeLinecap: 'butt',
-
-                                    // Text size
                                     textSize: '16px',
-
-                                    // How long animation takes to go from one percentage to another, in seconds
                                     pathTransitionDuration: 0.5,
-
-                                    // Can specify path transition in more detail, or remove it entirely
-                                    // pathTransition: 'none',
-
-                                    // Colors
                                     pathColor: `green`,
                                     textColor: 'black',
                                     trailColor: '#C9C8C7'
@@ -129,8 +137,7 @@ export default function CampaignDetailsView() {
                             />
                         </div>
 
-                        TODO DONATE POPUP
-                        <button className={styles.donateButton} onClick={handleDonate}>Donate</button>
+                        <button className={styles.donateButton} onClick={() => setIsOpen(!isOpen)}>Donate</button>
                         {user && user.id === creator.id ?
                             <Link to={`/campaign/${id}/update`}><button type="submit" className={styles.editButton}>Edit Campaign</button> </Link>
                             : <></>
@@ -139,12 +146,14 @@ export default function CampaignDetailsView() {
                             <p>Top Donors</p>
                         </div>
                     </div>
-                    { user ?
-                    poll.title ? <div className={styles.pollbox}>
-                        <PollCard poll={poll}/></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
+                    {user ?
+                        poll.title ? <div className={styles.pollbox}>
+                            <PollCard poll={poll} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
                 </div>
-                {/* {JSON.stringify(campaign)} */}
+                {isOpen && <DonateModal donation={donation} setDonation={setDonation} isOpen={isOpen} onClose={() => setIsOpen(false)} onDonate={handleDonate} />}
+                
             </div>
+            <AlertModal prompt={"Please enter a donation amount o greater than $0"}/>
         </>
     )
 }

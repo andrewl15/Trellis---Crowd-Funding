@@ -20,13 +20,11 @@ public class Donation {
     private String firstName;
     @NotEmpty
     private String lastName;
-    @NotEmpty
-    private String email;
 
     public Donation() {
     }
 
-    public Donation(int donationId, int campaignId, Integer userId, BigDecimal amount, LocalDate donationDate, String firstName, String lastName, String email) {
+    public Donation(int donationId, int campaignId, Integer userId, BigDecimal amount, LocalDate donationDate, String firstName, String lastName) {
         this.donationId = donationId;
         this.campaignId = campaignId;
         this.userId = userId;
@@ -34,7 +32,6 @@ public class Donation {
         this.donationDate = donationDate;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
     }
 
     public int getDonationId() {
@@ -92,15 +89,6 @@ public class Donation {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
     @Override
     public String toString() {
         return "Donation{" +
@@ -111,7 +99,6 @@ public class Donation {
                 ", donationDate=" + donationDate +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
                 '}';
     }
 }

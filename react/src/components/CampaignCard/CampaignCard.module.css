@@ -7,6 +7,13 @@
     background-color: white;
 }
 
+.campaignTitle{
+    font-size: xx-large;
+    font-weight: bold;
+    margin: 10px;
+    text-align: center;
+}
+
 .title{
     font-size: large;
     margin: 10px;
@@ -33,9 +40,20 @@
 .desc{
     margin-left: 3px;
     font-size: medium;
+    line-height: 20px;
+}
+
+.imageSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
 }
 
 .image{
     border-radius: 10px;
+    max-width: 400px;
+    max-height: 300px;
+    
 }
 
