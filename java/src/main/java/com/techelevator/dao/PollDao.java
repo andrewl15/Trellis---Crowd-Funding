@@ -8,20 +8,18 @@ import java.util.List;
 
 public interface PollDao {
 
-    Polls getPollById(int pollId); //done
-    Polls getPollByCampaignId(int campaignId); //done
-    Polls createPoll(Polls poll); //done
+    Polls getPollById(int pollId); 
+    Polls getPollByCampaignId(int campaignId); 
+    Polls createPoll(Polls poll); 
 
-    List<PollOption> getPollOptionsByPollId(int pollId); //done
-    PollOption getOptionById(int optionId); //done
-    PollOption createPollOption(PollOption pollOption, int pollId); //done 
-    Integer getPollOptionCountById(int optionId); //done
+    List<PollOption> getPollOptionsByPollId(int pollId); 
+    PollOption getOptionById(int optionId); 
+    PollOption createPollOption(PollOption pollOption, int pollId);  
+    Integer getPollOptionCountById(int optionId); 
 
-    Integer getPollUserCountByPollOption(int optionId); //in progress
+    Integer getPollUserCountByPollOption(int optionId); 
 
-    // List<PollUsers> getPollUsersByPollIdandUserId(int pollId, int userId); //Singular pr Plural? //Why do we use UserId here?
- //in progress
-    Polls deletePollByCampaignId(int id); //done
+    Polls deletePollByCampaignId(int id); 
 
-    // We want the count of users who voted for each option in a poll
+    
 }

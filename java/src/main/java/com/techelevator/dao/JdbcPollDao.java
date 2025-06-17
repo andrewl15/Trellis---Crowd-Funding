@@ -126,21 +126,18 @@ public class JdbcPollDao implements PollDao {
         return count;
     }
 
-    // @Override
-    // public List<PollUsers> getPollUsersByPollIdandUserId(int pollId, int userId) {
-    //     List<PollUsers> pollUsers = new ArrayList<>();
-    //     String sql = "select * from poll_users where poll_id = ? and user_id = ?";
-    //     try {
-    //         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, pollId, userId);
-    //         while (results.next()) {
-    //             PollUsers pollUser = mapRowToPollUsers(results);
-    //             pollUsers.add(pollUser);
-    //         }
-    //     } catch (CannotGetJdbcConnectionException e) {
-    //         throw new DaoException("Unable to connect to server or database", e);
-    //     }
-    //     return pollUsers;
-    // }
+    @Override
+    public Integer getPollUserCountByPollOption(int optionId) {
+        Integer voteCount = null;
+        String sql = "select count(user_id) as vote_count from poll_users where poll_option_id = ?";
+        try {
+            voteCount = jdbcTemplate.queryForObject(sql, Integer.class, optionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return voteCount;
+    }
+
 
     @Override
     public Polls deletePollByCampaignId(int id) {

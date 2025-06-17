@@ -90,19 +90,20 @@ public class PollController {
         return count;
     }
 
-    // @GetMapping(path = "/{pollId}/users/{userId}")
-    // public List<PollUsers> getPollUsersByPollIdandUserId(@PathVariable int pollId, @PathVariable int userId) {
-    //     List<PollUsers> pollUsers = new ArrayList<>();
-    //     try {
-    //         pollUsers = pollDao.getPollUsersByPollIdandUserId(pollId, userId);
-    //         if (pollUsers.isEmpty()) {
-    //             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found for Poll ID: " + pollId + " and User ID: " + userId);
-    //         }
-    //     } catch (DaoException e) {
-    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
-    //     }
-    //     return pollUsers;
-    // }
+    @GetMapping(path = "/user/count/{optionId}")
+    public Integer getPollUserCountByPollOption(@PathVariable int optionId) {
+        Integer voteCount = null;
+        try {
+            voteCount = pollDao.getPollUserCountByPollOption(optionId);
+            if (voteCount == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found for Poll Option ID: " + optionId);
+            }
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        return voteCount;
+    }
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/{id}")
