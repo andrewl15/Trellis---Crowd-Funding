@@ -15,8 +15,13 @@ public interface PollDao {
     List<PollOption> getPollOptionsByPollId(int pollId); //done
     PollOption getOptionById(int optionId); //done
     PollOption createPollOption(PollOption pollOption, int pollId); //done 
-    Integer getPollOptionCountById(int optionId); //in progress
+    Integer getPollOptionCountById(int optionId); //done
 
-    PollUsers getPollUsersByPollIdandUserId(int pollId, int userId);
-    Polls deletePollByCampaignId(int id);
+    Integer getPollUserCountByPollOption(int optionId); //in progress
+
+    // List<PollUsers> getPollUsersByPollIdandUserId(int pollId, int userId); //Singular pr Plural? //Why do we use UserId here?
+ //in progress
+    Polls deletePollByCampaignId(int id); //done
+
+    // We want the count of users who voted for each option in a poll
 }

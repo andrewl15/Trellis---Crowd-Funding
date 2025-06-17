@@ -30,6 +30,7 @@ public class PollController {
     public PollController(PollDao pollDao) {
         this.pollDao = pollDao;
     }
+    
 
     @GetMapping(path = "/{id}")
     public Polls getPollByCampaignId(@PathVariable int id) {
@@ -44,6 +45,8 @@ public class PollController {
         }
         return poll;
     }
+
+    
 
     @GetMapping(path = "/option/{optionId}")
     public PollOption getOptionById(@PathVariable int optionId) {
@@ -74,11 +77,51 @@ public class PollController {
     }
     
     @GetMapping(path = "/option/count/{optionId}")
+    public Integer getPollOptionCountById(@PathVariable int optionId) {
+        Integer count = null;
+        try {
+            count = pollDao.getPollOptionCountById(optionId);
+            if (count == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No votes found for Poll Option ID: " + optionId);
+            }
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        return count;
+    }
+
+    // @GetMapping(path = "/{pollId}/users/{userId}")
+    // public List<PollUsers> getPollUsersByPollIdandUserId(@PathVariable int pollId, @PathVariable int userId) {
+    //     List<PollUsers> pollUsers = new ArrayList<>();
+    //     try {
+    //         pollUsers = pollDao.getPollUsersByPollIdandUserId(pollId, userId);
+    //         if (pollUsers.isEmpty()) {
+    //             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found for Poll ID: " + pollId + " and User ID: " + userId);
+    //         }
+    //     } catch (DaoException e) {
+    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+    //     }
+    //     return pollUsers;
+    // }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/{id}")
+    public void deletePollByCampaignId(@PathVariable int id) {
+        try {
+            Polls deletedPoll = pollDao.deletePollByCampaignId(id);
+            if (deletedPoll == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Poll not found for campaign ID: " + id);
+            }
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
     
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/")
-    public Polls createPolls(@RequestBody Polls poll){
+    public Polls createPoll(@RequestBody Polls poll){
         try{
             return pollDao.createPoll(poll);
         } catch (Exception e) {
@@ -97,6 +140,8 @@ public class PollController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
+
+
 
 
 }
