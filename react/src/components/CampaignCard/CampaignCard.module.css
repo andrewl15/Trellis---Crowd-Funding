@@ -41,6 +41,10 @@
     margin-left: 3px;
     font-size: medium;
     line-height: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
 }
 
 .imageSection {
