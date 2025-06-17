@@ -13,10 +13,12 @@ import 'react-dropdown/style.css';
 import CurrencyInput from 'react-currency-input-field';
 import { set } from 'date-fns';
 import ImageUpload from '../../components/ImageUpload/ImageUpload';
+import AlertModal from '../../components/Modals/AlertModal';
 
 
 export default function CreateCampaignView() {
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
     const [category, setCategory] = useState(categories[0]);
     const [imageUrl, setImageUrl] = useState('');
     const [name, setName] = useState('');
@@ -66,8 +68,10 @@ export default function CreateCampaignView() {
         CampaignService.createCampaign(user.id, campaignData)
             .then(response => {
                 if (response.status === 201) {
-                    alert('Campaign Created!');
-                    navigate('/');
+                    setIsOpen(true);   
+                    setTimeout(() => {
+                        navigate('/');           
+                    }, 1000); 
                 }
             })
             .catch(error => {
@@ -117,7 +121,7 @@ export default function CreateCampaignView() {
                     <form onSubmit={handleSubmit}>
 
                         <div className={styles.form}>
-                            <ImageUpload setImageUrl={setImageUrl}/>
+                            <ImageUpload setImageUrl={setImageUrl} />
                         </div>
 
                         <div className={styles.form}>
@@ -169,30 +173,10 @@ export default function CreateCampaignView() {
                     </form>
                 </div>
             </div>
+            <div className={styles.alerts}>
+                {isOpen && <AlertModal prompt={"Campaign Created!"} color={"green"} />}
+            </div>
         </div >
     );
 }
-{/* <form onSubmit={handleSubmit} className={styles.campaignForm}>
-                    <div className={styles.controlFields}>
 
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>Campaign Name</label>
-                            <input type="text" className={styles.fieldRight} name="name" value={name} onChange={e => setName(e.target.value)} required />
-                        </div>
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>Description</label>
-                            <textarea name="description" className={styles.fieldRight} value={description} onChange={e => setName(e.target.value)} required}></textarea>
-                        </div>
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>Start Date</label>
-                            <input type="date" className={styles.fieldRight} name="startDate" value={startDate} onChange={e => setStartDate(e.target.value)} required />
-                        </div>
-                        <div className={styles.formControlRight}>
-                            <label className={styles.fieldTextRight}>End Date</label>
-                            <input type="date" className={styles.fieldRight} name="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} required />
-                        </div>
-                        <div className={styles.bottomsection}>
-                            <button type="submit" className={`btn-primary ${styles.formButtonRight}`}>Propagate</button>
-                        </div>
-                    </div>
-                </form> */}

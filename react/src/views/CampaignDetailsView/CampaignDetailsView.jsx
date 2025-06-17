@@ -17,6 +17,7 @@ import AlertModal from "../../components/Modals/AlertModal";
 
 export default function CampaignDetailsView() {
     const [isOpen, setIsOpen] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
     const { id } = useParams();
     const user = useContext(UserContext);
     const [campaign, setCampaign] = useState([]);
@@ -32,18 +33,20 @@ export default function CampaignDetailsView() {
     const percentage = Math.round(campaign.amountRaised / campaign.goalAmount * 100);
     const [creator, Setcreator] = useState("");
     const [poll, setPoll] = useState([]);
+    const [nameOpen, setNameOpen] = useState(false);
 
     function handleDonate() {
-        if(!donation.amount){
-            alert('Please enter a donation amount greater than $0');
+        if (!donation.amount) {
+            setAlertOpen(true);
+            return;
+        } else if (!donation.firstName || !donation.lastName) {
+            setNameOpen(true);
             return;
         }
         console.log(donation.amount)
         DonateService.createDonation(donation).then(
             (response) => {
-                if (response.status === 201) {
-                    alert('Donation successful!');
-                }
+                console.log('Donation created successfully:');
             }).catch(error => {
                 console.error('Error creating donation:', error);
             });
@@ -53,15 +56,17 @@ export default function CampaignDetailsView() {
                     console.log('Campaign updated successfully!');
                     window.location.reload();
                 }
-                
+
             })
             .catch(error => {
                 console.error('Error updating campaign:', error);
             });
         setIsOpen(false);
+        setAlertOpen(false);
+        setNameOpen(false);
     }
 
-    
+
 
     useEffect(() => {
 
@@ -93,7 +98,7 @@ export default function CampaignDetailsView() {
         ).catch((error) =>
             alert('could not retrieve creator'))
 
-            
+
     }, [])
 
     return (
@@ -150,10 +155,18 @@ export default function CampaignDetailsView() {
                         poll.title ? <div className={styles.pollbox}>
                             <PollCard poll={poll} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
                 </div>
-                {isOpen && <DonateModal donation={donation} setDonation={setDonation} isOpen={isOpen} onClose={() => setIsOpen(false)} onDonate={handleDonate} />}
-                
+                {isOpen && <DonateModal donation={donation} setDonation={setDonation} isOpen={isOpen} onClose={() => {
+                    setIsOpen(false);
+                    setAlertOpen(false);
+                    setNameOpen(false);
+                }} onDonate={handleDonate} />}
+
             </div>
-            <AlertModal prompt={"Please enter a donation amount o greater than $0"}/>
+            <div className={styles.alerts}>
+                {alertOpen && <AlertModal prompt={"Please enter a donation amount of greater than $0"} color={"#bd4037"} />}
+                {nameOpen && <AlertModal prompt={"Please enter a first and last name"} color={"#bd4037"} />}
+            </div>
+
         </>
     )
 }

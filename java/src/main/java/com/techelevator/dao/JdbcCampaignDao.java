@@ -122,10 +122,10 @@ public class JdbcCampaignDao implements CampaignDao {
     @Override
     public Campaign updateCampaign(Campaign campaign) {
         Campaign updatedCampaign = null;
-        String sql = "update campaign set image_url = ?, set name = ?, description = ?, category = ?, goal_amount = ?, raised_amount = ?, start_date = ?, end_date = ? where campaign_id = ?;";
+        String sql = "update campaign set name = ?, description = ?, category = ?, goal_amount = ?, raised_amount = ?, start_date = ?, end_date = ? where campaign_id = ?;";
         try {
             int rowsAffected = jdbcTemplate.update(sql,
-                    campaign.getImageUrl(), campaign.getName(), campaign.getDescription(), campaign.getCategory(),
+                    campaign.getName(), campaign.getDescription(), campaign.getCategory(),
                     campaign.getGoalAmount(), campaign.getAmountRaised(), 
                     campaign.getStartDate(), campaign.getEndDate(),
                     campaign.getId());

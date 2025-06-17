@@ -254,3 +254,13 @@
     align-items: center;
     justify-content: center;
 }
+
+.alerts {
+    position: fixed;
+    top: 20px;
+    left: 66.5%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    z-index: 9999; 
+}
