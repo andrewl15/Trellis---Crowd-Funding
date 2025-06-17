@@ -28,6 +28,10 @@ export default {
     updateCampaign(campaignId, campaignData) {
         return axios.put(`/campaign/${campaignId}`, campaignData);
     },
+
+    updateCampaignRaisedAmountById(raisedAmount, campaignId){
+        return axios.put(`/campaign/${campaignId}/raisedAmount`, {raisedAmount});
+    },
     
     deleteCampaign(campaignId) {
         return axios.delete(`/campaign/${campaignId}`);

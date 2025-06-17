@@ -25,6 +25,8 @@
     grid-area: img;
     object-fit: cover;
     border-radius: 10px;
+    max-width: 600px;
+    max-height: 500px;
 }
 .donateBox {
     grid-area: donateBox;

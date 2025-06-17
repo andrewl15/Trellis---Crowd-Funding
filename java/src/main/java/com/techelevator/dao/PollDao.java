@@ -17,6 +17,6 @@ public interface PollDao {
     PollOption createPollOption(PollOption pollOption, int pollId); //done 
     Integer getPollOptionCountById(int optionId); //in progress
 
-    PollUsers getPollUsersByPollIdandUserId(int pollId, int userId);
-    Polls deletePollByCampaignId(int id);
+    // PollUsers getPollUsersByPollIdandUserId(int pollId, int userId);
+    // Polls deletePollByCampaignId(int id);
 }

@@ -20,6 +20,7 @@ CREATE TABLE users (
 
 CREATE TABLE campaign (
 	campaign_id SERIAL,
+	image_url varchar(255) NOT NULL,
 	name varchar(100) NOT NULL,
 	description text,
 	category varchar(50) NOT NULL,

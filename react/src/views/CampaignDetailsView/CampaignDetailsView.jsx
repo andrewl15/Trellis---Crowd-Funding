@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import DonateService from "../../services/DonateService";
 import PollCard from "../../components/PollCard/PollCard";
 import DonateModal from "../../components/Modals/DonateModal";
+import AlertModal from "../../components/Modals/AlertModal";
 
 
 export default function CampaignDetailsView() {
@@ -33,10 +34,11 @@ export default function CampaignDetailsView() {
     const [poll, setPoll] = useState([]);
 
     function handleDonate() {
-        const campaignData = {
-            ...campaign,
-            amountRaised: Number(campaign.amountRaised) + Number(donation.amount)
-        };
+        if(!donation.amount){
+            alert('Please enter a donation amount greater than $0');
+            return;
+        }
+        console.log(donation.amount)
         DonateService.createDonation(donation).then(
             (response) => {
                 if (response.status === 201) {
@@ -45,47 +47,21 @@ export default function CampaignDetailsView() {
             }).catch(error => {
                 console.error('Error creating donation:', error);
             });
-        CampaignService.updateCampaign(id, campaignData)
+        CampaignService.updateCampaignRaisedAmountById(donation.amount, id)
             .then(response => {
                 if (response.status === 200) {
                     console.log('Campaign updated successfully!');
+                    window.location.reload();
                 }
+                
             })
             .catch(error => {
                 console.error('Error updating campaign:', error);
             });
         setIsOpen(false);
-        resetData();
     }
 
-    function resetData(){
-        CampaignService.getCampaignById(id).then(
-            (response) => {
-                setCampaign(response.data)
-                setPoll({ ...poll, title: "poll 1" })
-                if (user) {
-                    setDonation({ ...donation, campaignId: response.data.id, userId: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email })
-                } else {
-                    setDonation({ ...donation, campaignId: response.data.id })
-                }
-            }
-        ).catch((error) =>
-            alert('could not retrieve campaign')
-        )
-        DonateService.getDonationsByCampaignId(id).then(
-            (response) => {
-                setDonationCount(response.data)
-            }
-        ).catch((error) =>
-            alert('could not retrieve donations')
-        )
-        CampaignService.getCampaignCreatorById(id).then(
-            (response) => {
-                Setcreator(response.data)
-            }
-        ).catch((error) =>
-            alert('could not retrieve creator'))
-    }
+    
 
     useEffect(() => {
 
@@ -106,6 +82,7 @@ export default function CampaignDetailsView() {
             (response) => {
                 setDonationCount(response.data)
             }
+
         ).catch((error) =>
             alert('could not retrieve donations')
         )
@@ -115,6 +92,8 @@ export default function CampaignDetailsView() {
             }
         ).catch((error) =>
             alert('could not retrieve creator'))
+
+            
     }, [])
 
     return (
@@ -127,7 +106,7 @@ export default function CampaignDetailsView() {
                         <div className={styles.infoHeader}>
                             <h1 className={styles.title}>{campaign.name}</h1>
                         </div>
-                        <img className={styles.image} src="https://placehold.co/500x300" alt="" />
+                        <img className={styles.image} src={campaign.imageUrl} alt="" />
                         <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
                         <hr className={styles.line}></hr>
                         <p className={styles.desc}>{campaign.description}</p>
@@ -172,7 +151,9 @@ export default function CampaignDetailsView() {
                             <PollCard poll={poll} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
                 </div>
                 {isOpen && <DonateModal donation={donation} setDonation={setDonation} isOpen={isOpen} onClose={() => setIsOpen(false)} onDonate={handleDonate} />}
+                
             </div>
+            <AlertModal prompt={"Please enter a donation amount o greater than $0"}/>
         </>
     )
 }

@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 public class Campaign {
     @NotNull
     private int id;
+    @NotNull
+    private String imageUrl;
     @NotEmpty
     private String category;
     @NotEmpty
@@ -25,8 +27,9 @@ public class Campaign {
     public Campaign() {
     }
 
-    public Campaign(int id, String category, String name, String description, BigDecimal goalAmount, LocalDate startDate, LocalDate endDate) {
+    public Campaign(int id, String imageUrl, String category, String name, String description, BigDecimal goalAmount, LocalDate startDate, LocalDate endDate) {
         this.id = id;
+        this.imageUrl = imageUrl;
         this.category = category;
         this.name = name;
         this.description = description;
@@ -41,6 +44,14 @@ public class Campaign {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getCategory() {

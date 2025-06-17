@@ -18,6 +18,7 @@ import ImageUpload from '../../components/ImageUpload/ImageUpload';
 export default function CreateCampaignView() {
     const navigate = useNavigate();
     const [category, setCategory] = useState(categories[0]);
+    const [imageUrl, setImageUrl] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [donation, setDonation] = useState('');
@@ -54,6 +55,7 @@ export default function CreateCampaignView() {
         }
 
         const campaignData = {
+            imageUrl,
             name,
             description,
             category,
@@ -115,7 +117,7 @@ export default function CreateCampaignView() {
                     <form onSubmit={handleSubmit}>
 
                         <div className={styles.form}>
-                            <ImageUpload/>
+                            <ImageUpload setImageUrl={setImageUrl}/>
                         </div>
 
                         <div className={styles.form}>

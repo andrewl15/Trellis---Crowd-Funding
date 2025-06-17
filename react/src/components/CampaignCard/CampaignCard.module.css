@@ -40,9 +40,20 @@
 .desc{
     margin-left: 3px;
     font-size: medium;
+    line-height: 20px;
+}
+
+.imageSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
 }
 
 .image{
     border-radius: 10px;
+    max-width: 400px;
+    max-height: 300px;
+    
 }
 

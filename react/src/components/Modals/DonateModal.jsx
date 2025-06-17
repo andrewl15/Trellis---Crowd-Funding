@@ -9,6 +9,8 @@ import { UserContext } from '../../context/UserContext';
 export default function DonateModal({ donation, setDonation, isOpen, onClose, onDonate }) {
     const user = useContext(UserContext);
     if (!isOpen) return null;
+    let x = document.getElementById("input-example");
+    
 
     return (
         <div className={styles.modalOverlay}>
