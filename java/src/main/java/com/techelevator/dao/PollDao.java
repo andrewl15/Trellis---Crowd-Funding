@@ -12,10 +12,10 @@ public interface PollDao {
     Polls getPollByCampaignId(int campaignId); //done
     Polls createPoll(Polls poll); //done
 
-    List<PollOption> getPollOptionsByPollId(int pollId); //in progress 
+    List<PollOption> getPollOptionsByPollId(int pollId); //done
     PollOption getOptionById(int optionId); //done
-    PollOption createPollOption(PollOption pollOption, int pollId); //done //confused how to check
-    Integer getPollOptionCountById(int optionId);
+    PollOption createPollOption(PollOption pollOption, int pollId); //done 
+    Integer getPollOptionCountById(int optionId); //in progress
 
     PollUsers getPollUsersByPollIdandUserId(int pollId, int userId);
     Polls deletePollByCampaignId(int id);

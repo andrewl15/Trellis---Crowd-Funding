@@ -112,7 +112,19 @@ public class JdbcPollDao implements PollDao {
             throw new DaoException("unable to connect to server or database", e);
         }
         return createdOption;
-    } //need to add parameter for pollid, 
+    } 
+
+    @Override
+    public Integer getPollOptionCountById(int optionId) {
+        Integer count = null;
+        String sql = "select count(poll_users_id) as vote_count from poll_users where poll_option_id = ?";
+        try {
+            count = jdbcTemplate.queryForObject(sql, Integer.class, optionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return count;
+    }
 
     private Polls mapRowToPoll(SqlRowSet result) {
         Polls poll = new Polls();

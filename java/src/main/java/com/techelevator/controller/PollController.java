@@ -72,6 +72,9 @@ public class PollController {
         }
         return pollOptions;
     }
+    
+    @GetMapping(path = "/option/count/{optionId}")
+    
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/")
@@ -82,6 +85,8 @@ public class PollController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
+
+    
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/{pollId}/option")
