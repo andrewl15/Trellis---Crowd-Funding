@@ -69,19 +69,50 @@ public class JdbcPollDao implements PollDao {
         return createdPoll;
     }
 
-    @override
-    public PollOption createPollOption(PollOption polloption){
+    @Override
+    public List<PollOption> getPollOptionsByPollId(int pollId) {
+        List<PollOption> pollOptions = new ArrayList<>();
+        String sql = "Select * from poll_option where poll_id = ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, pollId);
+            while (results.next()) {
+                PollOption pollOption = mapRowToPollOption(results);
+                pollOptions.add(pollOption);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return pollOptions;
+    }
+
+    @Override
+    public PollOption getOptionById(int optionId) {
+        PollOption pollOption = null;
+        String sql = "Select * from poll_option where poll_option_id = ?";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, optionId);
+            if (result.next()) {
+                pollOption = mapRowToPollOption(result);
+            } 
+        } catch (CannotGetJdbcConnectionException e) {
+                throw new DaoException("Unable to connect to server or database", e);
+        }
+        return pollOption;
+    }
+
+    @Override
+    public PollOption createPollOption(PollOption polloption, int pollId) {
         PollOption createdOption = null;
-        String sql = "INSERT INTO poll_option(poll_id,poll_option_title) returning poll_option_id";
+        String sql = "INSERT INTO poll_option(poll_id, poll_option_title) Values (?, ?) returning poll_option_id;";
 
         try{
-            int optionId = jdbcTemplate.queryForObject(sql, int.class, polloption.getName(),polloption.getPollId());
+            int optionId = jdbcTemplate.queryForObject(sql, int.class, pollId, polloption.getName());
             createdOption = getOptionById(optionId);
-        } catch (CannotGetJdbcConnectionExceptiopn e) {
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("unable to connect to server or database", e);
         }
         return createdOption;
-    }
+    } //need to add parameter for pollid, 
 
     private Polls mapRowToPoll(SqlRowSet result) {
         Polls poll = new Polls();
@@ -93,16 +124,17 @@ public class JdbcPollDao implements PollDao {
 
     private PollOption mapRowToPollOption(SqlRowSet result){
         PollOption PollOption = new PollOption();
-        PollOption.setId(result.getInt("poll_id"));
-        PollOption.setPollId(result.getInt("poll_option_id"));
+        PollOption.setId(result.getInt("poll_option_id"));
+        PollOption.setPollId(result.getInt("poll_id"));
         PollOption.setName(result.getString("poll_option_title"));
         return PollOption;
     }
+    
+}
 
 
     // private PollUsers mapRowToPollUsers(SqlRowSet)
     
-}
 
 // Polls getPollByCampaignId(int campaignId);
 // Polls createPoll(Polls poll);

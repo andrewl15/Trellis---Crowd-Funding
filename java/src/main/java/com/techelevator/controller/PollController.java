@@ -45,6 +45,34 @@ public class PollController {
         return poll;
     }
 
+    @GetMapping(path = "/option/{optionId}")
+    public PollOption getOptionById(@PathVariable int optionId) {
+        PollOption pollOption = null;
+        try {
+            pollOption = pollDao.getOptionById(optionId);
+            if (pollOption == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Poll option not found for ID: " + optionId);
+            }
+        } catch (DaoException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        return pollOption;
+    }
+
+    @GetMapping(path = "/options/{pollId}")
+    public List<PollOption> getPollOptionsByPollId(@PathVariable int pollId) {
+        List<PollOption> pollOptions = new ArrayList<>();
+        try {
+            pollOptions = pollDao.getPollOptionsByPollId(pollId);
+            if (pollOptions.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No poll options found for Poll ID: " + pollId);
+            }
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+        return pollOptions;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/")
     public Polls createPolls(@RequestBody Polls poll){
@@ -56,12 +84,14 @@ public class PollController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/option")
-    public PollOption createPollOption(@RequestBody PollOption pollOption){
+    @PostMapping(path = "/{pollId}/option")
+    public PollOption createPollOption(@RequestBody PollOption pollOption, @PathVariable int pollId) {
         try{
-            return pollDao.createPollOption(pollOption);
+            return pollDao.createPollOption(pollOption, pollId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
+
+
 }
