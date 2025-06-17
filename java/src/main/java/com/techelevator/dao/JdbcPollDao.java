@@ -126,6 +126,36 @@ public class JdbcPollDao implements PollDao {
         return count;
     }
 
+    @Override
+    public Integer getPollUserCountByPollOption(int optionId) {
+        Integer voteCount = null;
+        String sql = "select count(user_id) as vote_count from poll_users where poll_option_id = ?";
+        try {
+            voteCount = jdbcTemplate.queryForObject(sql, Integer.class, optionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return voteCount;
+    }
+
+
+    @Override
+    public Polls deletePollByCampaignId(int id) {
+        Polls deletedPoll = null;
+        String sql = "DELETE FROM polls WHERE campaign_id = ? RETURNING *";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+            if (result.next()) {
+                deletedPoll = mapRowToPoll(result);
+            }
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Cannot delete poll with existing options or users", e);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return deletedPoll;
+    }
+
     private Polls mapRowToPoll(SqlRowSet result) {
         Polls poll = new Polls();
         poll.setId(result.getInt("poll_id"));
@@ -141,11 +171,19 @@ public class JdbcPollDao implements PollDao {
         PollOption.setName(result.getString("poll_option_title"));
         return PollOption;
     }
+
+    private PollUsers mapRowToPollUsers(SqlRowSet results) {
+        PollUsers pollUsers = new PollUsers();
+        pollUsers.setPoll_id(results.getInt("poll_id"));
+        pollUsers.setUser_Id(results.getInt("user_id"));
+        pollUsers.setPoll_Option_Id(results.getInt("poll_option_id"));
+        return pollUsers;
+    }
     
 }
 
 
-    // private PollUsers mapRowToPollUsers(SqlRowSet)
+    
     
 
 // Polls getPollByCampaignId(int campaignId);
