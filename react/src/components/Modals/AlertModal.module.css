@@ -1,16 +1,16 @@
 /* The alert message box */
-.alert {
-    font-weight: bold;
-    padding: 20px;
-    border-radius: 20px;
-    height: 30px;
-    width: 200px;
-    background-color: #e96b62; /* Red */
-    color: white;
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    right: 50%;
-    z-index: 1000;
+
+.modalOverlay {
+    height: 70px;
+    user-select: none;
+    border-radius: 50px;
   }
-  
+  .alert {
+    color: white;
+    padding: 16px 24px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-size: 16px;
+    font-weight: 500;
+    pointer-events: auto;
+  }
