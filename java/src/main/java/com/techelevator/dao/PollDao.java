@@ -8,15 +8,18 @@ import java.util.List;
 
 public interface PollDao {
 
-    Polls getPollById(int pollId); //done
-    Polls getPollByCampaignId(int campaignId); //done
-    Polls createPoll(Polls poll); //done
+    Polls getPollById(int pollId); 
+    Polls getPollByCampaignId(int campaignId); 
+    Polls createPoll(Polls poll); 
 
-    List<PollOption> getPollOptionsByPollId(int pollId); //done
-    PollOption getOptionById(int optionId); //done
-    PollOption createPollOption(PollOption pollOption, int pollId); //done 
-    Integer getPollOptionCountById(int optionId); //in progress
+    List<PollOption> getPollOptionsByPollId(int pollId); 
+    PollOption getOptionById(int optionId); 
+    PollOption createPollOption(PollOption pollOption, int pollId);  
+    Integer getPollOptionCountById(int optionId); 
 
-    PollUsers getPollUsersByPollIdandUserId(int pollId, int userId);
-    Polls deletePollByCampaignId(int id);
+    Integer getPollUserCountByPollOption(int optionId); 
+
+    Polls deletePollByCampaignId(int id); 
+
+    
 }
