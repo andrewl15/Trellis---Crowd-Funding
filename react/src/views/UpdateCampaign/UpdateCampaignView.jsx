@@ -11,13 +11,10 @@ import { categories } from '../../assets/catagories';
 import 'react-dropdown/style.css';
 import CurrencyInput from 'react-currency-input-field';
 import { Input } from '@base-ui-components/react/input';
-import Modal from '../../components/Modal/Modal';
+import DeleteModal from '../../components/Modals/DeleteModal';
 
 export default function UpdateCampaignView() {
     const [isOpen, setIsOpen] = useState(false);
-    const modalPrompt = 
-        'Are you sure you want to delete this campaign? This action cannot be undone.\n' + "\n" +
-        "and any associated donations will be refunded to sender";
     const navigate = useNavigate();
     const user = useContext(UserContext);
     const { id } = useParams();
@@ -41,18 +38,18 @@ export default function UpdateCampaignView() {
     }, [])
 
     function deleteCampaign() {
-            CampaignService.deleteCampaign(id).then(
-                (response) => {
-                    if (response.status === 204) {
-                        alert('Campaign Deleted!');
-                        navigate('/');
-                    }
+        CampaignService.deleteCampaign(id).then(
+            (response) => {
+                if (response.status === 204) {
+                    alert('Campaign Deleted!');
+                    navigate('/');
                 }
-            )
-                .catch(error => {
-                    console.error('Error deleting campaign:', error);
-                });
-        
+            }
+        )
+            .catch(error => {
+                console.error('Error deleting campaign:', error);
+            });
+
 
     }
 
@@ -178,7 +175,7 @@ export default function UpdateCampaignView() {
                         <div className={styles.bottomsection}>
                             <button className={styles.deleteButton} onClick={() => setIsOpen(!isOpen)}>Uproot Campaign</button>
                         </div>
-                        {isOpen && <Modal prompt={modalPrompt} isOpen={isOpen} onClose={() => setIsOpen(false)} onDelete={deleteCampaign}/>}
+                        {isOpen && <DeleteModal  isOpen={isOpen} onClose={() => setIsOpen(false)} onDelete={deleteCampaign}/>}
                     </div>
                 </div>
             </div >

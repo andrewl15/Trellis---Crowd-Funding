@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 import com.techelevator.dao.CampaignDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Campaign;
-import com.techelevator.model.User;
 
 @RestController
 @CrossOrigin
@@ -29,6 +28,15 @@ public class CampaignController {
     public List<Campaign> getAllCampaigns() {
         try {
             return campaignDao.getAllCampaigns();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+
+    @GetMapping(path = "/user/{id}")
+    public List<Campaign> getCampaignsByUserId(@PathVariable int id) {
+        try {
+            return campaignDao.getCampaignsByUserId(id);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }

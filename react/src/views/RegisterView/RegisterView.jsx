@@ -6,6 +6,7 @@ import image from '../../images/FinaleLogo.png'
 import NavView from '../../components/MainNav/MainNav';
 
 import styles from './RegisterView.module.css';
+import { Input } from '@base-ui-components/react';
 
 export default function RegisterView() {
   const navigate = useNavigate();
@@ -61,11 +62,10 @@ export default function RegisterView() {
             <Notification notification={notification} clearNotification={() => setNotification(null)} />
 
             <form onSubmit={handleSubmit}>
-            UPDATE TO MATCH CREATE CAMPAIGN
 
-            <div className={styles.formcontrol}>
-                <label htmlFor="firstName" className={styles.fieldtext}>First Name:</label>
-                <input
+              <div className={styles.formcontrol}>
+                <div className={styles.formtitle}>First Name</div>
+                <Input
                   type="text"
                   id="firstName"
                   value={firstName}
@@ -77,8 +77,8 @@ export default function RegisterView() {
                   onChange={(event) => setFirstName(event.target.value)}
                 />
               </div><div className={styles.formcontrol}>
-                <label htmlFor="lastName" className={styles.fieldtext}>LastName:</label>
-                <input
+                <div className={styles.formtitle}>Last Name</div>
+                <Input
                   type="text"
                   id="lastName"
                   value={lastName}
@@ -91,8 +91,8 @@ export default function RegisterView() {
                 />
               </div>
               <div className={styles.formcontrol}>
-                <label htmlFor="username" className={styles.fieldtext}>Username:</label>
-                <input
+                <div className={styles.formtitle}>Username</div>
+                <Input
                   type="text"
                   id="username"
                   value={username}
@@ -106,8 +106,8 @@ export default function RegisterView() {
               </div>
 
               <div className={styles.formcontrol}>
-                <label htmlFor="password" className={styles.fieldtext}>Password:</label>
-                <input
+                <div className={styles.formtitle}>Password</div>
+                <Input
                   type="password"
                   id="password"
                   value={password}
@@ -119,8 +119,8 @@ export default function RegisterView() {
               </div>
 
               <div className={styles.formcontrol}>
-                <label htmlFor="confirmPassword" className={styles.fieldtext}>Confirm Password:</label>
-                <input
+                <div className={styles.formtitle}>Confirm Password</div>
+                <Input
                   type="password"
                   id="confirmPassword"
                   value={confirmPassword}

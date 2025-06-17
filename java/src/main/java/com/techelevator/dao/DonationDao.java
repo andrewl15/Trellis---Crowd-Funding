@@ -1,6 +1,5 @@
 package com.techelevator.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.techelevator.model.Donation;
@@ -8,8 +7,7 @@ import com.techelevator.model.Donation;
 public interface DonationDao {
     Donation getDonationById(int donationId);
     Donation createDonation(Donation donation);
-    List<Donation> getDonationsByCampaignId(int campaignId);
+    int getDonationCountByCampaignId(int campaignId);
     List<Donation> getDonationsByUserId(Integer userId);
-    int deleteDonationById(int donationId);
-
+    int deleteDonationsByCampaignId(int campaignId);
 } 

@@ -12,6 +12,7 @@ import { categories } from '../../assets/catagories';
 import 'react-dropdown/style.css';
 import CurrencyInput from 'react-currency-input-field';
 import { set } from 'date-fns';
+import ImageUpload from '../../components/ImageUpload/ImageUpload';
 
 
 export default function CreateCampaignView() {
@@ -24,6 +25,11 @@ export default function CreateCampaignView() {
     const [endDate, setEndDate] = useState('');
     const user = useContext(UserContext);
 
+    function parseDateAsLocal(dateString) {
+        const [year, month, day] = dateString.split('-').map(Number);
+        return new Date(year, month - 1, day);
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
         if (!user || !user.id) {
@@ -31,9 +37,18 @@ export default function CreateCampaignView() {
             return;
         }
 
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        if (start >= end) {
+        const start = parseDateAsLocal(startDate);
+        const end = parseDateAsLocal(endDate);
+
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        if (start < currentDate) {
+            alert('Start date must be today or in the future.');
+            return;
+        }
+
+        if (end <= start) {
             alert('End date must be after start date.');
             return;
         }
@@ -100,6 +115,10 @@ export default function CreateCampaignView() {
                     <form onSubmit={handleSubmit}>
 
                         <div className={styles.form}>
+                            <ImageUpload/>
+                        </div>
+
+                        <div className={styles.form}>
                             <div className={styles.formtitle}>Purpose</div>
                             <Dropdown
                                 options={categories}
@@ -117,7 +136,7 @@ export default function CreateCampaignView() {
                         </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Description</div>
-                            <textarea className={styles.description} value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                            <textarea className={styles.description} value={description} onChange={e => setDescription(e.target.value)} minLength={250}></textarea>
                         </div>
                         <div className={styles.form}>
                             <div className={styles.formtitle}>Donation Goal</div>

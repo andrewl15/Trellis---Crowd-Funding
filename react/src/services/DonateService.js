@@ -7,5 +7,9 @@ export default {
     
     createDonation(donationData) {
         return axios.post('/donation/', donationData);
+    },
+
+    getDonationsByCampaignId(campaignId) {
+        return axios.get(`/donation/campaign/${campaignId}`);
     }
 }
