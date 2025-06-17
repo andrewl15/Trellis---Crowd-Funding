@@ -13,6 +13,7 @@ import CreateCampaignView from './views/CreateCampaignView/CreateCampaignView';
 import CampaignDetailsView from './views/CampaignDetailsView/CampaignDetailsView';
 import UpdateCampaignView from './views/UpdateCampaign/UpdateCampaignView';
 import ManageCampaignsView from './views/ManageCampaignsView/ManageCampaignsView';
+import ExploreView from './views/ExploreView/ExploreView';
 
 export default function App() {
   const [user, setUser] = useState(() => getTokenFromStorage());
@@ -64,6 +65,7 @@ export default function App() {
       <UserContext.Provider value={user}>
         <Routes>
           <Route path="/" element={<HomeView />} />
+          <Route path="/explore" element={<ExploreView />} />
           <Route path="/createCampaign" element={<CreateCampaignView />} />
           <Route path="/login" element={<LoginView onLogin={handleLogin} />} />
           <Route path="/logout" element={<LogoutView onLogout={handleLogout} />} />

@@ -3,7 +3,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 100vh;
-    display: grid;
 }
 
 .ccButton {
@@ -17,21 +16,13 @@
     font-weight: 600;
 }
 
-.createDiv{
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    font-weight: bold;
-    font-size: large;
-}
-
 .Link {
     text-decoration: none
 }
 
 .headerButtons {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 .campaigngrid{
