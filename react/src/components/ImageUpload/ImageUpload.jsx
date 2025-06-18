@@ -24,7 +24,7 @@ export default function ImageUpload({setImageUrl}) {
 
 
     return (
-        <button className={styles.imageButton} onClick={() => widgetRef.current.open()}>Upload Image<FontAwesomeIcon className={styles.icon} icon={faUpload}/></button>
+        <button type="button" className={styles.imageButton} onClick={() => widgetRef.current.open()}>Upload Image<FontAwesomeIcon className={styles.icon} icon={faUpload}/></button>
     )
 };
 

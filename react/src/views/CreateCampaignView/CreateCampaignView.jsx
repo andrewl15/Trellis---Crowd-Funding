@@ -19,6 +19,7 @@ import AlertModal from '../../components/Modals/AlertModal';
 export default function CreateCampaignView() {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [picOpen, setPicOpen] = useState(false);
     const [category, setCategory] = useState(categories[0]);
     const [imageUrl, setImageUrl] = useState('');
     const [name, setName] = useState('');
@@ -65,6 +66,11 @@ export default function CreateCampaignView() {
             startDate,
             endDate
         };
+
+        if(!imageUrl){
+            setPicOpen(true);
+            return;
+        }
         CampaignService.createCampaign(user.id, campaignData)
             .then(response => {
                 if (response.status === 201) {
@@ -92,7 +98,7 @@ export default function CreateCampaignView() {
                     <p className={styles.campaigntext}>Create Campaign</p>
                     <TypeAnimation
                         sequence={[
-                            'Ready to grow your campagin?',
+                            'Ready to grow your campaign?',
                             1000, // Waits 1 second
                             'Germinate your dreams!',
                             1000, // Waits 1 second
@@ -121,7 +127,6 @@ export default function CreateCampaignView() {
                     <form onSubmit={handleSubmit}>
 
                         <div className={styles.form}>
-                            REMOVE FORM thinghy
                             <ImageUpload setImageUrl={setImageUrl} required/>
                         </div>
 
@@ -176,6 +181,7 @@ export default function CreateCampaignView() {
             </div>
             <div className={styles.alerts}>
                 {isOpen && <AlertModal prompt={"Campaign Created!"} color={"green"} />}
+                {picOpen && <AlertModal prompt={"Please Select an Image!"} color={"red"} />}
             </div>
         </div >
     );
