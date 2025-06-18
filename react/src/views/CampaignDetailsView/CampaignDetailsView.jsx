@@ -183,7 +183,7 @@ export default function CampaignDetailsView() {
                         </div>
                     </div>
                     {user && user.id === creator.id && poll.title ? <div className={styles.pollbox}>
-                            <PollCard poll={poll} /></div> :
+                            <PollCard poll={poll} owner={user.id === creator.id}/></div> :
                     user && user.id === creator.id ?  <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={handleAddPoll}>Add Poll</button></div> :
                     user ?
                         poll.title ? <div className={styles.pollbox}>
