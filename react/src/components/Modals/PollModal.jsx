@@ -17,6 +17,7 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
         }
     ]);
     const [message, setMessage] = useState("");
+    const [pollTitle, setPollTitle] = useState("");
 
     const addSection = () => {
         if (options.length < 4) {
@@ -54,7 +55,7 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
                         <div id="options" className={styles.form}>
                             <div>
                                 <div className={styles.formtitle}>Poll Title</div>
-                                <Input className={styles.Input} required />
+                                <Input className={styles.Input} required value={pollTitle} onChange={(event) => setPollTitle(event.target.value)} />
                             </div>
 
                             <div className={styles.options}>
