@@ -5,6 +5,7 @@ import { UserContext } from '../../context/UserContext';
 import styles from '../HomeView/HomeView.module.css';
 import { useState } from 'react';
 import image from '../../images/FinaleLogo.png'
+import { style } from '@mui/system';
 
 
 export default function HomeView() {
@@ -46,7 +47,25 @@ export default function HomeView() {
           <p className={styles.getStarted}>Get Started</p>
         </div>
         <div className={styles.rightSection}>
-          <p>dddddd ddddddd dddddddddddddd dddddddddd ddddddddd ddddd dddddd dddddddd ddddd dddddddd d dddd dd ddd dd dddddd ddddd ddd ddddd ddddd dddd ddd</p>
+          <lord-icon
+            src="https://cdn.lordicon.com/rxdjhpeg.json"
+            trigger="hover"
+            delay="0"
+            colors="primary:#5c230a,secondary:#407440"
+            style={{ width: "100px", height: "100px", margin: "0", padding: "0" }}
+          ></lord-icon>
+          <p>Sow the seeds of your dreams!</p>
+        </div>
+        <div className={styles.bottomSection}>
+          <div className={styles.rightInfo}>
+            At Trellis, we believe every great idea starts with a seed. 
+            Whether you're launching a passion project, rallying support
+            for a cause, or building something entirely new, we're here to
+            help your campaign take root and flourish.
+            With an easy-to-use
+            platform and a supportive community, Trellis is where ambitious
+            campaigns grow into something extraordinary. Let's cultivate your vision—one supporter at a time.
+          </div>
         </div>
         <div className={styles.rightTrellis}></div>
         <div className={styles.leftTrellis}></div>

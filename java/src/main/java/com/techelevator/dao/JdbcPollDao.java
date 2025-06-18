@@ -53,14 +53,14 @@ public class JdbcPollDao implements PollDao {
         return poll;
     }
 
-    @Override 
+    @Override
     public Polls updatePoll(Polls poll) {
         Polls updatedPoll = null;
         String sql = "UPDATE polls SET poll_name = ? WHERE poll_id = ?";
         try {
             int rowsAffected = jdbcTemplate.update(sql, poll.getName(), poll.getId());
             // if (rowsAffected == 0) {
-            //     throw new DaoException("0  rows affected");
+            // throw new DaoException("0 rows affected");
             // }
             updatedPoll = getPollById(rowsAffected);
         } catch (CannotGetJdbcConnectionException e) {
@@ -70,27 +70,33 @@ public class JdbcPollDao implements PollDao {
         }
         return updatedPoll;
     }
-    
+
     @Override
     public Polls createPoll(Polls poll) {
 
-        System.out.println("andy debug 2");
-    System.out.println(poll);
+        // System.out.println("andy debug 2");
+        // System.out.println(poll);
         Polls createdPoll = null;
-        PollOption pollOption = null;
-        String sql = "insert into Polls(campaign_id,poll_name) VALUES(?,?) returning poll_id;";
+        String pollSql = "insert into Polls(campaign_id,poll_name) VALUES(?,?) returning poll_id;";
+        try {
+            int pollid = jdbcTemplate.queryForObject(pollSql, int.class, poll.getCampaignId(), poll.getPollTitle());
 
-    
-        int pollid = jdbcTemplate.queryForObject(sql, int.class, poll.getCampaignId(), poll.getPollTitle());
-        createdPoll = getPollById(pollid);
+            // String sql = "inseert into the other table"
+            // jdbcTemplate.queryForObject(...)
 
-        // String sql = "inseert into the other table"
-        // jdbcTemplate.queryForObject(...)
+            String optionSql = "insert into poll_option(poll_id,poll_option_title) VALUES(?,?) returning poll_option_id;";
+            // List<PollOption> options = getPollOptionsByPollId(pollid);
+            for (String option : poll.getOptions()) {
+                jdbcTemplate.queryForObject(optionSql, int.class, pollid, option);
+            }
 
-        sql = "insert into poll_option(poll_id,poll_option_title) VALUES(?,?) returning poll_option_id;";
-        int optionId = jdbcTemplate.queryForObject(sql, int.class,pollid,pollOption.getName());
-        // int pollOptionId = ;
-     
+            createdPoll = getPollById(pollid);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException(e.getMessage());
+        }
+
         return createdPoll;
     }
 
