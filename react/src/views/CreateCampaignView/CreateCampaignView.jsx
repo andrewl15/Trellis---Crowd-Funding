@@ -121,6 +121,7 @@ export default function CreateCampaignView() {
                     <form onSubmit={handleSubmit}>
 
                         <div className={styles.form}>
+                            REMOVE FORM thinghy
                             <ImageUpload setImageUrl={setImageUrl} required/>
                         </div>
 

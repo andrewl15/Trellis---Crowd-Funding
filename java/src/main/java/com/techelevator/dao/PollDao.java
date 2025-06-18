@@ -21,7 +21,7 @@ public interface PollDao {
     Integer getPollUserCountByPollOption(int optionId);
 
 
-    Polls deletePollByCampaignId(int id); 
+    int deletePollByCampaignId(int pollId, int campaignId); 
 
     
 }

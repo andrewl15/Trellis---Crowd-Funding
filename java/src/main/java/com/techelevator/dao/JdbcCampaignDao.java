@@ -167,14 +167,17 @@ public class JdbcCampaignDao implements CampaignDao {
         int numberOfRowsAffected = 0;
         String campaignSql = "delete from campaign where campaign_id = ?;";
         String userCampaignSql = "delete from user_campaign where campaign_id = ?;";
+        String pollSql = "delete from polls where campaign_id = ?;";
         try {
             donationDao.deleteDonationsByCampaignId(id);
-            numberOfRowsAffected = jdbcTemplate.update(userCampaignSql, id);
+            numberOfRowsAffected = jdbcTemplate.update(pollSql, id);
+            numberOfRowsAffected += jdbcTemplate.update(userCampaignSql, id);
             numberOfRowsAffected += jdbcTemplate.update(campaignSql, id);
+     
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
+            throw new DaoException(e.getMessage());
         }
         return numberOfRowsAffected;
     }

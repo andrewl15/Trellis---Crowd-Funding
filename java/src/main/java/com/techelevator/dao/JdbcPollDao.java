@@ -1,7 +1,5 @@
 package com.techelevator.dao;
 
-
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -25,15 +23,15 @@ public class JdbcPollDao implements PollDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Polls getPollById(int pollId){
+    public Polls getPollById(int pollId) {
         Polls poll = null;
         String sql = "Select * from polls where poll_id = ?;";
-        try{
+        try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, pollId);
-            if(results.next()) {
+            if (results.next()) {
                 poll = mapRowToPoll(results);
             }
-        } catch (CannotGetJdbcConnectionException e){
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
@@ -43,15 +41,15 @@ public class JdbcPollDao implements PollDao {
     @Override
     public Polls getPollByCampaignId(int campaignId) {
         Polls poll = null;
-        String sql ="Select * from polls where campaign_id = ?;";
+        String sql = "Select * from polls where campaign_id = ?;";
         try {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, campaignId);
             if (result.next()) {
                 poll = mapRowToPoll(result);
-                }
-            } catch (CannotGetJdbcConnectionException e) {
-                throw new DaoException("Unable to connect to server or database", e);
             }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
         return poll;
     }
 
@@ -78,7 +76,7 @@ public class JdbcPollDao implements PollDao {
         Polls createdPoll = null;
         String sql = "insert into Polls(campaign_id,poll_name) VALUES(?,?) returning poll_id;";
 
-        try{
+        try {
             int pollid = jdbcTemplate.queryForObject(sql, int.class, poll.getCampaignId(), poll.getName());
             createdPoll = getPollById(pollid);
         } catch (CannotGetJdbcConnectionException e) {
@@ -111,9 +109,9 @@ public class JdbcPollDao implements PollDao {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, optionId);
             if (result.next()) {
                 pollOption = mapRowToPollOption(result);
-            } 
+            }
         } catch (CannotGetJdbcConnectionException e) {
-                throw new DaoException("Unable to connect to server or database", e);
+            throw new DaoException("Unable to connect to server or database", e);
         }
         return pollOption;
     }
@@ -123,14 +121,14 @@ public class JdbcPollDao implements PollDao {
         PollOption createdOption = null;
         String sql = "INSERT INTO poll_option(poll_id, poll_option_title) Values (?, ?) returning poll_option_id;";
 
-        try{
+        try {
             int optionId = jdbcTemplate.queryForObject(sql, int.class, pollId, polloption.getName());
             createdOption = getOptionById(optionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("unable to connect to server or database", e);
         }
         return createdOption;
-    } 
+    }
 
     @Override
     public Integer getPollOptionCountById(int optionId) {
@@ -156,22 +154,20 @@ public class JdbcPollDao implements PollDao {
         return voteCount;
     }
 
-
     @Override
-    public Polls deletePollByCampaignId(int id) {
-        Polls deletedPoll = null;
-        String sql = "DELETE FROM polls WHERE campaign_id = ? RETURNING *";
+    public int deletePollByCampaignId(int pollId, int campaignId) {
+        int rows = 0;
+        String pollOptionsSql = "delete from poll_option where poll_id = ?";
+        String pollSql = "DELETE FROM polls WHERE poll_id = ? AND campaign_id = ?";
         try {
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
-            if (result.next()) {
-                deletedPoll = mapRowToPoll(result);
-            }
+            rows = jdbcTemplate.update(pollOptionsSql, pollId);
+            rows += jdbcTemplate.update(pollSql, pollId, campaignId);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Cannot delete poll with existing options or users", e);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
-        return deletedPoll;
+        return rows;
     }
 
     private Polls mapRowToPoll(SqlRowSet result) {
@@ -182,7 +178,7 @@ public class JdbcPollDao implements PollDao {
         return poll;
     }
 
-    private PollOption mapRowToPollOption(SqlRowSet result){
+    private PollOption mapRowToPollOption(SqlRowSet result) {
         PollOption PollOption = new PollOption();
         PollOption.setId(result.getInt("poll_option_id"));
         PollOption.setPollId(result.getInt("poll_id"));
@@ -197,12 +193,8 @@ public class JdbcPollDao implements PollDao {
         pollUsers.setPoll_Option_Id(results.getInt("poll_option_id"));
         return pollUsers;
     }
-    
+
 }
-
-
-    
-    
 
 // Polls getPollByCampaignId(int campaignId);
 // Polls createPoll(Polls poll);
