@@ -37,6 +37,7 @@ export default function CampaignDetailsView() {
     const [poll, setPoll] = useState([]);
     const [nameOpen, setNameOpen] = useState(false);
     const [pollOpen, setPollOpen] = useState(false)
+    const [pollId, setPollId] = useState([])
 
     function handleDonate() {
         if (!donation.amount) {
