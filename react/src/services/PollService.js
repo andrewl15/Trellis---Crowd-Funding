@@ -25,6 +25,12 @@ export default {
         return axios.post('/campaign/polls/', poll);
     },
 
+    createPollOption(pollOption)  {
+        return axios.post(`/campaign/polls/${pollId}/option`);
+    },
+
+    
+
     deletePollByCamopaignId(campaignId){
         return axios.delete(`/campaign/polls/${campaignId}`);
     }
