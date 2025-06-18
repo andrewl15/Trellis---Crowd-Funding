@@ -9,12 +9,13 @@ export default function PollCard({ poll, owner }) {
     const [yesdisabled, setYesDisabled] = useState(false)
     const [nodisabled, setNoDisabled] = useState(false)
     const [hasVoted, setHasVoted] = useState(null)
+    const [options, setOptions] = useState([]);
 
-    function handleYes(){ 
+    function handleYes() {
         if (hasVoted === 'yes') { //1
             return;
         }
-        if( hasVoted === 'no') {    //2
+        if (hasVoted === 'no') {    //2
             setYesValue(yesvalue + 1)
             setNoValue(novalue - 1)
             setHasVoted('yes')
@@ -24,14 +25,14 @@ export default function PollCard({ poll, owner }) {
         setPollAmount(pollAmount + 1)
         setHasVoted('yes')
 
-        
+
     }
 
-    function handleNo(){
+    function handleNo() {
         if (hasVoted === 'no') {
             return;
         }
-        if( hasVoted === 'yes') {   
+        if (hasVoted === 'yes') {
             setNoValue(novalue + 1)
 
             setYesValue(yesvalue - 1)
@@ -42,10 +43,13 @@ export default function PollCard({ poll, owner }) {
         setPollAmount(pollAmount + 1)
         setHasVoted('no')
 
-    }    
+    }
 
     function handleClick(e) {
+        const option = {title: `Option`, value: 1}
+        setOptions([...options, option])
         e.preventDefault();
+
     }
 
     return (
@@ -58,30 +62,24 @@ export default function PollCard({ poll, owner }) {
                 </div>
                 <fieldset>
                     <div className={styles.answer}>
-                        <div className={styles.pollitem}>
-                            <div className={styles.formbutton}>
-                            <input type="radio" onClick={handleYes} className={styles.pollbutton} disabled={yesdisabled} id="Choice1" name="contact" value="email" />
-                            <label htmlFor="Choice1" className={styles.pollLabel}>Yes</label>
-                            </div>
-                            <div className={styles.loading}>
-                            <progress value={pollAmount === 0 ? 0 : (yesvalue / pollAmount * 100)} className={styles.loadingbar} max={100} />
-                            <p>{yesvalue < 1? "0" : Math.round(yesvalue/pollAmount * 100)}%</p>
-                            </div>
-                        </div>
-                        <div className={styles.pollitem}>
-                            <div className={styles.formbutton}>
-                            <input type="radio" onClick={handleNo} className={styles.pollbutton} disabled={nodisabled} id="Choice2" name="contact" value="email" />
-                            <label htmlFor="Choice2" className={styles.pollLabel}>No</label>
-                            </div>
-                            <div className={styles.loading}>
-                            <progress value={pollAmount === 0 ? 0 : (novalue / pollAmount * 100)} className={styles.loadingbar} max={100} />
-                            <p>{novalue < 1? "0" : Math.round(novalue/pollAmount * 100)}%</p>
-                            </div>
-                        </div>
+                        {options.map(
+                            (option) => (
+                                <div className={styles.pollitem}>
+                                    <div className={styles.formbutton}>
+                                        <input type="radio" onClick={handleYes} className={styles.pollbutton} disabled={yesdisabled} id="Choice1" name="contact" value="email" />
+                                        <label htmlFor="Choice1" className={styles.pollLabel}>{option.title}</label>
+                                    </div>
+                                    <div className={styles.loading}>
+                                        <progress value={pollAmount === 0 ? 0 : (option.value / pollAmount * 100)} className={styles.loadingbar} max={100} />
+                                        <p>{0 < 1 ? "0" : Math.round(option.value / pollAmount * 100)}%</p>
+                                    </div>
+                                </div>
+                            )
+                        )}
                     </div>
                 </fieldset>
                 <div className={styles.buttondiv}>
-                {owner ? <button className={styles.deleteButton} onClick={handleClick}>Delete Poll</button> : <></>}
+                    {owner ? <button className={styles.deleteButton} onClick={handleClick}>Delete Poll</button> : <></>}
                 </div>
             </form>
 

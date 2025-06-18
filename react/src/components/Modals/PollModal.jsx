@@ -5,8 +5,11 @@ import { Input } from '@base-ui-components/react/input';
 import { useState } from 'react';
 import AlertModal from './AlertModal';
 import PollService from '../../services/PollService';
+import { use } from 'react';
 
 export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
+    const [payload,setPayload] = useState([])
+    const [boxes, setboxes] = useState([])
     const [options, setOptions] = useState([
         {
             id: 1,
@@ -31,14 +34,22 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
     }
 
     const handleInputChange = (event) => {
-        const payload = {
-            poll_option_title: event.target.value
-        }
+
+        // don't make a new object if event.target has not changed ....
+
+        // instead of
     }
 
     function handleClick(){
-        //create poll on click
-        onClose();
+        //update poll on click
+        const boxes = document.querySelectorAll('.poll-content');
+        boxes.forEach( (box) => console.log(box.value))
+
+        const data = {
+            poll_option_title: boxes.value
+        }
+        setPayload([...payload,data])
+        // onClose();
     }
     
 
@@ -47,7 +58,7 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
             <div className={styles.modalOverlay}>
                 <div className={styles.modalContent}>
                     <h1>Create Poll</h1>
-
+                    {JSON.stringify(payload)}
                     <div>
                         <button className={styles.closeButton} onClick={onClose}>
                             <FontAwesomeIcon icon={faCircleXmark} className={styles.closeIcon} />
@@ -70,7 +81,8 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
                                     (option, index) => (
                                         <div key={index}>
                                             <div className={styles.formtitle}>{option.title}</div>
-                                            <Input className={styles.Input} required onChange={(event) => handleInputChange(event)}/>
+                                            {/* <Input className={styles.Input} required onChange={(event) => handleInputChange(event)}/> */}
+                                             <Input className={`poll-content ${styles.Input}`}/>
                                         </div>
                                     )
                                 )}
