@@ -102,7 +102,7 @@ export default function CampaignDetailsView() {
         CampaignService.getCampaignById(id).then(
             (response) => {
                 setCampaign(response.data)
-                setPoll({ ...poll, title: "poll 1" })
+                // setPoll({ ...poll, title: "poll 1" })
                 if (user) {
                     setDonation({ ...donation, campaignId: response.data.id, userId: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email })
                 } else {

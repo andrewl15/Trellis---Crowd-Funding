@@ -60,6 +60,10 @@
     display: flex;
 }
 
+fieldset{
+    width: 100%;
+}
+
 .formbutton{
     display: flex;
     align-items: center;
