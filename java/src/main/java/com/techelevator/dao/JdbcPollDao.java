@@ -55,6 +55,24 @@ public class JdbcPollDao implements PollDao {
         return poll;
     }
 
+    @Override 
+    public Polls updatePoll(Polls poll) {
+        Polls updatedPoll = null;
+        String sql = "UPDATE polls SET poll_name = ? WHERE poll_id = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, poll.getName(), poll.getId());
+            // if (rowsAffected == 0) {
+            //     throw new DaoException("0  rows affected");
+            // }
+            updatedPoll = getPollById(rowsAffected);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Unable to update poll due to data integrity violation", e);
+        }
+        return updatedPoll;
+    }
+    
     @Override
     public Polls createPoll(Polls poll) {
         Polls createdPoll = null;
@@ -135,7 +153,7 @@ public class JdbcPollDao implements PollDao {
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
-        return
+        return voteCount;
     }
 
 

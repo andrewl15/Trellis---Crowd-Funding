@@ -1,31 +1,31 @@
 import axios from 'axios';
 
 export default {
-    getPollByCampaignId: (campaignId) => {
+    getPollByCampaignId(campaignId)  {
         return axios.get(`/campaign/polls/${campaignId}`);
     },
 
-    getOptionById: (optionId) => {
+    getOptionById(optionId)  {
         return axios.get(`/campaign/polls/option/${optionId}`);
     },
 
-    getPollOptionsByPollId: (pollId) => {
+    getPollOptionsByPollId(pollId)  {
         return axios.get(`/campaign/polls/options/${pollId}`);
     },
 
-    getPollOptionCountById: (optionId) => {
+    getPollOptionCountById(optionId)  {
         return axios.get(`/campaign/polls/option/count/${optionId}`);
     },
 
-    getPollUserCountByPollOption: (pollOptionId) => {
+    getPollUserCountByPollOption(pollOptionId)  {
         return axios.get(`/campaign/polls/user/count/${pollOptionId}`);
     },
 
-    createPoll: (poll) => {
-        return axios.post('/campaign/polls', poll);
+    createPoll(poll)  {
+        return axios.post('/campaign/polls/', poll);
     },
 
-    deletePollByCamopaignId: (campaignId) => {
+    deletePollByCamopaignId(campaignId){
         return axios.delete(`/campaign/polls/${campaignId}`);
     }
 

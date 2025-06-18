@@ -4,6 +4,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { Input } from '@base-ui-components/react/input';
 import { useState } from 'react';
 import AlertModal from './AlertModal';
+import PollService from '../../services/PollService';
 
 export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
     const [options, setOptions] = useState([
@@ -34,6 +35,7 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
             poll_option_title: event.target.value
         }
     }
+    
 
     return (
         <>
