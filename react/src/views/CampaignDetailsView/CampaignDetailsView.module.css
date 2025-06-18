@@ -1,14 +1,10 @@
 .mainDetails{
     height: 100vh;
     margin: 100px;
-    margin-left: 400px;
+    margin-left: 20px;
     margin-right: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-        "title . ."
-        "img . donateBox"
-        "description . donateBox";
+    display: flex;
+    justify-content: center;
 }
 .infoBox{
     display: flex;
@@ -18,7 +14,6 @@
 }
 
 .title {
-    grid-area: title;
     text-align: center;
 }
 .image {
@@ -98,8 +93,6 @@
     grid-area: description;
     font-size: larger;
     line-height: 1.5;
-    align-content: flex-start;
-    margin-right: 50px;
 
     overflow-wrap: break-word;
     word-break: break-word;
@@ -109,6 +102,8 @@
 .campaignInfo {
     height: 100vh;
     border-radius: 10px;
+    width: 600px;
+    margin-right: 40px;
 }
 
 .campaignDonate{
@@ -121,7 +116,6 @@
 .creator {
     font-size: larger;
     margin-top: 15px;
-    margin-left: 20px;
     margin-bottom: 5px;
 }
 
@@ -131,13 +125,13 @@
 .infoHeader {
     display: flex;
     justify-content: center;
-    width: 89%;
+    width: 100%;
     text-wrap: wrap;
     margin-bottom: 7px;
 }
 
 .line {
-    width: 89%;
+    width: 100%;
     border: 1px solid #477549;
     margin-left: -2px;
 }
@@ -167,3 +161,14 @@
     z-index: 9999; 
 }
   
+.polleditButton{
+    width: 280px;
+    height: 50px;
+    background-color: #659dd5; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 25px;
+}

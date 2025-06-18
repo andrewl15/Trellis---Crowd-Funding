@@ -13,6 +13,7 @@ import DonateService from "../../services/DonateService";
 import PollCard from "../../components/PollCard/PollCard";
 import DonateModal from "../../components/Modals/DonateModal";
 import AlertModal from "../../components/Modals/AlertModal";
+import PollModal from "../../components/Modals/PollModal";
 
 
 export default function CampaignDetailsView() {
@@ -34,6 +35,7 @@ export default function CampaignDetailsView() {
     const [creator, Setcreator] = useState("");
     const [poll, setPoll] = useState([]);
     const [nameOpen, setNameOpen] = useState(false);
+    const [pollOpen, setPollOpen] = useState(false)
 
     function handleDonate() {
         if (!donation.amount) {
@@ -73,7 +75,7 @@ export default function CampaignDetailsView() {
         CampaignService.getCampaignById(id).then(
             (response) => {
                 setCampaign(response.data)
-                setPoll({ ...poll, title: "poll 1" })
+                // setPoll({ ...poll, title: "poll 1" })
                 if (user) {
                     setDonation({ ...donation, campaignId: response.data.id, userId: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email })
                 } else {
@@ -111,10 +113,12 @@ export default function CampaignDetailsView() {
                         <div className={styles.infoHeader}>
                             <h1 className={styles.title}>{campaign.name}</h1>
                         </div>
+                        <div>
                         <img className={styles.image} src={campaign.imageUrl} alt="" />
                         <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
                         <hr className={styles.line}></hr>
                         <p className={styles.desc}>{campaign.description}</p>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.campaignDonate}>
@@ -151,7 +155,10 @@ export default function CampaignDetailsView() {
                             <p>Top Donors</p>
                         </div>
                     </div>
-                    {user ?
+                    {user && user.id === creator.id && poll.title ? <div className={styles.pollbox}>
+                            <PollCard poll={poll} /></div> :
+                    user && user.id === creator.id ?  <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={() => setPollOpen(!pollOpen)}>Add Poll</button></div> :
+                    user ?
                         poll.title ? <div className={styles.pollbox}>
                             <PollCard poll={poll} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
                 </div>
@@ -160,7 +167,7 @@ export default function CampaignDetailsView() {
                     setAlertOpen(false);
                     setNameOpen(false);
                 }} onDonate={handleDonate} />}
-
+                {pollOpen && <PollModal isOpen={pollOpen} poll={poll} setPoll={setPoll} onClose={() => {setPollOpen(false)}} />}
             </div>
             <div className={styles.alerts}>
                 {alertOpen && <AlertModal prompt={"Please enter a donation amount of greater than $0"} color={"#bd4037"} />}
