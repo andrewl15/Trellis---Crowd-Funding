@@ -98,7 +98,7 @@ export default function CreateCampaignView() {
                     <p className={styles.campaigntext}>Create Campaign</p>
                     <TypeAnimation
                         sequence={[
-                            'Ready to grow your campagin?',
+                            'Ready to grow your campaign?',
                             1000, // Waits 1 second
                             'Germinate your dreams!',
                             1000, // Waits 1 second
