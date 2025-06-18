@@ -21,6 +21,9 @@ export default function MainNav() {
       <div className={styles.navlink}>
         <NavLink to="/" className={styles.navtext}>Home</NavLink>
       </div>
+      <div className={styles.navlink}>
+        <NavLink to="/explore" className={styles.navtext}>Explore</NavLink>
+      </div>
       {user ? (
         <>
           <div className={styles.navlink}>
