@@ -14,6 +14,7 @@ import PollCard from "../../components/PollCard/PollCard";
 import DonateModal from "../../components/Modals/DonateModal";
 import AlertModal from "../../components/Modals/AlertModal";
 import PollModal from "../../components/Modals/PollModal";
+import PollService from "../../services/PollService";
 
 
 export default function CampaignDetailsView() {
@@ -66,6 +67,32 @@ export default function CampaignDetailsView() {
         setIsOpen(false);
         setAlertOpen(false);
         setNameOpen(false);
+    }
+
+//    function handleAddPoll()  {
+//             PollService.createPoll({
+//             campaignId: id,
+//           });
+//           setPoll(response.data);      
+//           setPollOpen(true);             
+//         } catch (error) {
+//           console.error("Error creating poll:", error);
+//         }
+//       };
+
+    function handleAddPoll() {
+        const pollData = {
+            campaignId: id
+        }
+        PollService.createPoll(pollData).then(
+            (response) => {
+                if(response.status === 201){
+                    setPoll(response.data);
+                    setPollOpen(true);
+                }
+            }).catch(error => {
+                console.error('Error creating poll:', error);
+            });
     }
 
 
@@ -156,8 +183,8 @@ export default function CampaignDetailsView() {
                         </div>
                     </div>
                     {user && user.id === creator.id && poll.title ? <div className={styles.pollbox}>
-                            <PollCard poll={poll} /></div> :
-                    user && user.id === creator.id ?  <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={() => setPollOpen(!pollOpen)}>Add Poll</button></div> :
+                            <PollCard poll={poll} owner={user.id === creator.id}/></div> :
+                    user && user.id === creator.id ?  <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={handleAddPoll}>Add Poll</button></div> :
                     user ?
                         poll.title ? <div className={styles.pollbox}>
                             <PollCard poll={poll} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
