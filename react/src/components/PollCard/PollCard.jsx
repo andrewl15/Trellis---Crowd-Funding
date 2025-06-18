@@ -73,6 +73,9 @@ export default function PollCard({ poll }) {
                             <progress value={pollAmount === 0 ? 0 : (novalue / pollAmount * 100)} className={styles.loadingbar} max={100} />
                             <p>{novalue < 1? "0" : Math.round(novalue/pollAmount * 100)}%</p>
                             </div>
+                            <div>
+                                
+                            </div>
                         </div>
                     </div>
                 </fieldset>
