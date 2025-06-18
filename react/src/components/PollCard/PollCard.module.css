@@ -12,7 +12,7 @@
 }
 
 .pollitem{
-    margin: 10px;
+    margin: 5px;
 }
 
 .pollLabel{
@@ -37,4 +37,30 @@
     margin-left: 20px;
     margin-right: 20px;
     border: 0.5px solid grey;
+}
+
+.deleteButton{
+    width: 50%;
+    background-color: #688FE5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    justify-content: center;
+}
+
+.deleteButton:hover {
+    color: rgb(33, 33, 33);
+    }
+
+.buttondiv{
+    display: flex;
+}
+
+.formbutton{
+    display: flex;
+    align-items: center;
 }

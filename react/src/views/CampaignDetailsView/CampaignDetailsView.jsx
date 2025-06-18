@@ -102,7 +102,7 @@ export default function CampaignDetailsView() {
         CampaignService.getCampaignById(id).then(
             (response) => {
                 setCampaign(response.data)
-                // setPoll({ ...poll, title: "poll 1" })
+                setPoll({ ...poll, title: "poll 1" })
                 if (user) {
                     setDonation({ ...donation, campaignId: response.data.id, userId: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email })
                 } else {
@@ -183,7 +183,7 @@ export default function CampaignDetailsView() {
                         </div>
                     </div>
                     {user && user.id === creator.id && poll.title ? <div className={styles.pollbox}>
-                            <PollCard poll={poll} /></div> :
+                            <PollCard poll={poll} owner={user.id === creator.id}/></div> :
                     user && user.id === creator.id ?  <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={handleAddPoll}>Add Poll</button></div> :
                     user ?
                         poll.title ? <div className={styles.pollbox}>

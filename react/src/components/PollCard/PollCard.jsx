@@ -2,7 +2,7 @@ import { set } from '@lordicon/helpers'
 import styles from './PollCard.module.css'
 import { useState } from 'react'
 
-export default function PollCard({ poll }) {
+export default function PollCard({ poll, owner }) {
     const [yesvalue, setYesValue] = useState(0)
     const [novalue, setNoValue] = useState(0)
     const [pollAmount, setPollAmount] = useState(0)
@@ -44,6 +44,10 @@ export default function PollCard({ poll }) {
 
     }    
 
+    function handleClick(e) {
+        e.preventDefault();
+    }
+
     return (
         <>
             <form>
@@ -55,7 +59,7 @@ export default function PollCard({ poll }) {
                 <fieldset>
                     <div className={styles.answer}>
                         <div className={styles.pollitem}>
-                            <div>
+                            <div className={styles.formbutton}>
                             <input type="radio" onClick={handleYes} className={styles.pollbutton} disabled={yesdisabled} id="Choice1" name="contact" value="email" />
                             <label htmlFor="Choice1" className={styles.pollLabel}>Yes</label>
                             </div>
@@ -65,7 +69,7 @@ export default function PollCard({ poll }) {
                             </div>
                         </div>
                         <div className={styles.pollitem}>
-                            <div>
+                            <div className={styles.formbutton}>
                             <input type="radio" onClick={handleNo} className={styles.pollbutton} disabled={nodisabled} id="Choice2" name="contact" value="email" />
                             <label htmlFor="Choice2" className={styles.pollLabel}>No</label>
                             </div>
@@ -73,12 +77,12 @@ export default function PollCard({ poll }) {
                             <progress value={pollAmount === 0 ? 0 : (novalue / pollAmount * 100)} className={styles.loadingbar} max={100} />
                             <p>{novalue < 1? "0" : Math.round(novalue/pollAmount * 100)}%</p>
                             </div>
-                            <div>
-                                
-                            </div>
                         </div>
                     </div>
                 </fieldset>
+                <div className={styles.buttondiv}>
+                {owner ? <button className={styles.deleteButton} onClick={handleClick}>Delete Poll</button> : <></>}
+                </div>
             </form>
 
         </>

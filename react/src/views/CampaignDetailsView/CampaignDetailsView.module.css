@@ -160,10 +160,14 @@
     flex-direction: column;
     z-index: 9999; 
 }
+
+fieldset{
+    width: 100px;
+    display: flex;
+}
   
 .polleditButton{
     width: 280px;
-    height: 50px;
     background-color: #659dd5; /* Green */
     color: white;
     border: none;
@@ -171,4 +175,5 @@
     cursor: pointer;
     font-size: 1.2rem;
     margin-top: 25px;
+    justify-content: center;
 }
