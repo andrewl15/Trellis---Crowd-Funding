@@ -135,7 +135,7 @@ public class JdbcPollDao implements PollDao {
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
-        return
+        return voteCount;
     }
 
 
