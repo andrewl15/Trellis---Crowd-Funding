@@ -30,6 +30,9 @@ export default {
     },
     deletePollByCamopaignId(campaignId){
         return axios.delete(`/campaign/polls/${campaignId}`);
+    },
+    updatePoll(id, payload){
+        return axios.put(`/campaign/polls/${id}`, payload);
     }
 
 }

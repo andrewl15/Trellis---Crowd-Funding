@@ -7,7 +7,7 @@ import AlertModal from './AlertModal';
 import PollService from '../../services/PollService';
 import { use } from 'react';
 
-export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
+export default function PollModal({ pollOpen, poll, setPoll, campaign, onClose }) {
     const [payload,setPayload] = useState([])
     const [boxes, setboxes] = useState([])
     const [options, setOptions] = useState([
@@ -43,13 +43,30 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
     function handleClick(){
         //update poll on click
         const boxes = document.querySelectorAll('.poll-content');
-        boxes.forEach( (box) => console.log(box.value))
+        let optionValues = [];
+        boxes.forEach( (box) => optionValues.push(box.value) )
 
         const data = {
             poll_option_title: boxes.value
         }
         setPayload([...payload,data])
-        // onClose();
+
+        //------------------------
+        console.log('campaign prop data?')
+        console.log(campaign)
+
+        const titleData = { pollTitle , campaignId : campaign.id, options: optionValues}
+        console.log(titleData);
+
+        PollService.createPoll( titleData).then(
+            (response) => {
+                if (response.status === 200){
+                    console.log("POLLS")
+                }
+            }
+        ).catch((error) => console.log(error))
+
+        onClose();
     }
     
 
@@ -58,7 +75,6 @@ export default function PollModal({ pollOpen, poll, setPoll, onClose }) {
             <div className={styles.modalOverlay}>
                 <div className={styles.modalContent}>
                     <h1>Create Poll</h1>
-                    {JSON.stringify(payload)}
                     <div>
                         <button className={styles.closeButton} onClick={onClose}>
                             <FontAwesomeIcon icon={faCircleXmark} className={styles.closeIcon} />
