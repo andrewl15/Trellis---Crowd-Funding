@@ -120,6 +120,7 @@ public class PollController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/{id}")
     public Polls updatePoll(@RequestBody Polls poll, @PathVariable int id) {
         try {
@@ -138,11 +139,16 @@ public class PollController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/")
     public Polls createPoll(@RequestBody Polls poll){
-        try{
-            return pollDao.createPoll(poll);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
-        }
+
+        System.out.println("andy DEBUG - controller");
+        System.out.println(poll);
+
+        return pollDao.createPoll(poll);
+        // try{
+        //     return pollDao.createPoll(poll);
+        // } catch (Exception e) {
+        //     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        // }
     }
 
     @ResponseStatus(HttpStatus.CREATED)

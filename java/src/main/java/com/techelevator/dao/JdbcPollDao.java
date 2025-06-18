@@ -73,15 +73,24 @@ public class JdbcPollDao implements PollDao {
     
     @Override
     public Polls createPoll(Polls poll) {
+
+        System.out.println("andy debug 2");
+    System.out.println(poll);
         Polls createdPoll = null;
+        PollOption pollOption = null;
         String sql = "insert into Polls(campaign_id,poll_name) VALUES(?,?) returning poll_id;";
 
-        try {
-            int pollid = jdbcTemplate.queryForObject(sql, int.class, poll.getCampaignId(), poll.getName());
-            createdPoll = getPollById(pollid);
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
+    
+        int pollid = jdbcTemplate.queryForObject(sql, int.class, poll.getCampaignId(), poll.getPollTitle());
+        createdPoll = getPollById(pollid);
+
+        // String sql = "inseert into the other table"
+        // jdbcTemplate.queryForObject(...)
+
+        sql = "insert into poll_option(poll_id,poll_option_title) VALUES(?,?) returning poll_option_id;";
+        int optionId = jdbcTemplate.queryForObject(sql, int.class,pollid,pollOption.getName());
+        // int pollOptionId = ;
+     
         return createdPoll;
     }
 

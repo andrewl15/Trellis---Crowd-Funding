@@ -1,9 +1,30 @@
 package com.techelevator.model;
 
+import java.util.Arrays;
+
 public class Polls {
     private int id;
     private String name;
     private int campaignId;
+    private String[] options;
+
+    private String pollTitle;
+
+    public String getPollTitle() {
+        return this.pollTitle;
+    }
+
+    public void setPollTitle(String pollTitle) {
+        this.pollTitle = pollTitle;
+    }
+
+    public String[] getOptions() {
+        return this.options;
+    }
+
+    public void setOptions(String [] options) {
+        this.options = options;
+    }
 
     public Polls() {
     }
@@ -40,10 +61,6 @@ public class Polls {
 
     @Override
     public String toString() {
-        return "Polls{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", campaignId=" + campaignId +
-                '}';
+        return pollTitle + " " + campaignId + " " +  Arrays.toString(options);
     }
 }

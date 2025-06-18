@@ -82,18 +82,19 @@ export default function CampaignDetailsView() {
 //       };
 
     function handleAddPoll() {
-        const pollData = {
-            campaignId: id
-        }
-        PollService.createPoll(pollData).then(
-            (response) => {
-                if(response.status === 201){
-                    setPoll(response.data);
-                    setPollOpen(true);
-                }
-            }).catch(error => {
-                console.error('Error creating poll:', error);
-            });
+        setPollOpen(true);
+        // const pollData = {
+        //     campaignId: id
+        // }
+        // PollService.createPoll(pollData).then(
+        //     (response) => {
+        //         if(response.status === 201){
+        //             setPoll(response.data);
+        //             setPollOpen(true);
+        //         }
+        //     }).catch(error => {
+        //         console.error('Error creating poll:', error);
+        //     });
     }
 
 
@@ -195,7 +196,7 @@ export default function CampaignDetailsView() {
                     setAlertOpen(false);
                     setNameOpen(false);
                 }} onDonate={handleDonate} />}
-                {pollOpen && <PollModal isOpen={pollOpen} poll={poll} setPoll={setPoll} onClose={() => {setPollOpen(false)}} />}
+                {pollOpen && <PollModal isOpen={pollOpen} poll={poll} campaign={campaign} setPoll={setPoll} onClose={() => {setPollOpen(false)}} />}
             </div>
             <div className={styles.alerts}>
                 {alertOpen && <AlertModal prompt={"Please enter a donation amount of greater than $0"} color={"#bd4037"} />}
