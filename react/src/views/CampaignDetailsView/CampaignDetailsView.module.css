@@ -173,3 +173,12 @@
     margin-top: 25px;
     justify-content: center;
 }
+
+.donor{
+    margin: 10px;
+    border: 1.5px solid rgb(59, 59, 59);
+    padding: 15px;
+     border-radius: 25px;
+     background-color: rgba(135, 135, 135, 0.258);
+     font-size: larger;
+}

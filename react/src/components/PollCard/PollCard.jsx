@@ -1,8 +1,9 @@
 import { set } from '@lordicon/helpers'
 import styles from './PollCard.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import PollService from '../../services/PollService'
 
-export default function PollCard({ poll, owner }) {
+export default function PollCard({ poll, owner, pollOptions }) {
     const [yesvalue, setYesValue] = useState(0)
     const [novalue, setNoValue] = useState(0)
     const [pollAmount, setPollAmount] = useState(0)
@@ -46,36 +47,103 @@ export default function PollCard({ poll, owner }) {
     }
 
     function handleClick(e) {
-        const option = {title: `Option`, value: 1}
+        const option = { title: `Option`, value: 1 }
         setOptions([...options, option])
         e.preventDefault();
 
     }
 
+    // useEffect(() => {
+    //     if (!poll?.id) return;
+
+    //     PollService.getPollOptionsByPollId(poll.id)
+    //         .then((res) => {
+    //             const options = res.data;
+
+    //             // Fetch vote counts for each option
+    //             Promise.all(
+    //                 options.map(async (option) => {
+    //                     try {
+    //                         const countRes = await PollService.getPollUserCountByPollOption(option.id);
+    //                         return { ...option, voteCount: countRes.data };
+    //                     } catch (error) {
+    //                         console.error(`Error fetching count for option ${option.id}:`, error);
+    //                         return { ...option, voteCount: 0 };
+    //                     }
+    //                 })
+    //             ).then((optionsWithCounts) => {
+
+    //                 // Calculate total vote count
+    //                 const total = optionsWithCounts.reduce((sum, opt) => sum + opt.voteCount, 0);
+    //                 setPollAmount(total);
+    //             });
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error retrieving poll options:', error);
+    //         });
+    // }, [poll]);
+
+
     return (
         <>
             <form>
                 <div className={styles.header}>
-                    <div className={styles.title}>{poll.title}</div>
+                    <div className={styles.title}>{poll.name}</div>
                     <hr className={styles.line}></hr>
-                    <div className={styles.subheading}>{pollAmount} people voted</div>
                 </div>
                 <fieldset>
                     <div className={styles.answer}>
-                        {options.map(
-                            (option) => (
-                                <div className={styles.pollitem}>
+                        {/* {pollOptions && pollOptions.length > 0 ? (
+                            pollOptions.map((option, index) => (
+                                <div className={styles.pollitem} key={option.id || index}>
                                     <div className={styles.formbutton}>
-                                        <input type="radio" onClick={handleYes} className={styles.pollbutton} disabled={yesdisabled} id="Choice1" name="contact" value="email" />
-                                        <label htmlFor="Choice1" className={styles.pollLabel}>{option.title}</label>
-                                    </div>
-                                    <div className={styles.loading}>
-                                        <progress value={pollAmount === 0 ? 0 : (option.value / pollAmount * 100)} className={styles.loadingbar} max={100} />
-                                        <p>{0 < 1 ? "0" : Math.round(option.value / pollAmount * 100)}%</p>
+                                        <input
+                                            type="radio"
+                                            onClick={() => handleClick} // Pass which option was clicked
+                                            className={styles.pollbutton}
+                                            disabled={yesdisabled}
+                                            id={`choice-${option.id}`}
+                                            name="pollOption"
+                                            value={option.name}
+                                        />
+                                        <label htmlFor={`choice-${option.id}`} className={styles.pollLabel}>
+                                            {option.name}
+                                        </label>
                                     </div>
                                 </div>
-                            )
+                            ))
+                        ) : (
+                            <p>No poll options available.</p>
                         )}
+                        {owner ? <div className={styles.percentage}>{pollAmount}</div> : <></>} */}
+                        <div className={styles.pollitem} >
+                            <div className={styles.formbutton}>
+                                <input
+                                    type="radio"
+                                    onClick={() => handleClick} // Pass which option was clicked
+                                    className={styles.pollbutton}
+                                    disabled={yesdisabled}
+                                    name="pollOption"
+                                />
+                                <label className={styles.pollLabel}>
+                                    Yes
+                                </label>
+                            </div>
+                        </div>
+                        <div className={styles.pollitem} >
+                            <div className={styles.formbutton}>
+                                <input
+                                    type="radio"
+                                    onClick={() => handleClick} // Pass which option was clicked
+                                    className={styles.pollbutton}
+                                    disabled={yesdisabled}
+                                    name="pollOption"
+                                />
+                                <label className={styles.pollLabel}>
+                                    No
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
                 <div className={styles.buttondiv}>

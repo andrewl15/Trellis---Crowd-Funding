@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Donation;
+import com.techelevator.model.PollOption;
 
 @Component
 public class JdbcDonationDao implements DonationDao {
@@ -35,10 +37,24 @@ public class JdbcDonationDao implements DonationDao {
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
-
-        
-
         return donation;
+    }
+
+    @Override
+    public List<Donation> getThreeHighestDonationsByCampaignId(int campaignId) {
+        List<Donation> donations = new ArrayList<>();
+        String sql = "select * from donation where campaign_id = ? order by amount desc limit 3;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, campaignId);
+            while (results.next()) {
+                Donation donation = mapRowToDonation(results);
+                donations.add(donation);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return donations;
     }
 
     @Override
@@ -56,9 +72,9 @@ public class JdbcDonationDao implements DonationDao {
                     donation.getDonationDate(),
                     donation.getFirstName(),
                     donation.getLastName());
-           
+
             newDonation = getDonationById(donationId);
-           
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

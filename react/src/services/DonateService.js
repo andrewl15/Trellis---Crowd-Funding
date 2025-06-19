@@ -11,5 +11,9 @@ export default {
 
     getDonationsByCampaignId(campaignId) {
         return axios.get(`/donation/campaign/${campaignId}`);
+    },
+
+    getThreeHighestDonationsByCampaignId(campaignId) {
+        return axios.get(`/donation/campaign/top/${campaignId}`);
     }
 }

@@ -9,5 +9,6 @@ public interface DonationDao {
     Donation createDonation(Donation donation);
     int getDonationCountByCampaignId(int campaignId);
     List<Donation> getDonationsByUserId(Integer userId);
+    List<Donation> getThreeHighestDonationsByCampaignId(int campaignId);
     int deleteDonationsByCampaignId(int campaignId);
 } 
