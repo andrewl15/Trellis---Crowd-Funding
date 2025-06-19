@@ -52,6 +52,15 @@ public class DonationController{
         return output;
     }
 
+    @GetMapping(path = "/campaign/top/{campaignId}")
+    public List<Donation> getThreeHighestDonationsByCampaignId(@PathVariable int campaignId) {
+        try {
+            return donationDao.getThreeHighestDonationsByCampaignId(campaignId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/")
     public Donation createDonation(@Valid @RequestBody Donation incoming) {

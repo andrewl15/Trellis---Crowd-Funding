@@ -13,5 +13,6 @@ public interface CampaignDao {
     Campaign addCampaign(int userId, Campaign campaign);
     Campaign updateCampaign(Campaign campaign);
     Campaign updateCampaignRaisedAmountById(BigDecimal amount, int id);
+    
     int deleteCampaignById(int id);
 }

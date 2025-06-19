@@ -2,6 +2,7 @@
     background: linear-gradient(to bottom left, rgb(129, 154, 145), rgb(167, 193, 168));
     background-size: cover;
     background-repeat: no-repeat;
+    height: 100vh;
 }
 .headerSection {
     color: #ffffff;

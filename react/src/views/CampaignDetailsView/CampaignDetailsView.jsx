@@ -35,9 +35,10 @@ export default function CampaignDetailsView() {
     const percentage = Math.round(campaign.amountRaised / campaign.goalAmount * 100);
     const [creator, Setcreator] = useState("");
     const [poll, setPoll] = useState([]);
+    const [pollOptions, setPollOptions] = useState([]);
     const [nameOpen, setNameOpen] = useState(false);
     const [pollOpen, setPollOpen] = useState(false)
-    const [pollId, setPollId] = useState([])
+    const[topDonations, setTopDonations] = useState([])
 
     function handleDonate() {
         if (!donation.amount) {
@@ -70,16 +71,16 @@ export default function CampaignDetailsView() {
         setNameOpen(false);
     }
 
-//    function handleAddPoll()  {
-//             PollService.createPoll({
-//             campaignId: id,
-//           });
-//           setPoll(response.data);      
-//           setPollOpen(true);             
-//         } catch (error) {
-//           console.error("Error creating poll:", error);
-//         }
-//       };
+    //    function handleAddPoll()  {
+    //             PollService.createPoll({
+    //             campaignId: id,
+    //           });
+    //           setPoll(response.data);      
+    //           setPollOpen(true);             
+    //         } catch (error) {
+    //           console.error("Error creating poll:", error);
+    //         }
+    //       };
 
     function handleAddPoll() {
         setPollOpen(true);
@@ -122,12 +123,43 @@ export default function CampaignDetailsView() {
         ).catch((error) =>
             alert('could not retrieve donations')
         )
+        DonateService.getThreeHighestDonationsByCampaignId(id).then(
+            (response) => {
+                setTopDonations(response.data)
+            }
+        ).catch((error) =>
+            alert('could not retrieve top donations')
+        )
         CampaignService.getCampaignCreatorById(id).then(
             (response) => {
                 Setcreator(response.data)
             }
         ).catch((error) =>
             alert('could not retrieve creator'))
+        PollService.getPollByCampaignId(id)
+            .then((response) => {
+                const fetchedPoll = response.data;
+
+                // Guard: stop if there's no poll (null or empty object)
+                if (!fetchedPoll || !fetchedPoll.id) {
+                    console.log("No poll found for this campaign.");
+                    return;
+                }
+
+                setPoll(fetchedPoll);
+
+                PollService.getPollOptionsByPollId(fetchedPoll.id)
+                    .then((optionsResponse) => {
+                        setPollOptions(optionsResponse.data);
+                    })
+                    .catch((error) => {
+                        console.error('Error retrieving poll options:', error);
+                    });
+            })
+            .catch((error) => {
+                console.error('Error retrieving poll:', error);
+            });
+
 
 
     }, [])
@@ -143,10 +175,10 @@ export default function CampaignDetailsView() {
                             <h1 className={styles.title}>{campaign.name}</h1>
                         </div>
                         <div>
-                        <img className={styles.image} src={campaign.imageUrl} alt="" />
-                        <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
-                        <hr className={styles.line}></hr>
-                        <p className={styles.desc}>{campaign.description}</p>
+                            <img className={styles.image} src={campaign.imageUrl} alt="" />
+                            <p className={styles.creator}>{`${creator.firstName} ${creator.lastName} created this campaign`}</p>
+                            <hr className={styles.line}></hr>
+                            <p className={styles.desc}>{campaign.description}</p>
                         </div>
                     </div>
                 </div>
@@ -182,21 +214,30 @@ export default function CampaignDetailsView() {
                         }
                         <div className={styles.donors}>
                             <p>Top Donors</p>
+                            {topDonations.map(
+                                (donation) => (
+                                    <div className={styles.donor}>
+                                    <div>{donation.firstName} {donation.lastName}</div>
+                                    <div>${donation.amount}</div>
+                                    </div>
+                                )
+                                )}
                         </div>
                     </div>
-                    {user && user.id === creator.id && poll.title ? <div className={styles.pollbox}>
-                            <PollCard poll={poll} owner={user.id === creator.id}/></div> :
-                    user && user.id === creator.id ?  <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={handleAddPoll}>Add Poll</button></div> :
-                    user ?
-                        poll.title ? <div className={styles.pollbox}>
-                            <PollCard poll={poll} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>}
+
+                    {/* {user && user.id === creator.id && poll.name ? <div className={styles.pollbox}>
+                        <PollCard poll={poll} owner={user.id === creator.id} pollOptions={pollOptions} /></div> :
+                        user && user.id === creator.id ? <div className={styles.polleditbox}><button className={styles.polleditButton} onClick={handleAddPoll}>Add Poll</button></div> :
+                            user ?
+                                poll.name ? <div className={styles.pollbox}>
+                                    <PollCard poll={poll} pollOptions={pollOptions} /></div> : <></> : <div className={styles.cantvotebox}>you must be logged in to view polls</div>} */}
                 </div>
                 {isOpen && <DonateModal donation={donation} setDonation={setDonation} isOpen={isOpen} onClose={() => {
                     setIsOpen(false);
                     setAlertOpen(false);
                     setNameOpen(false);
                 }} onDonate={handleDonate} />}
-                {pollOpen && <PollModal isOpen={pollOpen} poll={poll} campaign={campaign} setPoll={setPoll} onClose={() => {setPollOpen(false)}} />}
+                {/* {pollOpen && <PollModal isOpen={pollOpen} poll={poll} campaign={campaign} setPoll={setPoll} onClose={() => { setPollOpen(false) }} />} */}
             </div>
             <div className={styles.alerts}>
                 {alertOpen && <AlertModal prompt={"Please enter a donation amount of greater than $0"} color={"#bd4037"} />}
