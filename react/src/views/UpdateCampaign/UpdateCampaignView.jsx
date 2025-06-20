@@ -46,7 +46,7 @@ export default function UpdateCampaignView() {
                 if (response.status === 204) {
                     setDeleteOpen(true);
                     setTimeout(() => {
-                        navigate('/');
+                        navigate(`/campaign/user/${user.id}`); 
                     }, 1000);
                 }
             }

@@ -76,7 +76,7 @@ export default function CreateCampaignView() {
                 if (response.status === 201) {
                     setIsOpen(true);   
                     setTimeout(() => {
-                        navigate('/');           
+                        navigate(`/campaign/user/${user.id}`);           
                     }, 1000); 
                 }
             })
