@@ -29,7 +29,7 @@ export default function HomeView() {
         <div className={styles.leftSection}>
           <lord-icon
             src="https://cdn.lordicon.com/btvefodi.json"
-            trigger="hover"
+            trigger="loop"
             delay="0"
             colors="primary:#5c230a,secondary:#407440"
             style={{ width: "100px", height: "100px", margin: "0", padding: "0" }}
@@ -44,12 +44,12 @@ export default function HomeView() {
             colors="primary:#5c230a,secondary:#407440"
             style={{ width: "200px", height: "200px", margin: "0", padding: "0" }}
           ></lord-icon>
-          <p className={styles.getStarted}>Get Started</p>
+          <p className={styles.getStarted}>Create Campaign</p>
         </div>
         <div className={styles.rightSection}>
           <lord-icon
             src="https://cdn.lordicon.com/rxdjhpeg.json"
-            trigger="hover"
+            trigger="loop"
             delay="0"
             colors="primary:#5c230a,secondary:#407440"
             style={{ width: "100px", height: "100px", margin: "0", padding: "0" }}

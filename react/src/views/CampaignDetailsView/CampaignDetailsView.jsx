@@ -38,7 +38,7 @@ export default function CampaignDetailsView() {
     const [pollOptions, setPollOptions] = useState([]);
     const [nameOpen, setNameOpen] = useState(false);
     const [pollOpen, setPollOpen] = useState(false)
-    const[topDonations, setTopDonations] = useState([])
+    const [topDonations, setTopDonations] = useState([])
 
     function handleDonate() {
         if (!donation.amount) {
@@ -115,50 +115,55 @@ export default function CampaignDetailsView() {
         ).catch((error) =>
             alert('could not retrieve campaign')
         )
-        DonateService.getDonationsByCampaignId(id).then(
-            (response) => {
-                setDonationCount(response.data)
-            }
+   
+            DonateService.getDonationsByCampaignId(id).then(
+                (response) => {
+                    setDonationCount(response.data)
+                }
+    
+            ).catch((error) =>
+                alert('could not retrieve donations')
+            )
+        
+        
+            DonateService.getThreeHighestDonationsByCampaignId(id).then(
+                (response) => {
+                    setTopDonations(response.data)
+                }
+            ).catch((error) =>
+                alert('could not retrieve top donations')
+            )
 
-        ).catch((error) =>
-            alert('could not retrieve donations')
-        )
-        DonateService.getThreeHighestDonationsByCampaignId(id).then(
-            (response) => {
-                setTopDonations(response.data)
-            }
-        ).catch((error) =>
-            alert('could not retrieve top donations')
-        )
+
         CampaignService.getCampaignCreatorById(id).then(
             (response) => {
                 Setcreator(response.data)
             }
         ).catch((error) =>
             alert('could not retrieve creator'))
-        PollService.getPollByCampaignId(id)
-            .then((response) => {
-                const fetchedPoll = response.data;
+        // PollService.getPollByCampaignId(id)
+        //     .then((response) => {
+        //         const fetchedPoll = response.data;
 
-                // Guard: stop if there's no poll (null or empty object)
-                if (!fetchedPoll || !fetchedPoll.id) {
-                    console.log("No poll found for this campaign.");
-                    return;
-                }
+        //         // Guard: stop if there's no poll (null or empty object)
+        //         if (!fetchedPoll || !fetchedPoll.id) {
+        //             console.log("No poll found for this campaign.");
+        //             return;
+        //         }
 
-                setPoll(fetchedPoll);
+        //         setPoll(fetchedPoll);
 
-                PollService.getPollOptionsByPollId(fetchedPoll.id)
-                    .then((optionsResponse) => {
-                        setPollOptions(optionsResponse.data);
-                    })
-                    .catch((error) => {
-                        console.error('Error retrieving poll options:', error);
-                    });
-            })
-            .catch((error) => {
-                console.error('Error retrieving poll:', error);
-            });
+        //         PollService.getPollOptionsByPollId(fetchedPoll.id)
+        //             .then((optionsResponse) => {
+        //                 setPollOptions(optionsResponse.data);
+        //             })
+        //             .catch((error) => {
+        //                 console.error('Error retrieving poll options:', error);
+        //             });
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error retrieving poll:', error);
+        //     });
 
 
 
@@ -215,13 +220,13 @@ export default function CampaignDetailsView() {
                         <div className={styles.donors}>
                             <p>Top Donors</p>
                             {topDonations.map(
-                                (donation) => (
-                                    <div className={styles.donor}>
-                                    <div>{donation.firstName} {donation.lastName}</div>
-                                    <div>${donation.amount}</div>
+                                (donation, index) => (
+                                    <div key={index} className={styles.donor}>
+                                        <div>{donation.firstName} {donation.lastName}</div>
+                                        <div>${donation.amount}</div>
                                     </div>
                                 )
-                                )}
+                            )}
                         </div>
                     </div>
 
